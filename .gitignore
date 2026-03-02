@@ -1,0 +1,10 @@
+node_modules/
+components/**/node_modules/
+components/**/dist/
+components/**/.stencil/
+components/**/www/
+components/core/loader/
+components/core/src/components.d.ts
+components/core/src/components/**/readme.md
+coverage/
+*.log
