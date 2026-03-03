@@ -39,6 +39,36 @@ export default meta;
 
 type Story = StoryObj<ButtonArgs>;
 
+export const InteractivePrimary: Story = {
+  render: () => {
+    const state = { count: 0 };
+
+    return {
+      props: {
+        state,
+        increment: () => {
+          state.count += 1;
+        },
+        decrement: () => {
+          state.count -= 1;
+        },
+        reset: () => {
+          state.count = 0;
+        }
+      },
+      template: `
+        <div style="display:grid;gap:12px;max-width:352px;">
+          <p><strong>Framework:</strong> angular_18 (Angular 18-20)</p>
+          <p><strong>Count:</strong> {{ state.count }}</p>
+          <accretion-button variant="primary" (click)="increment()">Increment Count</accretion-button>
+          <accretion-button variant="primary" (click)="decrement()">Decrement Count</accretion-button>
+          <accretion-button variant="primary" (click)="reset()">Reset Count</accretion-button>
+        </div>
+      `
+    };
+  }
+};
+
 export const Primary: Story = {
   render: (args) => ({
     props: args,
