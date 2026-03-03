@@ -24,7 +24,15 @@ export const config: Config = {
       componentCorePackage: '@accretion/core',
       directivesProxyFile: '../angular/src/lib/stencil-generated/components.ts',
       directivesArrayFile: '../angular/src/lib/stencil-generated/index.ts',
-      outputType: 'component'
+      outputType: 'standalone',
+      customElementsDir: 'dist/components'
+    }),
+    angularOutputTarget({
+      componentCorePackage: '@accretion/core',
+      directivesProxyFile: '../angular_21/src/lib/stencil-generated/components.ts',
+      directivesArrayFile: '../angular_21/src/lib/stencil-generated/index.ts',
+      outputType: 'standalone',
+      customElementsDir: 'dist/components'
     }),
     {
       type: 'docs-readme'

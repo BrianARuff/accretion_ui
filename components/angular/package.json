@@ -1,21 +1,40 @@
 {
-  "name": "@accretion/angular",
+  "name": "@accretion/angular_18",
   "version": "0.1.0",
-  "description": "Angular wrappers for Accretion UI web components.",
+  "description": "Angular 18 wrappers for Accretion UI web components.",
+  "keywords": [
+    "accretion",
+    "design-system",
+    "angular",
+    "web-components",
+    "stencil"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BrianARuff/accretion_angular_18.git"
+  },
+  "bugs": {
+    "url": "https://github.com/BrianARuff/accretion_angular_18/issues"
+  },
+  "homepage": "https://github.com/BrianARuff/accretion_angular_18#readme",
   "license": "MIT",
   "sideEffects": false,
+  "main": "fesm2022/accretion-angular_18.mjs",
+  "module": "fesm2022/accretion-angular_18.mjs",
+  "types": "index.d.ts",
   "scripts": {
     "clean": "rm -rf dist",
     "generate": "npm --prefix ../core run build",
     "build": "npm run clean && npm run generate && ng-packagr -p ng-package.json",
     "watch": "ng-packagr -p ng-package.json -w",
+    "prepare": "npm run build",
     "prepublishOnly": "npm run build",
     "publish:package": "npm run build && npm publish ./dist --access public"
   },
   "peerDependencies": {
     "@accretion/core": "^0.1.0",
-    "@angular/common": "^16.2.0 || ^17.0.0 || ^18.0.0",
-    "@angular/core": "^16.2.0 || ^17.0.0 || ^18.0.0",
+    "@angular/common": ">=18.0.0 <21.0.0",
+    "@angular/core": ">=18.0.0 <21.0.0",
     "rxjs": "^7.8.0"
   },
   "dependencies": {
@@ -23,10 +42,12 @@
   },
   "devDependencies": {
     "@accretion/core": "file:../core",
-    "@angular/compiler": "16.2.12",
-    "@angular/compiler-cli": "16.2.12",
-    "ng-packagr": "16.2.3",
-    "typescript": "~5.1.6"
+    "@angular/common": "18.2.14",
+    "@angular/compiler": "18.2.14",
+    "@angular/compiler-cli": "18.2.14",
+    "@angular/core": "18.2.14",
+    "ng-packagr": "18.2.1",
+    "typescript": "~5.5.4"
   },
   "publishConfig": {
     "access": "public"

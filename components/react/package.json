@@ -2,6 +2,21 @@
   "name": "@accretion/react",
   "version": "0.1.0",
   "description": "React wrappers for Accretion UI web components.",
+  "keywords": [
+    "accretion",
+    "design-system",
+    "react",
+    "web-components",
+    "stencil"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BrianARuff/accretion_react.git"
+  },
+  "bugs": {
+    "url": "https://github.com/BrianARuff/accretion_react/issues"
+  },
+  "homepage": "https://github.com/BrianARuff/accretion_react#readme",
   "license": "MIT",
   "type": "module",
   "sideEffects": false,

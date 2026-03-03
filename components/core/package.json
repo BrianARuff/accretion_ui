@@ -16,7 +16,7 @@
     "loader/"
   ],
   "scripts": {
-    "clean": "rm -rf dist loader ../react/src/generated ../angular/src/lib/stencil-generated",
+    "clean": "rm -rf dist loader ../react/src/generated ../angular/src/lib/stencil-generated ../angular_21/src/lib/stencil-generated",
     "build": "stencil build",
     "build:watch": "stencil build --watch --serve",
     "generate": "npm run build",
