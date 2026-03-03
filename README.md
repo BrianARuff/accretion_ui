@@ -19,6 +19,7 @@ Core package (source of truth): [@accretion_ui/core](https://www.npmjs.com/packa
 ## Figma Design Source
 
 - Accretion UI Figma library: [Accretion UI (Figma)](https://www.figma.com/design/d45s1jniPNl5aEbn0DXwV7/Accretion-UI?node-id=0-1&p=f&t=aPkeN5qIwUccQOYk-0)
+- Current status: the Figma library is currently empty.
 - Current note: the initial `Button` styles in this repository are proof-of-concept styles and are not yet sourced from Figma tokens or final component styling.
 
 ## What This Demonstrates
