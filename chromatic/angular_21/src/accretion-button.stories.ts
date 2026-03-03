@@ -4,7 +4,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { AccretionButton } from '@accretion_ui/angular_21';
 
 type ButtonArgs = {
-  variant: 'primary' | 'secondary';
+  variant: 'primary' | 'secondary' | 'tertiary';
   disabled: boolean;
   label: string;
 };
@@ -25,7 +25,7 @@ const meta: Meta<ButtonArgs> = {
   argTypes: {
     variant: {
       control: { type: 'inline-radio' },
-      options: ['primary', 'secondary']
+      options: ['primary', 'secondary', 'tertiary']
     },
     disabled: {
       control: { type: 'boolean' }
@@ -81,6 +81,14 @@ export const Secondary: Story = {
   args: {
     variant: 'secondary',
     label: 'Secondary Button'
+  },
+  render: Primary.render
+};
+
+export const Tertiary: Story = {
+  args: {
+    variant: 'tertiary',
+    label: 'Tertiary Button'
   },
   render: Primary.render
 };

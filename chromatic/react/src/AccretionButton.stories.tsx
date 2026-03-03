@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { AccretionButton } from '@accretion_ui/react';
 
 type ButtonArgs = {
-  variant: 'primary' | 'secondary';
+  variant: 'primary' | 'secondary' | 'tertiary';
   disabled: boolean;
   children: string;
 };
@@ -20,7 +20,7 @@ const meta = {
   argTypes: {
     variant: {
       control: { type: 'inline-radio' },
-      options: ['primary', 'secondary']
+      options: ['primary', 'secondary', 'tertiary']
     },
     disabled: {
       control: { type: 'boolean' }
@@ -68,6 +68,13 @@ export const Secondary: Story = {
   args: {
     variant: 'secondary',
     children: 'Secondary Button'
+  }
+};
+
+export const Tertiary: Story = {
+  args: {
+    variant: 'tertiary',
+    children: 'Tertiary Button'
   }
 };
 

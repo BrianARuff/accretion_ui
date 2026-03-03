@@ -92,6 +92,39 @@
             "$description": "Accretion UI semantic token for secondary button default border. Use transparent borders for fill-based secondary styles; introduce explicit border tokens if outlined variants are added. Accessibility: ensure component boundaries remain discoverable in low-contrast contexts."
           }
         }
+      },
+      "tertiary": {
+        "background": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.transparent}",
+            "$description": "Accretion UI semantic token for tertiary button default background. Use for low-emphasis text-button treatments where background chrome should stay minimal. Accessibility: ensure nearby boundaries and hover/focus states keep the control discoverable."
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.brand.2}",
+            "$description": "Accretion UI semantic token for tertiary button hover background. Use for pointer-hover feedback on tertiary buttons with subtle brand tinting. Accessibility: do not rely on hover-only cues; provide equivalent focus-visible and active indicators."
+          },
+          "active": {
+            "$type": "color",
+            "$value": "{color.brand.3}",
+            "$description": "Accretion UI semantic token for tertiary button active background. Use while pressing tertiary buttons to increase state clarity. Accessibility: active state must remain distinguishable from hover/default under high contrast and zoom."
+          }
+        },
+        "foreground": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.brand.9}",
+            "$description": "Accretion UI semantic token for tertiary button text/icon color. Use for emphasis on tertiary actions while preserving lower visual weight than filled buttons. Accessibility: verify 4.5:1 text contrast against the effective background in each state."
+          }
+        },
+        "border": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.transparent}",
+            "$description": "Accretion UI semantic token for tertiary button default border. Use transparent borders for text-like tertiary controls unless an outlined tertiary style is introduced. Accessibility: make sure focus treatment remains visible without depending on border color."
+          }
+        }
       }
     }
   }
