@@ -1,1 +1,3 @@
-export * from './generated/components';
+'use client';
+
+export * from './generated/components.js';

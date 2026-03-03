@@ -1,6 +1,6 @@
 {
   "name": "@accretion_ui/react",
-  "version": "0.1.0",
+  "version": "0.1.3",
   "description": "React wrappers for Accretion UI web components.",
   "keywords": [
     "accretion",
@@ -42,15 +42,14 @@
     "publish:package": "npm publish --access public"
   },
   "dependencies": {
+    "@accretion_ui/core": "^0.1.5",
     "@stencil/react-output-target": "^1.4.2"
   },
   "peerDependencies": {
-    "@accretion_ui/core": "^0.1.0",
     "react": "^18.2.0 || ^19.0.0",
     "react-dom": "^18.2.0 || ^19.0.0"
   },
   "devDependencies": {
-    "@accretion_ui/core": "file:../core",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.0",
     "typescript": "^5.9.3"

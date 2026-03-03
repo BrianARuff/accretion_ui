@@ -10,6 +10,16 @@ apps/**/dist/
 apps/**/.angular/
 apps/**/coverage/
 apps/**/.vscode/
+live_apps/**/node_modules/
+live_apps/**/dist/
+live_apps/**/build/
+live_apps/**/.angular/
+live_apps/**/.next/
+live_apps/**/.vite/
+live_apps/**/.turbo/
+live_apps/**/.cache/
+live_apps/**/coverage/
+live_apps/**/out/
 components/core/loader/
 components/core/src/components.d.ts
 components/core/src/components/**/readme.md

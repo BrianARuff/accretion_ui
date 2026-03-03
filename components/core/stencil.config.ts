@@ -13,7 +13,8 @@ export const config: Config = {
     {
       type: 'dist-custom-elements',
       customElementsExportBehavior: 'single-export-module',
-      generateTypeDeclarations: true
+      generateTypeDeclarations: true,
+      externalRuntime: false
     },
     reactOutputTarget({
       outDir: '../react/src/generated',
