@@ -1,0 +1,46 @@
+:host {
+  display: inline-block;
+}
+
+.button {
+  align-items: center;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  gap: 0.5rem;
+  justify-content: center;
+  min-height: 2.75rem;
+  min-width: 2.75rem;
+  padding: 0.625rem 1rem;
+  transition: background-color 150ms ease, color 150ms ease, opacity 150ms ease;
+}
+
+.button:focus-visible {
+  outline: 2px solid #0a85a1;
+  outline-offset: 2px;
+}
+
+.button--primary {
+  background: #0a85a1;
+  color: #ffffff;
+}
+
+.button--primary:hover {
+  background: #02657c;
+}
+
+.button--secondary {
+  background: #e7ecf0;
+  color: #191b1d;
+}
+
+.button--secondary:hover {
+  background: #d9dfe5;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}

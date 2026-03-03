@@ -1,0 +1,37 @@
+{
+  "name": "@accretion_ui/core",
+  "version": "0.1.5",
+  "description": "Accretion UI core web components built with Stencil.",
+  "license": "MIT",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.js",
+  "es2017": "dist/esm/index.js",
+  "es2015": "dist/esm/index.js",
+  "types": "dist/types/components.d.ts",
+  "collection": "dist/collection/collection-manifest.json",
+  "collection:main": "dist/collection/index.js",
+  "unpkg": "dist/accretion/accretion.esm.js",
+  "files": [
+    "dist/",
+    "loader/"
+  ],
+  "scripts": {
+    "clean": "rm -rf dist loader ../react/src/generated ../angular/src/lib/stencil-generated ../angular_21/src/lib/stencil-generated",
+    "build": "stencil build",
+    "build:watch": "stencil build --watch --serve",
+    "generate": "npm run build",
+    "test": "stencil test --spec --e2e",
+    "prepublishOnly": "npm run build",
+    "publish:package": "npm publish --access public"
+  },
+  "dependencies": {
+    "@stencil/core": "^4.43.2"
+  },
+  "devDependencies": {
+    "@stencil/angular-output-target": "^0.10.2",
+    "@stencil/react-output-target": "^1.4.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
