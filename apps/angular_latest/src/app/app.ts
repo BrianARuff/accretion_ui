@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { AccretionButton } from '@accretion/angular_21';
+import { AccretionButton } from '@accretion_ui/angular_21';
 
 
 @Component({

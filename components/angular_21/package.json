@@ -1,5 +1,5 @@
 {
-  "name": "@accretion/angular_21",
+  "name": "@accretion_ui/angular_21",
   "version": "0.1.0",
   "description": "Angular 21 wrappers for Accretion UI web components.",
   "keywords": [
@@ -19,9 +19,9 @@
   "homepage": "https://github.com/BrianARuff/accretion_angular_21#readme",
   "license": "MIT",
   "sideEffects": false,
-  "main": "fesm2022/accretion-angular_21.mjs",
-  "module": "fesm2022/accretion-angular_21.mjs",
-  "types": "types/accretion-angular_21.d.ts",
+  "main": "fesm2022/accretion_ui-angular_21.mjs",
+  "module": "fesm2022/accretion_ui-angular_21.mjs",
+  "types": "types/accretion_ui-angular_21.d.ts",
   "scripts": {
     "clean": "rm -rf dist",
     "generate": "npm --prefix ../core run build",
@@ -32,7 +32,7 @@
     "publish:package": "npm run build && npm publish ./dist --access public"
   },
   "peerDependencies": {
-    "@accretion/core": "^0.1.0",
+    "@accretion_ui/core": "^0.1.0",
     "@angular/common": ">=21.0.0 <22.0.0",
     "@angular/core": ">=21.0.0 <22.0.0",
     "rxjs": "^7.8.0"
@@ -41,7 +41,7 @@
     "tslib": "^2.8.1"
   },
   "devDependencies": {
-    "@accretion/core": "file:../core",
+    "@accretion_ui/core": "file:../core",
     "@angular/common": "21.2.0",
     "@angular/compiler": "21.2.0",
     "@angular/compiler-cli": "21.2.0",

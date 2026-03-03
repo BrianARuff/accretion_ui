@@ -1,18 +1,18 @@
-# @accretion/angular_21
+# @accretion_ui/angular_21
 
 Angular wrappers for Accretion UI web components for Angular 21 applications.
 
 ## Installation
 
 ```bash
-npm install @accretion/angular_21 @accretion/core
+npm install @accretion_ui/angular_21 @accretion_ui/core
 ```
 
 ## Usage (standalone)
 
 ```ts
 import { Component } from '@angular/core';
-import { AccretionButton } from '@accretion/angular_21';
+import { AccretionButton } from '@accretion_ui/angular_21';
 
 @Component({
   selector: 'app-root',
@@ -28,4 +28,4 @@ export class AppComponent {}
 - `@angular/core` `>=21.0.0 <22.0.0`
 - `@angular/common` `>=21.0.0 <22.0.0`
 - `rxjs` `^7.8.0`
-- `@accretion/core` `^0.1.0`
+- `@accretion_ui/core` `^0.1.0`

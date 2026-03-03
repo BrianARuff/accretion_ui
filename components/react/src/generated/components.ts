@@ -7,7 +7,7 @@
 
 /* eslint-disable */
 
-import { AccretionButton as AccretionButtonElement, defineCustomElement as defineAccretionButton } from "@accretion/core/dist/components/accretion-button.js";
+import { AccretionButton as AccretionButtonElement, defineCustomElement as defineAccretionButton } from "@accretion_ui/core/dist/components/accretion-button.js";
 import type { StencilReactComponent } from '@stencil/react-output-target/runtime';
 import { createComponent } from '@stencil/react-output-target/runtime';
 import React from 'react';

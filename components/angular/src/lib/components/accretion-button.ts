@@ -1,6 +1,6 @@
 import { Directive, ElementRef, Input, NgZone } from '@angular/core';
-import type { Components } from '@accretion/core/dist/components';
-import { defineCustomElement as defineAccretionButton } from '@accretion/core/dist/components/accretion-button.js';
+import type { Components } from '@accretion_ui/core/dist/components';
+import { defineCustomElement as defineAccretionButton } from '@accretion_ui/core/dist/components/accretion-button.js';
 
 const ensureAccretionButtonDefined = () => {
   if (typeof customElements !== 'undefined' && !customElements.get('accretion-button')) {

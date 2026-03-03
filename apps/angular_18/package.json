@@ -10,8 +10,8 @@
   },
   "private": true,
   "dependencies": {
-    "@accretion/angular_18": "file:../../components/angular/dist",
-    "@accretion/core": "file:../../components/core",
+    "@accretion_ui/angular_18": "file:../../components/angular/dist",
+    "@accretion_ui/core": "file:../../components/core",
     "@angular/animations": "^18.2.0",
     "@angular/common": "^18.2.0",
     "@angular/compiler": "^18.2.0",

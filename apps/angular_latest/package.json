@@ -11,8 +11,8 @@
   "private": true,
   "packageManager": "npm@11.10.1",
   "dependencies": {
-    "@accretion/angular_21": "file:../../components/angular_21/dist",
-    "@accretion/core": "file:../../components/core",
+    "@accretion_ui/angular_21": "file:../../components/angular_21/dist",
+    "@accretion_ui/core": "file:../../components/core",
     "@angular/common": "^21.2.0",
     "@angular/compiler": "^21.2.0",
     "@angular/core": "^21.2.0",

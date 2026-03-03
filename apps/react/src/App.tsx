@@ -1,4 +1,4 @@
-import { AccretionButton } from "@accretion/react";
+import { AccretionButton } from "@accretion_ui/react";
 import "./App.css";
 
 function App() {

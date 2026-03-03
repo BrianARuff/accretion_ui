@@ -4,9 +4,9 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, NgZo
 
 import { ProxyCmp } from './angular-component-lib/utils';
 
-import type { Components } from '@accretion/core/dist/components';
+import type { Components } from '@accretion_ui/core/dist/components';
 
-import { defineCustomElement as defineAccretionButton } from '@accretion/core/dist/components/accretion-button.js';
+import { defineCustomElement as defineAccretionButton } from '@accretion_ui/core/dist/components/accretion-button.js';
 @ProxyCmp({
   defineCustomElementFn: defineAccretionButton,
   inputs: ['disabled', 'variant']

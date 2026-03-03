@@ -17,18 +17,18 @@ export const config: Config = {
     },
     reactOutputTarget({
       outDir: '../react/src/generated',
-      stencilPackageName: '@accretion/core',
+      stencilPackageName: '@accretion_ui/core',
       customElementsDir: 'dist/components'
     }),
     angularOutputTarget({
-      componentCorePackage: '@accretion/core',
+      componentCorePackage: '@accretion_ui/core',
       directivesProxyFile: '../angular/src/lib/stencil-generated/components.ts',
       directivesArrayFile: '../angular/src/lib/stencil-generated/index.ts',
       outputType: 'standalone',
       customElementsDir: 'dist/components'
     }),
     angularOutputTarget({
-      componentCorePackage: '@accretion/core',
+      componentCorePackage: '@accretion_ui/core',
       directivesProxyFile: '../angular_21/src/lib/stencil-generated/components.ts',
       directivesArrayFile: '../angular_21/src/lib/stencil-generated/index.ts',
       outputType: 'standalone',
