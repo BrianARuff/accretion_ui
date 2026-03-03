@@ -122,9 +122,28 @@ import { AccretionButton } from '@accretion_ui/angular_18';
   selector: 'app-root',
   standalone: true,
   imports: [AccretionButton],
-  template: `<accretion-button>Click Me</accretion-button>`
+  template: `
+    <p>Count: {{ count }}</p>
+    <accretion-button variant="primary" (click)="increment()">Increment Count</accretion-button>
+    <accretion-button variant="primary" (click)="decrement()">Decrement Count</accretion-button>
+    <accretion-button variant="primary" (click)="reset()">Reset Count</accretion-button>
+  `
 })
-export class AppComponent {}
+export class AppComponent {
+  count = 0;
+
+  increment() {
+    this.count += 1;
+  }
+
+  decrement() {
+    this.count -= 1;
+  }
+
+  reset() {
+    this.count = 0;
+  }
+}
 ```
 
 ### Latest Angular (`ng new my-app`)
@@ -138,16 +157,35 @@ npm install @accretion_ui/angular_21 @accretion_ui/core
 `src/app/app.ts` or `src/app/app.component.ts`
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AccretionButton } from '@accretion_ui/angular_21';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [AccretionButton],
-  template: `<accretion-button>Click Me</accretion-button>`
+  template: `
+    <p>Count: {{ count() }}</p>
+    <accretion-button variant="primary" (click)="increment()">Increment Count</accretion-button>
+    <accretion-button variant="primary" (click)="decrement()">Decrement Count</accretion-button>
+    <accretion-button variant="primary" (click)="reset()">Reset Count</accretion-button>
+  `
 })
-export class AppComponent {}
+export class AppComponent {
+  count = signal(0);
+
+  increment() {
+    this.count.update((value) => value + 1);
+  }
+
+  decrement() {
+    this.count.update((value) => value - 1);
+  }
+
+  reset() {
+    this.count.set(0);
+  }
+}
 ```
 
 ### React + Vite
@@ -162,10 +200,20 @@ npm install @accretion_ui/react
 `src/App.tsx`
 
 ```tsx
+import { useState } from 'react';
 import { AccretionButton } from '@accretion_ui/react';
 
 export default function App() {
-  return <AccretionButton>Click Me</AccretionButton>;
+  const [count, setCount] = useState(0);
+
+  return (
+    <>
+      <p>Count: {count}</p>
+      <AccretionButton variant="primary" onClick={() => setCount((value) => value + 1)}>Increment Count</AccretionButton>
+      <AccretionButton variant="primary" onClick={() => setCount((value) => value - 1)}>Decrement Count</AccretionButton>
+      <AccretionButton variant="primary" onClick={() => setCount(0)}>Reset Count</AccretionButton>
+    </>
+  );
 }
 ```
 
@@ -180,10 +228,20 @@ npm install @accretion_ui/react
 `src/App.tsx`
 
 ```tsx
+import { useState } from 'react';
 import { AccretionButton } from '@accretion_ui/react';
 
 function App() {
-  return <AccretionButton>Click Me</AccretionButton>;
+  const [count, setCount] = useState(0);
+
+  return (
+    <>
+      <p>Count: {count}</p>
+      <AccretionButton variant="primary" onClick={() => setCount((value) => value + 1)}>Increment Count</AccretionButton>
+      <AccretionButton variant="primary" onClick={() => setCount((value) => value - 1)}>Decrement Count</AccretionButton>
+      <AccretionButton variant="primary" onClick={() => setCount(0)}>Reset Count</AccretionButton>
+    </>
+  );
 }
 
 export default App;
@@ -200,10 +258,22 @@ npm install @accretion_ui/react
 `app/page.tsx`
 
 ```tsx
+'use client';
+
+import { useState } from 'react';
 import { AccretionButton } from '@accretion_ui/react';
 
 export default function Page() {
-  return <AccretionButton>Click Me</AccretionButton>;
+  const [count, setCount] = useState(0);
+
+  return (
+    <>
+      <p>Count: {count}</p>
+      <AccretionButton variant="primary" onClick={() => setCount((value) => value + 1)}>Increment Count</AccretionButton>
+      <AccretionButton variant="primary" onClick={() => setCount((value) => value - 1)}>Decrement Count</AccretionButton>
+      <AccretionButton variant="primary" onClick={() => setCount(0)}>Reset Count</AccretionButton>
+    </>
+  );
 }
 ```
 
