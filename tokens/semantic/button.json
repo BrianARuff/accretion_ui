@@ -1,0 +1,98 @@
+{
+  "component": {
+    "button": {
+      "focus": {
+        "ring": {
+          "color": {
+            "$type": "color",
+            "$value": "{color.brand.7}",
+            "$description": "Accretion UI semantic token for button focus ring color. Use for keyboard focus-visible outlines on all button variants. Accessibility: keep a clearly visible focus indicator that is not color-only by combining this token with ring width and offset."
+          },
+          "width": {
+            "$type": "dimension",
+            "$value": "{border.width.sm}",
+            "$description": "Accretion UI semantic token for button focus ring width. Use as the default outline thickness for focus-visible states. Accessibility: 2px or greater is recommended so focus remains visible at different zoom levels and contrast settings."
+          },
+          "offset": {
+            "$type": "dimension",
+            "$value": "{space.2}",
+            "$description": "Accretion UI semantic token for button focus ring offset. Use to separate the focus ring from the button edge so it remains visually distinct from component fills. Accessibility: preserve clear ring separation from neighboring surfaces."
+          }
+        }
+      },
+      "disabled": {
+        "opacity": {
+          "$type": "number",
+          "$value": "{opacity.50}",
+          "$description": "Accretion UI semantic token for disabled button opacity. Use for non-interactive button states only. Accessibility: pair reduced opacity with disabled semantics (disabled attribute/ARIA) and avoid relying on opacity alone to indicate disabled state."
+        }
+      },
+      "primary": {
+        "background": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.brand.8}",
+            "$description": "Accretion UI semantic token for primary button default background. Use for default primary call-to-action surfaces. Accessibility: pair with the matching on-color token and verify contrast remains WCAG compliant across themes."
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.brand.9}",
+            "$description": "Accretion UI semantic token for primary button hover background. Use when the pointer hovers over enabled primary buttons. Accessibility: do not rely on hover-only cues; keyboard focus and active states must be independently visible."
+          },
+          "active": {
+            "$type": "color",
+            "$value": "{color.brand.10}",
+            "$description": "Accretion UI semantic token for primary button active background. Use while pressing or otherwise actively engaging primary buttons. Accessibility: active treatment should be perceivable without animation and should not replace focus styling."
+          }
+        },
+        "foreground": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.white}",
+            "$description": "Accretion UI semantic token for primary button text/icon color. Use for label and icon foreground on primary backgrounds across all interactive states unless a dedicated override is needed. Accessibility: maintain a 4.5:1 contrast ratio for text where possible."
+          }
+        },
+        "border": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.transparent}",
+            "$description": "Accretion UI semantic token for primary button default border. Use transparent borders where primary style intent is fill-first. Accessibility: ensure focus rings and boundaries remain clearly visible without border-only affordance."
+          }
+        }
+      },
+      "secondary": {
+        "background": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.neutral.3}",
+            "$description": "Accretion UI semantic token for secondary button default background. Use for lower-emphasis or supporting actions. Accessibility: pair with secondary foreground token and validate text contrast on neutral surfaces."
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.neutral.4}",
+            "$description": "Accretion UI semantic token for secondary button hover background. Use when hovering enabled secondary buttons. Accessibility: provide equivalent focus-visible and active feedback for non-pointer users."
+          },
+          "active": {
+            "$type": "color",
+            "$value": "{color.neutral.5}",
+            "$description": "Accretion UI semantic token for secondary button active background. Use while pressing or actively engaging secondary buttons. Accessibility: keep active states distinguishable from hover and default states under varying display contrast."
+          }
+        },
+        "foreground": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.neutral.12}",
+            "$description": "Accretion UI semantic token for secondary button text/icon color. Use for labels and icons on neutral secondary backgrounds. Accessibility: maintain readable contrast and avoid using low-emphasis text tones for primary content."
+          }
+        },
+        "border": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.transparent}",
+            "$description": "Accretion UI semantic token for secondary button default border. Use transparent borders for fill-based secondary styles; introduce explicit border tokens if outlined variants are added. Accessibility: ensure component boundaries remain discoverable in low-contrast contexts."
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,10 +1,28 @@
 :host {
   display: inline-block;
+
+  /* Button semantic token fallbacks */
+  --accretion-semantic-button-focus-ring-color: #07a6c8;
+  --accretion-semantic-button-focus-ring-width: 2px;
+  --accretion-semantic-button-focus-ring-offset: 2px;
+  --accretion-semantic-button-disabled-opacity: 0.5;
+
+  --accretion-semantic-button-primary-background-default: #0a85a1;
+  --accretion-semantic-button-primary-background-hover: #02657c;
+  --accretion-semantic-button-primary-background-active: #034a5b;
+  --accretion-semantic-button-primary-foreground-default: #ffffff;
+  --accretion-semantic-button-primary-border-default: transparent;
+
+  --accretion-semantic-button-secondary-background-default: #e7ecf0;
+  --accretion-semantic-button-secondary-background-hover: #d9dfe5;
+  --accretion-semantic-button-secondary-background-active: #c5cbd2;
+  --accretion-semantic-button-secondary-foreground-default: #191b1d;
+  --accretion-semantic-button-secondary-border-default: transparent;
 }
 
 .button {
   align-items: center;
-  border: 0;
+  border: 0 solid transparent;
   border-radius: 8px;
   cursor: pointer;
   display: inline-flex;
@@ -18,29 +36,39 @@
 }
 
 .button:focus-visible {
-  outline: 2px solid #0a85a1;
-  outline-offset: 2px;
+  outline: var(--accretion-semantic-button-focus-ring-width) solid var(--accretion-semantic-button-focus-ring-color);
+  outline-offset: var(--accretion-semantic-button-focus-ring-offset);
 }
 
 .button--primary {
-  background: #0a85a1;
-  color: #ffffff;
+  background: var(--accretion-semantic-button-primary-background-default);
+  border-color: var(--accretion-semantic-button-primary-border-default);
+  color: var(--accretion-semantic-button-primary-foreground-default);
 }
 
 .button--primary:hover {
-  background: #02657c;
+  background: var(--accretion-semantic-button-primary-background-hover);
+}
+
+.button--primary:active {
+  background: var(--accretion-semantic-button-primary-background-active);
 }
 
 .button--secondary {
-  background: #e7ecf0;
-  color: #191b1d;
+  background: var(--accretion-semantic-button-secondary-background-default);
+  border-color: var(--accretion-semantic-button-secondary-border-default);
+  color: var(--accretion-semantic-button-secondary-foreground-default);
 }
 
 .button--secondary:hover {
-  background: #d9dfe5;
+  background: var(--accretion-semantic-button-secondary-background-hover);
+}
+
+.button--secondary:active {
+  background: var(--accretion-semantic-button-secondary-background-active);
 }
 
 .button:disabled {
   cursor: not-allowed;
-  opacity: 0.5;
+  opacity: var(--accretion-semantic-button-disabled-opacity);
 }
