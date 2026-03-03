@@ -9,8 +9,8 @@
     "chromatic": "test -n \"$CHROMATIC_PROJECT_TOKEN_ANGULAR_21\" && chromatic --project-token=\"$CHROMATIC_PROJECT_TOKEN_ANGULAR_21\" --build-script-name=build-storybook --exit-zero-on-changes || (echo 'Missing CHROMATIC_PROJECT_TOKEN_ANGULAR_21' && exit 1)"
   },
   "dependencies": {
-    "@accretion_ui/angular_21": "^0.1.2",
-    "@accretion_ui/core": "^0.1.5",
+    "@accretion_ui/angular_21": "file:../../components/angular_21/dist",
+    "@accretion_ui/core": "file:../../components/core",
     "@angular/animations": "21.2.0",
     "@angular/common": "21.2.0",
     "@angular/compiler": "21.2.0",
