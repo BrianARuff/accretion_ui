@@ -1,0 +1,45 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "chromatic-angular-18": {
+      "projectType": "application",
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "acc",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:application",
+          "options": {
+            "outputPath": "dist/chromatic-angular-18",
+            "browser": "src/main.ts",
+            "index": "src/index.html",
+            "tsConfig": "tsconfig.app.json",
+            "assets": [],
+            "styles": [],
+            "scripts": []
+          }
+        },
+        "storybook": {
+          "builder": "@storybook/angular:start-storybook",
+          "options": {
+            "port": 6006,
+            "configDir": ".storybook",
+            "browserTarget": "chromatic-angular-18:build",
+            "compodoc": false
+          }
+        },
+        "build-storybook": {
+          "builder": "@storybook/angular:build-storybook",
+          "options": {
+            "outputDir": "storybook-static",
+            "configDir": ".storybook",
+            "browserTarget": "chromatic-angular-18:build",
+            "compodoc": false
+          }
+        }
+      }
+    }
+  }
+}

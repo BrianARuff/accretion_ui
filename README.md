@@ -13,6 +13,9 @@ Accretion UI is a component library built on Stencil web components with framewo
   - [React + Vite](#react--vite)
   - [React + CRA](#react--cra)
   - [React + Next.js](#react--nextjs)
+- [Storybook and Chromatic](#storybook-and-chromatic)
+- [Chromatic Repositories](#chromatic-repositories)
+- [Public Links](#public-links)
 - [Repository Layout](#repository-layout)
 
 ## What Is Accretion UI?
@@ -160,11 +163,64 @@ export default function Page() {
 }
 ```
 
+## Storybook and Chromatic
+
+The repository includes Storybook + Chromatic setups for each wrapper inside `chromatic/`:
+
+- `chromatic/react`
+- `chromatic/angular_18`
+- `chromatic/angular_21`
+
+Quick start:
+
+```bash
+cd chromatic
+npm run install:all
+```
+
+Run Storybook locally:
+
+```bash
+npm run storybook:react
+npm run storybook:angular_18
+npm run storybook:angular_21
+```
+
+Publish to Chromatic (requires OS-level environment variables):
+
+```bash
+npm run chromatic:react
+npm run chromatic:angular_18
+npm run chromatic:angular_21
+```
+
+Full details and split-repo sync commands:
+
+- [Chromatic Workspace Guide](chromatic/README.md)
+
+## Chromatic Repositories
+
+- React: [accretion_ui_react_chromatic](https://github.com/BrianARuff/accretion_ui_react_chromatic)
+- Angular 18: [accretion_ui_angular_18_chromatic](https://github.com/BrianARuff/accretion_ui_angular_18_chromatic)
+- Angular 21: [accretion_ui_angular_21_chromatic](https://github.com/BrianARuff/accretion_ui_angular_21_chromatic)
+
+## Public Links
+
+These links are populated after first successful Chromatic publishes:
+
+- React Storybook: Pending
+- React Chromatic build history: Pending
+- Angular 18 Storybook: Pending
+- Angular 18 Chromatic build history: Pending
+- Angular 21 Storybook: Pending
+- Angular 21 Chromatic build history: Pending
+
 ## Repository Layout
 
 - `components/core`: Stencil core components (`@accretion_ui/core`)
 - `components/react`: React wrapper package (`@accretion_ui/react`)
 - `components/angular`: Angular 18 wrapper package (`@accretion_ui/angular_18`)
 - `components/angular_21`: Angular 21 wrapper package (`@accretion_ui/angular_21`)
+- `chromatic`: Storybook and Chromatic projects for React, Angular 18, and Angular 21
 - `apps`: local integration apps using local package references
 - `live_apps`: local integration apps using npm-published packages

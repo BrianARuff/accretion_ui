@@ -20,6 +20,11 @@ live_apps/**/.turbo/
 live_apps/**/.cache/
 live_apps/**/coverage/
 live_apps/**/out/
+chromatic/**/node_modules/
+chromatic/**/storybook-static/
+chromatic/**/.angular/
+chromatic/**/dist/
+chromatic/**/coverage/
 components/core/loader/
 components/core/src/components.d.ts
 components/core/src/components/**/readme.md
