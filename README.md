@@ -158,7 +158,7 @@ cd my-app
 npm install @accretion_ui/angular_21 @accretion_ui/core
 ```
 
-`src/app/app.ts` or `src/app/app.component.ts`
+`src/app/app.ts`
 
 ```ts
 import { Component, signal } from '@angular/core';
@@ -175,7 +175,7 @@ import { AccretionButton } from '@accretion_ui/angular_21';
     <accretion-button variant="primary" (click)="reset()">Reset Count</accretion-button>
   `
 })
-export class AppComponent {
+export class App {
   count = signal(0);
 
   increment() {
