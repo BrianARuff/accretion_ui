@@ -16,6 +16,11 @@ If you only have a few minutes, open these first:
 
 Core package (source of truth): [@accretion_ui/core](https://www.npmjs.com/package/@accretion_ui/core)
 
+## Figma Design Source
+
+- Accretion UI Figma library: [Accretion UI (Figma)](https://www.figma.com/design/d45s1jniPNl5aEbn0DXwV7/Accretion-UI?node-id=0-1&p=f&t=aPkeN5qIwUccQOYk-0)
+- Current note: the initial `Button` styles in this repository are proof-of-concept styles and are not yet sourced from Figma tokens or final component styling.
+
 ## What This Demonstrates
 
 - One source of truth for component behavior, style, and accessibility in `@accretion_ui/core`.
@@ -25,12 +30,13 @@ Core package (source of truth): [@accretion_ui/core](https://www.npmjs.com/packa
 
 ## How to Read This README
 
-- Fast product/design view: `Start Here` -> `Support Matrix` -> `How It Works`.
+- Fast product/design view: `Start Here` -> `Figma Design Source` -> `Support Matrix` -> `How It Works`.
 - Engineering implementation view: `Install` -> `Framework Setup Examples` -> `Contributing` -> `Release and Publish Workflow`.
 
 ## Table of Contents
 
 - [Start Here (2-Minute Demo)](#start-here-2-minute-demo)
+- [Figma Design Source](#figma-design-source)
 - [What This Demonstrates](#what-this-demonstrates)
 - [How to Read This README](#how-to-read-this-readme)
 - [Support Matrix](#support-matrix)
@@ -49,6 +55,7 @@ Core package (source of truth): [@accretion_ui/core](https://www.npmjs.com/packa
 - [Repository and Branch Map](#repository-and-branch-map)
 - [Package and Chromatic Repositories](#package-and-chromatic-repositories)
 - [Project Layout](#project-layout)
+- [Coming Soon (TODO)](#coming-soon-todo)
 
 ## Support Matrix
 
@@ -433,3 +440,10 @@ Release notes:
 - `apps`: local verification apps using file-based package references
 - `live_apps`: verification apps using npm-published packages
 - `chromatic`: Storybook + Chromatic projects for React/Angular wrappers
+
+## Coming Soon (TODO)
+
+- Add a Figma reference section for each component, with direct links to related design tokens.
+- Align component styles to Figma token definitions as the design system matures, starting with `Button`.
+- Expand component coverage beyond `Button` while preserving one-core/multi-wrapper generation.
+- Document per-component accessibility expectations and test status.
