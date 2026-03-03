@@ -1,0 +1,19 @@
+{
+  "name": "accretion-ui-chromatic",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Storybook and Chromatic workspace for Accretion UI wrappers.",
+  "scripts": {
+    "install:all": "npm --prefix react install && npm --prefix angular_18 install && npm --prefix angular_21 install",
+    "storybook:react": "npm --prefix react run storybook",
+    "storybook:angular_18": "npm --prefix angular_18 run storybook",
+    "storybook:angular_21": "npm --prefix angular_21 run storybook",
+    "build:react": "npm --prefix react run build-storybook",
+    "build:angular_18": "npm --prefix angular_18 run build-storybook",
+    "build:angular_21": "npm --prefix angular_21 run build-storybook",
+    "chromatic:react": "npm --prefix react run chromatic",
+    "chromatic:angular_18": "npm --prefix angular_18 run chromatic",
+    "chromatic:angular_21": "npm --prefix angular_21 run chromatic",
+    "chromatic:all": "npm run chromatic:react && npm run chromatic:angular_18 && npm run chromatic:angular_21"
+  }
+}
