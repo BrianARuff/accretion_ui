@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Input, NgZone } from '@angular/core';
+import { Directive, HostBinding, Input } from '@angular/core';
 import type { Components } from '@accretion_ui/core/dist/components';
 import { defineCustomElement as defineAccretionButton } from '@accretion_ui/core/dist/components/accretion-button.js';
 
@@ -13,32 +13,23 @@ const ensureAccretionButtonDefined = () => {
   standalone: true
 })
 export class AccretionButton {
-  private readonly el: HTMLAccretionButtonElement;
-
-  constructor(host: ElementRef<HTMLAccretionButtonElement>, private readonly zone: NgZone) {
+  constructor() {
     ensureAccretionButtonDefined();
-    this.el = host.nativeElement;
   }
 
   @Input()
-  get variant(): Components.AccretionButton['variant'] {
-    return this.el.variant;
-  }
-
-  set variant(value: Components.AccretionButton['variant']) {
-    this.zone.runOutsideAngular(() => {
-      this.el.variant = value;
-    });
-  }
+  variant: Components.AccretionButton['variant'] = 'primary';
 
   @Input()
-  get disabled(): boolean {
-    return this.el.disabled;
+  disabled = false;
+
+  @HostBinding('attr.variant')
+  get variantAttr(): Components.AccretionButton['variant'] | null {
+    return this.variant ?? null;
   }
 
-  set disabled(value: boolean) {
-    this.zone.runOutsideAngular(() => {
-      this.el.disabled = value;
-    });
+  @HostBinding('attr.disabled')
+  get disabledAttr(): '' | null {
+    return this.disabled ? '' : null;
   }
 }

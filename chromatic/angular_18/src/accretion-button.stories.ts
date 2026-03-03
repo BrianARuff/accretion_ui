@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
-import { AccretionButton } from '@accretion_ui/angular_18';
+import { AccretionAngularModule } from '@accretion_ui/angular_18';
 
 type ButtonArgs = {
   variant: 'primary' | 'secondary' | 'tertiary';
@@ -13,7 +13,7 @@ const meta: Meta<ButtonArgs> = {
   tags: ['autodocs'],
   decorators: [
     moduleMetadata({
-      imports: [AccretionButton]
+      imports: [AccretionAngularModule]
     })
   ],
   args: {
