@@ -58,12 +58,12 @@ If you only have a few minutes, open these first:
 
 ## Packages
 
-| Package | Purpose |
-|---|---|
-| `@accretion_ui/core` | Core Stencil web components and runtime output |
-| `@accretion_ui/react` | Auto-generated React wrappers for core components |
-| `@accretion_ui/angular_18` | Auto-generated Angular wrappers for Angular 18-20 |
-| `@accretion_ui/angular_21` | Auto-generated Angular wrappers for Angular 21 |
+| Package | Purpose | npm |
+|---|---|---|
+| `@accretion_ui/core` | Source of truth (core Stencil web components) | [npm](https://www.npmjs.com/package/@accretion_ui/core) |
+| `@accretion_ui/react` | React wrapper (v18+) | [npm](https://www.npmjs.com/package/@accretion_ui/react) |
+| `@accretion_ui/angular_18` | Angular wrapper (v18-v20) | [npm](https://www.npmjs.com/package/@accretion_ui/angular_18) |
+| `@accretion_ui/angular_21` | Angular wrapper (v21+, includes signals) | [npm](https://www.npmjs.com/package/@accretion_ui/angular_21) |
 
 ## How It Works (Single Core, Multiple Frameworks)
 
