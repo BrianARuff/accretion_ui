@@ -39,7 +39,7 @@ const meta = {
     collapsible: true,
     disabled: false,
     orientation: 'vertical',
-    sizeVariant: 'comfortable',
+    sizeVariant: 'compact',
     keepMounted: false
   },
   argTypes: {
@@ -96,7 +96,19 @@ const meta = {
 
         <AccretionAccordionItem value="project-use">
           <AccretionAccordionHeader>
-            <div style={{ fontSize: '0.875rem', opacity: 0.8, marginBottom: '0.25rem' }}>
+            <div
+              style={{
+                background: 'var(--accretion-semantic-accordion-trigger-background-default)',
+                color: 'var(--accretion-semantic-accordion-trigger-foreground-default)',
+                fontSize: '0.75rem',
+                lineHeight: 1.3,
+                opacity: 0.82,
+                paddingBlock: '0.5rem 0.25rem',
+                paddingInline: 'var(--accretion-semantic-accordion-trigger-padding-inline)',
+                textTransform: 'uppercase',
+                letterSpacing: '0.03em'
+              }}
+            >
               Optional header preface content
             </div>
             <div>
