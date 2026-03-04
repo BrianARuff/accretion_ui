@@ -7,6 +7,7 @@ import {
   Listen,
   Method,
   Prop,
+  State,
   Watch
 } from '@stencil/core';
 import {
@@ -70,6 +71,7 @@ export class AccretionAccordion {
   private items: AccordionItemElement[] = [];
   private mutationObserver?: MutationObserver;
   private isSyncingState = false;
+  @State() private hasOpenItems = false;
 
   @Watch('type')
   @Watch('disabled')
@@ -172,6 +174,7 @@ export class AccretionAccordion {
     event.stopPropagation();
 
     await this.enforceExpansionRules(item);
+    this.syncOpenState();
     await this.emitValueChange();
   }
 
@@ -223,6 +226,7 @@ export class AccretionAccordion {
     );
 
     await this.enforceExpansionRules();
+    this.syncOpenState();
   }
 
   private async toggleItem(item: AccordionItemElement): Promise<void> {
@@ -239,6 +243,7 @@ export class AccretionAccordion {
       }
     });
 
+    this.syncOpenState();
     await this.emitValueChange();
   }
 
@@ -336,6 +341,10 @@ export class AccretionAccordion {
     this.accretionAccordionChange.emit({ openValues });
   }
 
+  private syncOpenState(): void {
+    this.hasOpenItems = this.items.some((item) => item.open);
+  }
+
   private async withStateSync(task: () => Promise<void>): Promise<void> {
     this.isSyncingState = true;
 
@@ -354,6 +363,7 @@ export class AccretionAccordion {
         role="group"
         dir={dir}
         data-accordion-root
+        data-open={this.hasOpenItems ? '' : undefined}
         data-orientation={this.normalizedOrientation}
         data-size-variant={this.normalizedSizeVariant}
         data-disabled={this.disabled ? '' : undefined}

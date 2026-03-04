@@ -4,6 +4,7 @@ accretion-accordion {
   /* Accordion semantic token fallbacks */
   --accretion-semantic-accordion-root-background: #ffffff;
   --accretion-semantic-accordion-root-border-color: #bdcce4;
+  --accretion-semantic-accordion-root-border-color-open: var(--accretion-semantic-accordion-focus-ring-color);
   --accretion-semantic-accordion-root-border-width: 1px;
   --accretion-semantic-accordion-root-radius: 8px;
 
@@ -46,6 +47,11 @@ accretion-accordion > [data-accordion-root] {
   border-radius: var(--accretion-semantic-accordion-root-radius);
   color: var(--accretion-semantic-accordion-trigger-foreground-default);
   overflow: clip;
+  transition: border-color var(--accretion-semantic-accordion-motion-duration) var(--accretion-semantic-accordion-motion-easing);
+}
+
+accretion-accordion > [data-accordion-root][data-open] {
+  border-color: var(--accretion-semantic-accordion-root-border-color-open);
 }
 
 accretion-accordion[size-variant='compact'] {
