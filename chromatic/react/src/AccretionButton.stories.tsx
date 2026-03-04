@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { AccretionButton } from '@accretion_ui/react';
 
 type ButtonArgs = {
-  variant: 'primary' | 'secondary';
+  variant: 'primary' | 'secondary' | 'tertiary';
   disabled: boolean;
   children: string;
 };
@@ -20,7 +20,7 @@ const meta = {
   argTypes: {
     variant: {
       control: { type: 'inline-radio' },
-      options: ['primary', 'secondary']
+      options: ['primary', 'secondary', 'tertiary']
     },
     disabled: {
       control: { type: 'boolean' }
@@ -37,6 +37,15 @@ export default meta;
 type Story = StoryObj<ButtonArgs>;
 
 export const InteractivePrimary: Story = {
+  parameters: {
+    controls: { disable: true },
+    actions: { disable: true },
+    previewTabs: {
+      'storybook/controls/panel': { hidden: true },
+      'storybook/actions/panel': { hidden: true },
+      'storybook/interactions/panel': { hidden: true }
+    }
+  },
   render: () => {
     const [count, setCount] = useState(0);
 
@@ -51,10 +60,10 @@ export const InteractivePrimary: Story = {
         <AccretionButton variant="primary" onClick={() => setCount((value) => value + 1)}>
           Increment Count
         </AccretionButton>
-        <AccretionButton variant="primary" onClick={() => setCount((value) => value - 1)}>
+        <AccretionButton variant="secondary" onClick={() => setCount((value) => value - 1)}>
           Decrement Count
         </AccretionButton>
-        <AccretionButton variant="primary" onClick={() => setCount(0)}>
+        <AccretionButton variant="tertiary" onClick={() => setCount(0)}>
           Reset Count
         </AccretionButton>
       </div>
@@ -62,12 +71,23 @@ export const InteractivePrimary: Story = {
   }
 };
 
-export const Primary: Story = {};
+export const Primary: Story = {
+  args: {
+    variant: "primary"
+  }
+};
 
 export const Secondary: Story = {
   args: {
-    variant: 'secondary',
+    variant: "secondary",
     children: 'Secondary Button'
+  }
+};
+
+export const Tertiary: Story = {
+  args: {
+    variant: "tertiary",
+    children: 'Tertiary Button'
   }
 };
 

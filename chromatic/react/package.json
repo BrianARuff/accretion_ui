@@ -9,7 +9,8 @@
     "chromatic": "test -n \"$CHROMATIC_PROJECT_TOKEN_REACT\" && chromatic --project-token=\"$CHROMATIC_PROJECT_TOKEN_REACT\" --build-script-name=build-storybook --exit-zero-on-changes || (echo 'Missing CHROMATIC_PROJECT_TOKEN_REACT' && exit 1)"
   },
   "dependencies": {
-    "@accretion_ui/react": "^0.1.3",
+    "@accretion_ui/core": "file:../../components/core",
+    "@accretion_ui/react": "file:../../components/react",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },

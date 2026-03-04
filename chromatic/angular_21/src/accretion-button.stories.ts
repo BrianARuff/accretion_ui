@@ -1,10 +1,10 @@
 import { signal } from '@angular/core';
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
-import { AccretionButton } from '@accretion_ui/angular_21';
+import { AccretionAngularModule } from '@accretion_ui/angular_21';
 
 type ButtonArgs = {
-  variant: 'primary' | 'secondary';
+  variant: 'primary' | 'secondary' | 'tertiary';
   disabled: boolean;
   label: string;
 };
@@ -14,7 +14,7 @@ const meta: Meta<ButtonArgs> = {
   tags: ['autodocs'],
   decorators: [
     moduleMetadata({
-      imports: [AccretionButton]
+      imports: [AccretionAngularModule]
     })
   ],
   args: {
@@ -25,7 +25,7 @@ const meta: Meta<ButtonArgs> = {
   argTypes: {
     variant: {
       control: { type: 'inline-radio' },
-      options: ['primary', 'secondary']
+      options: ['primary', 'secondary', 'tertiary']
     },
     disabled: {
       control: { type: 'boolean' }
@@ -41,6 +41,15 @@ export default meta;
 type Story = StoryObj<ButtonArgs>;
 
 export const InteractivePrimary: Story = {
+  parameters: {
+    controls: { disable: true },
+    actions: { disable: true },
+    previewTabs: {
+      'storybook/controls/panel': { hidden: true },
+      'storybook/actions/panel': { hidden: true },
+      'storybook/interactions/panel': { hidden: true }
+    }
+  },
   render: () => {
     const count = signal(0);
 
@@ -62,8 +71,8 @@ export const InteractivePrimary: Story = {
           <p><strong>Framework:</strong> angular_21 (Angular 21 + signals)</p>
           <p><strong>Count:</strong> {{ count() }}</p>
           <accretion-button variant="primary" (click)="increment()">Increment Count</accretion-button>
-          <accretion-button variant="primary" (click)="decrement()">Decrement Count</accretion-button>
-          <accretion-button variant="primary" (click)="reset()">Reset Count</accretion-button>
+          <accretion-button variant="secondary" (click)="decrement()">Decrement Count</accretion-button>
+          <accretion-button variant="tertiary" (click)="reset()">Reset Count</accretion-button>
         </div>
       `
     };
@@ -73,7 +82,7 @@ export const InteractivePrimary: Story = {
 export const Primary: Story = {
   render: (args) => ({
     props: args,
-    template: '<accretion-button [variant]="variant" [disabled]="disabled">{{ label }}</accretion-button>'
+    template: `<accretion-button [attr.variant]="variant" [attr.disabled]="disabled ? '' : null">{{ label }}</accretion-button>`
   })
 };
 
@@ -81,6 +90,14 @@ export const Secondary: Story = {
   args: {
     variant: 'secondary',
     label: 'Secondary Button'
+  },
+  render: Primary.render
+};
+
+export const Tertiary: Story = {
+  args: {
+    variant: 'tertiary',
+    label: 'Tertiary Button'
   },
   render: Primary.render
 };

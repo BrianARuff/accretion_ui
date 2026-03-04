@@ -1,0 +1,10 @@
+{
+  "name": "accretion-ui-testing",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Smoke test harness for Accretion UI package consumption.",
+  "scripts": {
+    "verify:local": "./scripts/verify-local.sh",
+    "verify:npm": "./scripts/verify-npm.sh"
+  }
+}

@@ -3,11 +3,11 @@
     "neutral": {
       "1": {
         "$type": "color",
-        "$value": "#FAFCFE",
-        "$description": "Accretion UI neutral color step 1 (#FAFCFE). Use on large background surfaces and subtle UI fills where very low contrast is expected. Accessibility: verify foreground/background pairs meet WCAG contrast (4.5:1 for body text, 3:1 for large text and UI components), and do not rely on color alone for meaning.",
+        "$value": "#F8FBFF",
+        "$description": "Accretion UI neutral color step 1 (#F8FBFF). Use on large background surfaces and subtle UI fills where very low contrast is expected. Accessibility: verify foreground/background pairs meet WCAG contrast (4.5:1 for body text, 3:1 for large text and UI components), and do not rely on color alone for meaning.",
         "$extensions": {
           "org.design_system.color": {
-            "oklch": "oklch(0.99 0.004 250)",
+            "oklch": "oklch(0.99 0.008 245)",
             "intendedGamut": "display-p3",
             "storedGamut": "srgb"
           }
@@ -15,11 +15,11 @@
       },
       "2": {
         "$type": "color",
-        "$value": "#F2F5F9",
-        "$description": "Accretion UI neutral color step 2 (#F2F5F9). Use on large background surfaces and subtle UI fills where very low contrast is expected. Accessibility: verify foreground/background pairs meet WCAG contrast (4.5:1 for body text, 3:1 for large text and UI components), and do not rely on color alone for meaning.",
+        "$value": "#F0F5FC",
+        "$description": "Accretion UI neutral color step 2 (#F0F5FC). Use on large background surfaces and subtle UI fills where very low contrast is expected. Accessibility: verify foreground/background pairs meet WCAG contrast (4.5:1 for body text, 3:1 for large text and UI components), and do not rely on color alone for meaning.",
         "$extensions": {
           "org.design_system.color": {
-            "oklch": "oklch(0.97 0.006 250)",
+            "oklch": "oklch(0.97 0.012 245)",
             "intendedGamut": "display-p3",
             "storedGamut": "srgb"
           }
@@ -27,11 +27,11 @@
       },
       "3": {
         "$type": "color",
-        "$value": "#E7ECF0",
-        "$description": "Accretion UI neutral color step 3 (#E7ECF0). Use on large background surfaces and subtle UI fills where very low contrast is expected. Accessibility: verify foreground/background pairs meet WCAG contrast (4.5:1 for body text, 3:1 for large text and UI components), and do not rely on color alone for meaning.",
+        "$value": "#E4EBF6",
+        "$description": "Accretion UI neutral color step 3 (#E4EBF6). Use on large background surfaces and subtle UI fills where very low contrast is expected. Accessibility: verify foreground/background pairs meet WCAG contrast (4.5:1 for body text, 3:1 for large text and UI components), and do not rely on color alone for meaning.",
         "$extensions": {
           "org.design_system.color": {
-            "oklch": "oklch(0.94 0.008 250)",
+            "oklch": "oklch(0.94 0.018 245)",
             "intendedGamut": "display-p3",
             "storedGamut": "srgb"
           }
@@ -39,11 +39,11 @@
       },
       "4": {
         "$type": "color",
-        "$value": "#D9DFE5",
-        "$description": "Accretion UI neutral color step 4 (#D9DFE5). Use for container backgrounds, dividers, and low-emphasis borders in dense layouts. Accessibility: verify foreground/background pairs meet WCAG contrast (4.5:1 for body text, 3:1 for large text and UI components), and do not rely on color alone for meaning.",
+        "$value": "#D4DFF0",
+        "$description": "Accretion UI neutral color step 4 (#D4DFF0). Use for container backgrounds, dividers, and low-emphasis borders in dense layouts. Accessibility: verify foreground/background pairs meet WCAG contrast (4.5:1 for body text, 3:1 for large text and UI components), and do not rely on color alone for meaning.",
         "$extensions": {
           "org.design_system.color": {
-            "oklch": "oklch(0.90 0.010 250)",
+            "oklch": "oklch(0.90 0.024 245)",
             "intendedGamut": "display-p3",
             "storedGamut": "srgb"
           }
@@ -51,11 +51,11 @@
       },
       "5": {
         "$type": "color",
-        "$value": "#C5CBD2",
-        "$description": "Accretion UI neutral color step 5 (#C5CBD2). Use for container backgrounds, dividers, and low-emphasis borders in dense layouts. Accessibility: verify foreground/background pairs meet WCAG contrast (4.5:1 for body text, 3:1 for large text and UI components), and do not rely on color alone for meaning.",
+        "$value": "#BDCCE4",
+        "$description": "Accretion UI neutral color step 5 (#BDCCE4). Use for container backgrounds, dividers, and low-emphasis borders in dense layouts. Accessibility: verify foreground/background pairs meet WCAG contrast (4.5:1 for body text, 3:1 for large text and UI components), and do not rely on color alone for meaning.",
         "$extensions": {
           "org.design_system.color": {
-            "oklch": "oklch(0.84 0.012 250)",
+            "oklch": "oklch(0.84 0.028 245)",
             "intendedGamut": "display-p3",
             "storedGamut": "srgb"
           }
@@ -63,11 +63,11 @@
       },
       "6": {
         "$type": "color",
-        "$value": "#ABB2BA",
-        "$description": "Accretion UI neutral color step 6 (#ABB2BA). Use for container backgrounds, dividers, and low-emphasis borders in dense layouts. Accessibility: verify foreground/background pairs meet WCAG contrast (4.5:1 for body text, 3:1 for large text and UI components), and do not rely on color alone for meaning.",
+        "$value": "#9FB3D2",
+        "$description": "Accretion UI neutral color step 6 (#9FB3D2). Use for container backgrounds, dividers, and low-emphasis borders in dense layouts. Accessibility: verify foreground/background pairs meet WCAG contrast (4.5:1 for body text, 3:1 for large text and UI components), and do not rely on color alone for meaning.",
         "$extensions": {
           "org.design_system.color": {
-            "oklch": "oklch(0.76 0.014 250)",
+            "oklch": "oklch(0.76 0.030 245)",
             "intendedGamut": "display-p3",
             "storedGamut": "srgb"
           }
@@ -75,11 +75,11 @@
       },
       "7": {
         "$type": "color",
-        "$value": "#8E969F",
-        "$description": "Accretion UI neutral color step 7 (#8E969F). Use for medium-emphasis borders, icons, and text on light surfaces. Accessibility: verify foreground/background pairs meet WCAG contrast (4.5:1 for body text, 3:1 for large text and UI components), and do not rely on color alone for meaning.",
+        "$value": "#7F98BB",
+        "$description": "Accretion UI neutral color step 7 (#7F98BB). Use for medium-emphasis borders, icons, and text on light surfaces. Accessibility: verify foreground/background pairs meet WCAG contrast (4.5:1 for body text, 3:1 for large text and UI components), and do not rely on color alone for meaning.",
         "$extensions": {
           "org.design_system.color": {
-            "oklch": "oklch(0.67 0.016 250)",
+            "oklch": "oklch(0.67 0.032 245)",
             "intendedGamut": "display-p3",
             "storedGamut": "srgb"
           }
@@ -87,11 +87,11 @@
       },
       "8": {
         "$type": "color",
-        "$value": "#717880",
-        "$description": "Accretion UI neutral color step 8 (#717880). Use for medium-emphasis borders, icons, and text on light surfaces. Accessibility: verify foreground/background pairs meet WCAG contrast (4.5:1 for body text, 3:1 for large text and UI components), and do not rely on color alone for meaning.",
+        "$value": "#607C9F",
+        "$description": "Accretion UI neutral color step 8 (#607C9F). Use for medium-emphasis borders, icons, and text on light surfaces. Accessibility: verify foreground/background pairs meet WCAG contrast (4.5:1 for body text, 3:1 for large text and UI components), and do not rely on color alone for meaning.",
         "$extensions": {
           "org.design_system.color": {
-            "oklch": "oklch(0.57 0.014 250)",
+            "oklch": "oklch(0.57 0.030 245)",
             "intendedGamut": "display-p3",
             "storedGamut": "srgb"
           }
@@ -99,11 +99,11 @@
       },
       "9": {
         "$type": "color",
-        "$value": "#565B61",
-        "$description": "Accretion UI neutral color step 9 (#565B61). Use for medium-emphasis borders, icons, and text on light surfaces. Accessibility: verify foreground/background pairs meet WCAG contrast (4.5:1 for body text, 3:1 for large text and UI components), and do not rely on color alone for meaning.",
+        "$value": "#4A6281",
+        "$description": "Accretion UI neutral color step 9 (#4A6281). Use for medium-emphasis borders, icons, and text on light surfaces. Accessibility: verify foreground/background pairs meet WCAG contrast (4.5:1 for body text, 3:1 for large text and UI components), and do not rely on color alone for meaning.",
         "$extensions": {
           "org.design_system.color": {
-            "oklch": "oklch(0.47 0.012 250)",
+            "oklch": "oklch(0.47 0.028 245)",
             "intendedGamut": "display-p3",
             "storedGamut": "srgb"
           }
@@ -111,11 +111,11 @@
       },
       "10": {
         "$type": "color",
-        "$value": "#3E4348",
-        "$description": "Accretion UI neutral color step 10 (#3E4348). Use for high-emphasis text and icons that must read clearly on light surfaces. Accessibility: verify foreground/background pairs meet WCAG contrast (4.5:1 for body text, 3:1 for large text and UI components), and do not rely on color alone for meaning.",
+        "$value": "#374B66",
+        "$description": "Accretion UI neutral color step 10 (#374B66). Use for high-emphasis text and icons that must read clearly on light surfaces. Accessibility: verify foreground/background pairs meet WCAG contrast (4.5:1 for body text, 3:1 for large text and UI components), and do not rely on color alone for meaning.",
         "$extensions": {
           "org.design_system.color": {
-            "oklch": "oklch(0.38 0.010 250)",
+            "oklch": "oklch(0.38 0.024 245)",
             "intendedGamut": "display-p3",
             "storedGamut": "srgb"
           }
@@ -123,11 +123,11 @@
       },
       "11": {
         "$type": "color",
-        "$value": "#2B2E32",
-        "$description": "Accretion UI neutral color step 11 (#2B2E32). Use for high-emphasis text and icons that must read clearly on light surfaces. Accessibility: verify foreground/background pairs meet WCAG contrast (4.5:1 for body text, 3:1 for large text and UI components), and do not rely on color alone for meaning.",
+        "$value": "#27364B",
+        "$description": "Accretion UI neutral color step 11 (#27364B). Use for high-emphasis text and icons that must read clearly on light surfaces. Accessibility: verify foreground/background pairs meet WCAG contrast (4.5:1 for body text, 3:1 for large text and UI components), and do not rely on color alone for meaning.",
         "$extensions": {
           "org.design_system.color": {
-            "oklch": "oklch(0.30 0.008 250)",
+            "oklch": "oklch(0.30 0.020 245)",
             "intendedGamut": "display-p3",
             "storedGamut": "srgb"
           }
@@ -135,11 +135,11 @@
       },
       "12": {
         "$type": "color",
-        "$value": "#191B1D",
-        "$description": "Accretion UI neutral color step 12 (#191B1D). Use for high-emphasis text and icons that must read clearly on light surfaces. Accessibility: verify foreground/background pairs meet WCAG contrast (4.5:1 for body text, 3:1 for large text and UI components), and do not rely on color alone for meaning.",
+        "$value": "#182230",
+        "$description": "Accretion UI neutral color step 12 (#182230). Use for high-emphasis text and icons that must read clearly on light surfaces. Accessibility: verify foreground/background pairs meet WCAG contrast (4.5:1 for body text, 3:1 for large text and UI components), and do not rely on color alone for meaning.",
         "$extensions": {
           "org.design_system.color": {
-            "oklch": "oklch(0.22 0.006 250)",
+            "oklch": "oklch(0.22 0.016 245)",
             "intendedGamut": "display-p3",
             "storedGamut": "srgb"
           }

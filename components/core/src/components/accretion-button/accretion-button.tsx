@@ -6,7 +6,7 @@ import { Component, h, Prop } from '@stencil/core';
   shadow: true
 })
 export class AccretionButton {
-  @Prop() variant: 'primary' | 'secondary' = 'primary';
+  @Prop() variant: 'primary' | 'secondary' | 'tertiary' = 'primary';
   @Prop() disabled = false;
 
   render() {
