@@ -1,8 +1,8 @@
 # Accretion UI
 
-Accretion UI is a cross-framework component system built from one core web component library and distributed to multiple framework ecosystems.
+Accretion UI is a cross-framework component system built from one core web component library and distributed as independent framework packages.
 
-For design and product leadership, the key proof point is simple: one component implementation can ship consistent UX across React and multiple Angular major lines without fragmenting the design language.
+For product and design leadership, the core proof point is simple: one implementation can ship a consistent button experience across React, Angular 18-20, and Angular 21+ without duplicating component logic.
 
 ## Start Here (2-Minute Demo)
 
@@ -14,45 +14,53 @@ If you only have a few minutes, open these first:
 | Angular 18 (`@accretion_ui/angular_18`) | [View Storybook](https://69a69540931282436807583e-sxbmrpmyge.chromatic.com/) | [View Chromatic](https://www.chromatic.com/setup?appId=69a69540931282436807583e) | [@accretion_ui/angular_18](https://www.npmjs.com/package/@accretion_ui/angular_18) |
 | Angular 21 (`@accretion_ui/angular_21`) | [View Storybook](https://69a69585a3c2c8accf671d8d-ueigqdpghh.chromatic.com/) | [View Chromatic](https://www.chromatic.com/setup?appId=69a69585a3c2c8accf671d8d) | [@accretion_ui/angular_21](https://www.npmjs.com/package/@accretion_ui/angular_21) |
 
-Core package (source of truth): [@accretion_ui/core](https://www.npmjs.com/package/@accretion_ui/core)
+Core package (single source of truth): [@accretion_ui/core](https://www.npmjs.com/package/@accretion_ui/core)
+
+## What Changed Recently
+
+- Added semantic button token layers for default, hover, active, focus, and disabled behavior.
+- Refined button intent hierarchy with distinct `primary`, `secondary`, and `tertiary` variants.
+- Added interactive Storybook stories (all frameworks) that prove real framework state updates:
+  - React uses `useState`.
+  - Angular 18 uses class state.
+  - Angular 21 uses `signal`.
+- Stabilized Angular wrappers for split compatibility tracks:
+  - `@accretion_ui/angular_18` for Angular 18-20.
+  - `@accretion_ui/angular_21` for Angular 21+.
+- Added an automated smoke-test harness (`testing/`) that validates both:
+  - local tarball consumption before publish,
+  - npm-installed package consumption after publish.
+- Replaced large committed sample apps with generated temporary smoke apps under `.tmp/` to keep the repository lean.
 
 ## Figma Design Source
 
 - Accretion UI Figma library: [Accretion UI (Figma)](https://www.figma.com/design/d45s1jniPNl5aEbn0DXwV7/Accretion-UI?node-id=0-1&p=f&t=aPkeN5qIwUccQOYk-0)
 - Current status: the Figma library is currently empty.
-- Current note: the initial `Button` styles in this repository are proof-of-concept styles and are not yet sourced from Figma tokens or final component styling.
+- Current note: the initial `Button` styles in this repository are proof-of-concept styles and are not yet sourced from final Figma token definitions.
 
-## What This Demonstrates
+## What to Look For in the Demos
 
-- One source of truth for component behavior, style, and accessibility in `@accretion_ui/core`.
-- Auto-generated React and Angular wrappers from the same core, produced by Stencil.
-- Support for older and newer Angular major lines without duplicating component implementations.
-- Practical framework behavior in Storybook, including interactive state updates.
-
-## How to Read This README
-
-- Fast product/design view: `Start Here` -> `Figma Design Source` -> `Support Matrix` -> `How It Works`.
-- Engineering implementation view: `Install` -> `Framework Setup Examples` -> `Contributing` -> `Release and Publish Workflow`.
+- Same component API across frameworks.
+- Same visual intent hierarchy (`primary`, `secondary`, `tertiary`).
+- Same behavior for hover, active, focus, and disabled states.
+- Same slotted content behavior and clickable interactions.
+- Framework-native state updates driven by the same underlying web component.
 
 ## Table of Contents
 
 - [Start Here (2-Minute Demo)](#start-here-2-minute-demo)
+- [What Changed Recently](#what-changed-recently)
 - [Figma Design Source](#figma-design-source)
-- [What This Demonstrates](#what-this-demonstrates)
-- [How to Read This README](#how-to-read-this-readme)
+- [What to Look For in the Demos](#what-to-look-for-in-the-demos)
 - [Support Matrix](#support-matrix)
 - [Packages](#packages)
 - [How It Works (Single Core, Multiple Frameworks)](#how-it-works-single-core-multiple-frameworks)
 - [Install](#install)
 - [Framework Setup Examples](#framework-setup-examples)
-  - [Angular 18 (`npx @angular/cli@18 new my-app`)](#angular-18-npx-angularcli18-new-my-app)
-  - [Latest Angular (`ng new my-app`)](#latest-angular-ng-new-my-app)
-  - [React + Vite](#react--vite)
-  - [React + CRA](#react--cra)
-  - [React + Next.js](#react--nextjs)
-- [Contributing](#contributing)
+- [Smoke Testing (How It Works)](#smoke-testing-how-it-works)
 - [Storybook and Chromatic Workflow](#storybook-and-chromatic-workflow)
 - [Release and Publish Workflow](#release-and-publish-workflow)
+- [Contributing](#contributing)
 - [Repository and Branch Map](#repository-and-branch-map)
 - [Package and Chromatic Repositories](#package-and-chromatic-repositories)
 - [Project Layout](#project-layout)
@@ -77,7 +85,7 @@ Core package (source of truth): [@accretion_ui/core](https://www.npmjs.com/packa
 
 ## How It Works (Single Core, Multiple Frameworks)
 
-Accretion UI uses [Stencil](https://stenciljs.com/docs/introduction) as the compiler for standards-based web components.
+Accretion UI uses [Stencil](https://stenciljs.com/docs/introduction) to compile standards-based web components and generate framework wrappers.
 
 Key Stencil references:
 
@@ -89,10 +97,10 @@ Key Stencil references:
 Flow:
 
 1. Components are authored once in `components/core`.
-2. Stencil builds the core package (`@accretion_ui/core`).
-3. Stencil output target tooling generates wrapper libraries for React and Angular.
-4. Wrapper libraries are published as independent npm packages.
-5. Application teams consume wrappers directly with standard package installs. No app-side code generation step is required.
+2. Stencil builds `@accretion_ui/core`.
+3. Stencil output tooling generates React and Angular wrappers.
+4. Wrappers publish as standalone npm packages.
+5. App teams consume wrappers directly with normal package installs. No app-side code generation is required.
 
 ## Install
 
@@ -108,7 +116,7 @@ npm install @accretion_ui/react
 npm install @accretion_ui/angular_18 @accretion_ui/core
 ```
 
-### Angular 21
+### Angular 21+
 
 ```bash
 npm install @accretion_ui/angular_21 @accretion_ui/core
@@ -137,8 +145,8 @@ import { AccretionButton } from '@accretion_ui/angular_18';
   template: `
     <p>Count: {{ count }}</p>
     <accretion-button variant="primary" (click)="increment()">Increment Count</accretion-button>
-    <accretion-button variant="primary" (click)="decrement()">Decrement Count</accretion-button>
-    <accretion-button variant="primary" (click)="reset()">Reset Count</accretion-button>
+    <accretion-button variant="secondary" (click)="decrement()">Decrement Count</accretion-button>
+    <accretion-button variant="tertiary" (click)="reset()">Reset Count</accretion-button>
   `
 })
 export class AppComponent {
@@ -179,8 +187,8 @@ import { AccretionButton } from '@accretion_ui/angular_21';
   template: `
     <p>Count: {{ count() }}</p>
     <accretion-button variant="primary" (click)="increment()">Increment Count</accretion-button>
-    <accretion-button variant="primary" (click)="decrement()">Decrement Count</accretion-button>
-    <accretion-button variant="primary" (click)="reset()">Reset Count</accretion-button>
+    <accretion-button variant="secondary" (click)="decrement()">Decrement Count</accretion-button>
+    <accretion-button variant="tertiary" (click)="reset()">Reset Count</accretion-button>
   `
 })
 export class App {
@@ -222,8 +230,8 @@ export default function App() {
     <>
       <p>Count: {count}</p>
       <AccretionButton variant="primary" onClick={() => setCount((value) => value + 1)}>Increment Count</AccretionButton>
-      <AccretionButton variant="primary" onClick={() => setCount((value) => value - 1)}>Decrement Count</AccretionButton>
-      <AccretionButton variant="primary" onClick={() => setCount(0)}>Reset Count</AccretionButton>
+      <AccretionButton variant="secondary" onClick={() => setCount((value) => value - 1)}>Decrement Count</AccretionButton>
+      <AccretionButton variant="tertiary" onClick={() => setCount(0)}>Reset Count</AccretionButton>
     </>
   );
 }
@@ -250,8 +258,8 @@ function App() {
     <>
       <p>Count: {count}</p>
       <AccretionButton variant="primary" onClick={() => setCount((value) => value + 1)}>Increment Count</AccretionButton>
-      <AccretionButton variant="primary" onClick={() => setCount((value) => value - 1)}>Decrement Count</AccretionButton>
-      <AccretionButton variant="primary" onClick={() => setCount(0)}>Reset Count</AccretionButton>
+      <AccretionButton variant="secondary" onClick={() => setCount((value) => value - 1)}>Decrement Count</AccretionButton>
+      <AccretionButton variant="tertiary" onClick={() => setCount(0)}>Reset Count</AccretionButton>
     </>
   );
 }
@@ -282,36 +290,71 @@ export default function Page() {
     <>
       <p>Count: {count}</p>
       <AccretionButton variant="primary" onClick={() => setCount((value) => value + 1)}>Increment Count</AccretionButton>
-      <AccretionButton variant="primary" onClick={() => setCount((value) => value - 1)}>Decrement Count</AccretionButton>
-      <AccretionButton variant="primary" onClick={() => setCount(0)}>Reset Count</AccretionButton>
+      <AccretionButton variant="secondary" onClick={() => setCount((value) => value - 1)}>Decrement Count</AccretionButton>
+      <AccretionButton variant="tertiary" onClick={() => setCount(0)}>Reset Count</AccretionButton>
     </>
   );
 }
 ```
 
-## Contributing
+## Smoke Testing (How It Works)
 
-### Branch strategy
+The `testing/` workspace is the smoke-test harness that replaced committed demo apps (`apps/` and `live_apps/`).
 
-- Branch from `main`.
-- Use `codex/<feature_name>` naming.
-- Keep changes scoped by concern (core component logic, wrappers, docs, or chromatic).
+This keeps the repository slim while still verifying real install paths.
 
-### Making component changes
+### Commands
 
-1. Update the component in `components/core`.
-2. Build core.
-3. Build wrappers (`components/react`, `components/angular`, `components/angular_21`).
-4. Validate in `apps/*` (local package flow).
-5. Validate in `live_apps/*` (npm-installed package flow).
-6. Update stories in `chromatic/*` for changed behavior.
+```bash
+# 1) Verify local package changes before publish
+npm --prefix testing run verify:local
 
-### Pull request checklist
+# 2) Verify npm-published packages after publish
+npm --prefix testing run verify:npm
+```
 
-- Builds pass for all touched packages.
-- Component behavior validated in at least one Angular app and one React app.
-- Storybook stories updated.
-- Chromatic publish completed for affected wrapper(s).
+### `verify:local` flow
+
+1. Builds local packages: `core`, `react`, `angular_18`, `angular_21`.
+2. Packs each into tarballs.
+3. Generates temporary apps under `.tmp/smoke-local`:
+   - React Vite
+   - React Next.js
+   - Angular 18
+   - Angular 21
+4. Installs local tarballs into those apps.
+5. Runs framework builds to confirm imports and compilation.
+
+### `verify:npm` flow
+
+1. Generates temporary apps under `.tmp/smoke-npm` for the same framework matrix.
+2. Installs from npm registry instead of local tarballs.
+3. Runs framework builds to validate published artifacts.
+
+Version pinning is supported:
+
+```bash
+ACCRETION_CORE_VERSION=<core_version> \
+ACCRETION_REACT_VERSION=<react_version> \
+ACCRETION_ANGULAR_18_VERSION=<angular_18_version> \
+ACCRETION_ANGULAR_21_VERSION=<angular_21_version> \
+npm --prefix testing run verify:npm
+```
+
+### Manual runtime checks after smoke scripts
+
+```bash
+npm --prefix .tmp/smoke-local/react-vite-local start
+npm --prefix .tmp/smoke-local/react-next-local dev
+npm --prefix .tmp/smoke-local/angular-18-local start
+npm --prefix .tmp/smoke-local/angular-21-local start
+```
+
+Validate:
+
+- The three variants render with distinct visual intent.
+- Slot text appears inside the button.
+- Increment/decrement/reset actions update framework state.
 
 ## Storybook and Chromatic Workflow
 
@@ -352,21 +395,6 @@ export CHROMATIC_PROJECT_TOKEN_ANGULAR_18="<token>"
 export CHROMATIC_PROJECT_TOKEN_ANGULAR_21="<token>"
 ```
 
-If needed in your current terminal:
-
-```bash
-source ~/.zshrc
-```
-
-Where to edit stories and Storybook config:
-
-- React stories: `chromatic/react/src/*.stories.tsx`
-- Angular 18 stories: `chromatic/angular_18/src/*.stories.ts`
-- Angular 21 stories: `chromatic/angular_21/src/*.stories.ts`
-- Storybook config: each package’s `.storybook/` folder
-
-Detailed split-repo sync instructions are in `chromatic/README.md`.
-
 ## Release and Publish Workflow
 
 Run from repo root:
@@ -400,9 +428,25 @@ npm publish ./dist --access public
 Release notes:
 
 - Publish `@accretion_ui/core` first.
-- Then update wrapper dependency ranges if needed.
 - Publish wrappers after core is available.
 - Never republish an existing version number.
+
+## Contributing
+
+### Branch strategy
+
+- Branch from `main`.
+- Use `codex/<feature_name>` naming.
+- Keep change sets scoped (core logic, wrappers, stories, docs, testing).
+
+### Typical change flow
+
+1. Update component logic/styles in `components/core`.
+2. Build wrappers (`components/react`, `components/angular`, `components/angular_21`).
+3. Run smoke tests in `testing/` (`verify:local`, then `verify:npm` when needed).
+4. Update affected stories in `chromatic/*`.
+5. Publish Chromatic and verify links.
+6. Update README if behavior, support ranges, or workflows changed.
 
 ## Repository and Branch Map
 
@@ -413,9 +457,10 @@ Release notes:
 ### Active branches
 
 - [`main`](https://github.com/BrianARuff/accretion_ui/tree/main): stable integration branch.
-- [`codex/primitive_tokens`](https://github.com/BrianARuff/accretion_ui/tree/codex/primitive_tokens): token naming and token guidance updates.
-- [`codex/component_library`](https://github.com/BrianARuff/accretion_ui/tree/codex/component_library): component library foundation and wrapper package setup.
+- [`codex/primitive_tokens`](https://github.com/BrianARuff/accretion_ui/tree/codex/primitive_tokens): primitive token definitions and naming.
+- [`codex/component_library`](https://github.com/BrianARuff/accretion_ui/tree/codex/component_library): initial multi-wrapper package architecture.
 - [`codex/storybook_chromatic`](https://github.com/BrianARuff/accretion_ui/tree/codex/storybook_chromatic): Storybook and Chromatic integration.
+- [`codex/button_semantic_tokens`](https://github.com/BrianARuff/accretion_ui/tree/codex/button_semantic_tokens): semantic button token work and variant behavior updates.
 
 ## Package and Chromatic Repositories
 
@@ -438,13 +483,13 @@ Release notes:
 - `components/react`: React wrapper (`@accretion_ui/react`)
 - `components/angular`: Angular 18-20 wrapper (`@accretion_ui/angular_18`)
 - `components/angular_21`: Angular 21 wrapper (`@accretion_ui/angular_21`)
-- `apps`: local verification apps using file-based package references
-- `live_apps`: verification apps using npm-published packages
-- `chromatic`: Storybook + Chromatic projects for React/Angular wrappers
+- `chromatic`: Storybook + Chromatic projects for all wrappers
+- `testing`: generated smoke-test harness for local tarballs and npm-installed packages
+- `.tmp`: temporary generated apps used by smoke testing (gitignored)
 
 ## Coming Soon (TODO)
 
-- Add a Figma reference section for each component, with direct links to related design tokens.
-- Align component styles to Figma token definitions as the design system matures, starting with `Button`.
-- Expand component coverage beyond `Button` while preserving one-core/multi-wrapper generation.
-- Document per-component accessibility expectations and test status.
+- Add per-component Figma references with direct token mapping links.
+- Move proof-of-concept Button styles to finalized Figma-backed token definitions.
+- Expand component coverage beyond Button while preserving one-core/multi-wrapper generation.
+- Add documented accessibility expectations and test status per component.

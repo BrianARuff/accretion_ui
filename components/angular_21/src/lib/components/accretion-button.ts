@@ -1,5 +1,4 @@
-import { Directive, HostBinding, Input } from '@angular/core';
-import type { Components } from '@accretion_ui/core/dist/components';
+import { Directive } from '@angular/core';
 import { defineCustomElement as defineAccretionButton } from '@accretion_ui/core/dist/components/accretion-button.js';
 
 const ensureAccretionButtonDefined = () => {
@@ -15,21 +14,5 @@ const ensureAccretionButtonDefined = () => {
 export class AccretionButton {
   constructor() {
     ensureAccretionButtonDefined();
-  }
-
-  @Input()
-  variant: Components.AccretionButton['variant'] = 'primary';
-
-  @Input()
-  disabled = false;
-
-  @HostBinding('attr.variant')
-  get variantAttr(): Components.AccretionButton['variant'] | null {
-    return this.variant ?? null;
-  }
-
-  @HostBinding('attr.disabled')
-  get disabledAttr(): '' | null {
-    return this.disabled ? '' : null;
   }
 }
