@@ -16,22 +16,6 @@ If you only have a few minutes, open these first:
 
 Core package (single source of truth): [@accretion_ui/core](https://www.npmjs.com/package/@accretion_ui/core)
 
-## What Changed Recently
-
-- Added semantic button token layers for default, hover, active, focus, and disabled behavior.
-- Refined button intent hierarchy with distinct `primary`, `secondary`, and `tertiary` variants.
-- Added interactive Storybook stories (all frameworks) that prove real framework state updates:
-  - React uses `useState`.
-  - Angular 18 uses class state.
-  - Angular 21 uses `signal`.
-- Stabilized Angular wrappers for split compatibility tracks:
-  - `@accretion_ui/angular_18` for Angular 18-20.
-  - `@accretion_ui/angular_21` for Angular 21+.
-- Added an automated smoke-test harness (`testing/`) that validates both:
-  - local tarball consumption before publish,
-  - npm-installed package consumption after publish.
-- Replaced large committed sample apps with generated temporary smoke apps under `.tmp/` to keep the repository lean.
-
 ## Figma Design Source
 
 - Accretion UI Figma library: [Accretion UI (Figma)](https://www.figma.com/design/d45s1jniPNl5aEbn0DXwV7/Accretion-UI?node-id=0-1&p=f&t=aPkeN5qIwUccQOYk-0)
@@ -49,7 +33,6 @@ Core package (single source of truth): [@accretion_ui/core](https://www.npmjs.co
 ## Table of Contents
 
 - [Start Here (2-Minute Demo)](#start-here-2-minute-demo)
-- [What Changed Recently](#what-changed-recently)
 - [Figma Design Source](#figma-design-source)
 - [What to Look For in the Demos](#what-to-look-for-in-the-demos)
 - [Support Matrix](#support-matrix)
