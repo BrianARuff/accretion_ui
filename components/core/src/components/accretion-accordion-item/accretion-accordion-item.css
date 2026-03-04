@@ -1,0 +1,16 @@
+:host {
+  border-top: 1px solid var(--accretion-semantic-accordion-item-separator-color);
+  display: block;
+}
+
+:host(:first-of-type) {
+  border-top: none;
+}
+
+:host([data-open]) {
+  background: var(--accretion-semantic-accordion-trigger-background-open);
+}
+
+:host([data-disabled]) {
+  opacity: var(--accretion-semantic-accordion-disabled-opacity);
+}

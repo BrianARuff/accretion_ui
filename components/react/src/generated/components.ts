@@ -7,10 +7,77 @@
 
 /* eslint-disable */
 
+import { type AccordionFocusRequestDetail, type AccordionItemElement, type AccordionToggleRequestDetail, type AccretionAccordionCustomEvent, type AccretionAccordionItemCustomEvent, type AccretionAccordionTriggerCustomEvent } from "@accretion_ui/core";
+import { AccretionAccordionHeader as AccretionAccordionHeaderElement, defineCustomElement as defineAccretionAccordionHeader } from "@accretion_ui/core/dist/components/accretion-accordion-header.js";
+import { AccretionAccordionItem as AccretionAccordionItemElement, defineCustomElement as defineAccretionAccordionItem } from "@accretion_ui/core/dist/components/accretion-accordion-item.js";
+import { AccretionAccordionPanel as AccretionAccordionPanelElement, defineCustomElement as defineAccretionAccordionPanel } from "@accretion_ui/core/dist/components/accretion-accordion-panel.js";
+import { AccretionAccordionTrigger as AccretionAccordionTriggerElement, defineCustomElement as defineAccretionAccordionTrigger } from "@accretion_ui/core/dist/components/accretion-accordion-trigger.js";
+import { AccretionAccordion as AccretionAccordionElement, defineCustomElement as defineAccretionAccordion } from "@accretion_ui/core/dist/components/accretion-accordion.js";
 import { AccretionButton as AccretionButtonElement, defineCustomElement as defineAccretionButton } from "@accretion_ui/core/dist/components/accretion-button.js";
-import type { StencilReactComponent } from '@stencil/react-output-target/runtime';
+import type { EventName, StencilReactComponent } from '@stencil/react-output-target/runtime';
 import { createComponent } from '@stencil/react-output-target/runtime';
 import React from 'react';
+
+export type AccretionAccordionEvents = { onAccretionAccordionChange: EventName<AccretionAccordionCustomEvent<{ openValues: string[] }>> };
+
+export const AccretionAccordion: StencilReactComponent<AccretionAccordionElement, AccretionAccordionEvents> = /*@__PURE__*/ createComponent<AccretionAccordionElement, AccretionAccordionEvents>({
+    tagName: 'accretion-accordion',
+    elementClass: AccretionAccordionElement,
+    // @ts-ignore - ignore potential React type mismatches between the Stencil Output Target and your project.
+    react: React,
+    events: { onAccretionAccordionChange: 'accretionAccordionChange' } as AccretionAccordionEvents,
+    defineCustomElement: defineAccretionAccordion
+});
+
+export type AccretionAccordionHeaderEvents = NonNullable<unknown>;
+
+export const AccretionAccordionHeader: StencilReactComponent<AccretionAccordionHeaderElement, AccretionAccordionHeaderEvents> = /*@__PURE__*/ createComponent<AccretionAccordionHeaderElement, AccretionAccordionHeaderEvents>({
+    tagName: 'accretion-accordion-header',
+    elementClass: AccretionAccordionHeaderElement,
+    // @ts-ignore - ignore potential React type mismatches between the Stencil Output Target and your project.
+    react: React,
+    events: {} as AccretionAccordionHeaderEvents,
+    defineCustomElement: defineAccretionAccordionHeader
+});
+
+export type AccretionAccordionItemEvents = { onItemStateChange: EventName<AccretionAccordionItemCustomEvent<{ item: AccordionItemElement }>> };
+
+export const AccretionAccordionItem: StencilReactComponent<AccretionAccordionItemElement, AccretionAccordionItemEvents> = /*@__PURE__*/ createComponent<AccretionAccordionItemElement, AccretionAccordionItemEvents>({
+    tagName: 'accretion-accordion-item',
+    elementClass: AccretionAccordionItemElement,
+    // @ts-ignore - ignore potential React type mismatches between the Stencil Output Target and your project.
+    react: React,
+    events: { onItemStateChange: 'itemStateChange' } as AccretionAccordionItemEvents,
+    defineCustomElement: defineAccretionAccordionItem
+});
+
+export type AccretionAccordionPanelEvents = NonNullable<unknown>;
+
+export const AccretionAccordionPanel: StencilReactComponent<AccretionAccordionPanelElement, AccretionAccordionPanelEvents> = /*@__PURE__*/ createComponent<AccretionAccordionPanelElement, AccretionAccordionPanelEvents>({
+    tagName: 'accretion-accordion-panel',
+    elementClass: AccretionAccordionPanelElement,
+    // @ts-ignore - ignore potential React type mismatches between the Stencil Output Target and your project.
+    react: React,
+    events: {} as AccretionAccordionPanelEvents,
+    defineCustomElement: defineAccretionAccordionPanel
+});
+
+export type AccretionAccordionTriggerEvents = {
+    onToggleRequest: EventName<AccretionAccordionTriggerCustomEvent<AccordionToggleRequestDetail>>,
+    onFocusRequest: EventName<AccretionAccordionTriggerCustomEvent<AccordionFocusRequestDetail>>
+};
+
+export const AccretionAccordionTrigger: StencilReactComponent<AccretionAccordionTriggerElement, AccretionAccordionTriggerEvents> = /*@__PURE__*/ createComponent<AccretionAccordionTriggerElement, AccretionAccordionTriggerEvents>({
+    tagName: 'accretion-accordion-trigger',
+    elementClass: AccretionAccordionTriggerElement,
+    // @ts-ignore - ignore potential React type mismatches between the Stencil Output Target and your project.
+    react: React,
+    events: {
+        onToggleRequest: 'toggleRequest',
+        onFocusRequest: 'focusRequest'
+    } as AccretionAccordionTriggerEvents,
+    defineCustomElement: defineAccretionAccordionTrigger
+});
 
 export type AccretionButtonEvents = NonNullable<unknown>;
 

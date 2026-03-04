@@ -1,0 +1,52 @@
+:host {
+  align-items: center;
+  background: var(--accretion-semantic-accordion-trigger-background-default);
+  color: var(--accretion-semantic-accordion-trigger-foreground-default);
+  cursor: pointer;
+  display: flex;
+  font-size: var(--accretion-semantic-accordion-trigger-font-size);
+  font-weight: var(--accretion-semantic-accordion-trigger-font-weight);
+  gap: var(--accretion-semantic-accordion-trigger-gap);
+  justify-content: space-between;
+  line-height: var(--accretion-semantic-accordion-trigger-line-height);
+  min-height: var(--accretion-semantic-accordion-trigger-min-height);
+  outline: none;
+  padding-block: var(--accretion-semantic-accordion-trigger-padding-block);
+  padding-inline: var(--accretion-semantic-accordion-trigger-padding-inline);
+  transition:
+    background-color var(--accretion-semantic-accordion-motion-duration) var(--accretion-semantic-accordion-motion-easing),
+    color var(--accretion-semantic-accordion-motion-duration) var(--accretion-semantic-accordion-motion-easing);
+  user-select: none;
+}
+
+:host(:not([data-disabled]):hover) {
+  background: var(--accretion-semantic-accordion-trigger-background-hover);
+}
+
+:host(:not([data-disabled]):active) {
+  background: var(--accretion-semantic-accordion-trigger-background-active);
+}
+
+:host([data-open]) {
+  background: var(--accretion-semantic-accordion-trigger-background-open);
+  color: var(--accretion-semantic-accordion-trigger-foreground-open);
+}
+
+:host(:focus-visible) {
+  outline: var(--accretion-semantic-accordion-focus-ring-width) solid var(--accretion-semantic-accordion-focus-ring-color);
+  outline-offset: calc(-1 * var(--accretion-semantic-accordion-focus-ring-offset));
+}
+
+:host([data-disabled]) {
+  cursor: not-allowed;
+  opacity: var(--accretion-semantic-accordion-disabled-opacity);
+}
+
+:host > [data-accordion-indicator] {
+  flex-shrink: 0;
+  transition: transform var(--accretion-semantic-accordion-motion-duration) var(--accretion-semantic-accordion-motion-easing);
+}
+
+:host([data-open]) > [data-accordion-indicator] {
+  transform: rotate(45deg);
+}

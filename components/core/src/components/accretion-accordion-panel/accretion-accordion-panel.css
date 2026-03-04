@@ -1,0 +1,43 @@
+:host {
+  background: var(--accretion-semantic-accordion-panel-background);
+  color: var(--accretion-semantic-accordion-panel-foreground);
+  display: block;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  padding-block-end: 0;
+  padding-inline: var(--accretion-semantic-accordion-panel-padding-inline);
+  transition:
+    max-height var(--accretion-semantic-accordion-motion-duration) var(--accretion-semantic-accordion-motion-easing),
+    opacity var(--accretion-semantic-accordion-motion-duration) var(--accretion-semantic-accordion-motion-easing),
+    padding var(--accretion-semantic-accordion-motion-duration) var(--accretion-semantic-accordion-motion-easing);
+}
+
+:host([data-open]) {
+  border-top: 1px solid var(--accretion-semantic-accordion-panel-border-color);
+  max-height: var(--accordion-panel-height, 999px);
+  opacity: 1;
+  padding-block-end: var(--accretion-semantic-accordion-panel-padding-block-end);
+}
+
+:host([hidden]) {
+  display: none;
+}
+
+:host([data-starting-style]) {
+  will-change: max-height, opacity, padding;
+}
+
+:host([data-ending-style]) {
+  will-change: auto;
+}
+
+:host([data-disabled]) {
+  color: var(--accretion-semantic-accordion-trigger-foreground-default);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    transition-duration: 0ms;
+  }
+}
