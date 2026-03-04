@@ -1,6 +1,6 @@
 {
   "name": "@accretion_ui/core",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Accretion UI core web components built with Stencil.",
   "license": "MIT",
   "main": "dist/index.cjs.js",

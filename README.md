@@ -10,9 +10,9 @@ If you only have a few minutes, open these first:
 
 | Framework Target | Storybook | Chromatic Project | npm Package |
 |---|---|---|---|
-| React (`@accretion_ui/react`) | [View Storybook](https://69a694b696baf333e562e9f1-jgfmvbogno.chromatic.com/) | [View Chromatic](https://www.chromatic.com/setup?appId=69a694b696baf333e562e9f1) | [@accretion_ui/react](https://www.npmjs.com/package/@accretion_ui/react) |
-| Angular 18 (`@accretion_ui/angular_18`) | [View Storybook](https://69a69540931282436807583e-sxbmrpmyge.chromatic.com/) | [View Chromatic](https://www.chromatic.com/setup?appId=69a69540931282436807583e) | [@accretion_ui/angular_18](https://www.npmjs.com/package/@accretion_ui/angular_18) |
-| Angular 21 (`@accretion_ui/angular_21`) | [View Storybook](https://69a69585a3c2c8accf671d8d-ueigqdpghh.chromatic.com/) | [View Chromatic](https://www.chromatic.com/setup?appId=69a69585a3c2c8accf671d8d) | [@accretion_ui/angular_21](https://www.npmjs.com/package/@accretion_ui/angular_21) |
+| React (`@accretion_ui/react`) | [View Storybook](https://69a694b696baf333e562e9f1-wiagmjvomb.chromatic.com/) | [View Chromatic](https://www.chromatic.com/setup?appId=69a694b696baf333e562e9f1) | [@accretion_ui/react](https://www.npmjs.com/package/@accretion_ui/react) |
+| Angular 18 (`@accretion_ui/angular_18`) | [View Storybook](https://69a69540931282436807583e-wcyxyqytjt.chromatic.com/) | [View Chromatic](https://www.chromatic.com/setup?appId=69a69540931282436807583e) | [@accretion_ui/angular_18](https://www.npmjs.com/package/@accretion_ui/angular_18) |
+| Angular 21 (`@accretion_ui/angular_21`) | [View Storybook](https://69a69585a3c2c8accf671d8d-kxeidzkvyn.chromatic.com/) | [View Chromatic](https://www.chromatic.com/setup?appId=69a69585a3c2c8accf671d8d) | [@accretion_ui/angular_21](https://www.npmjs.com/package/@accretion_ui/angular_21) |
 
 Core package (single source of truth): [@accretion_ui/core](https://www.npmjs.com/package/@accretion_ui/core)
 
@@ -397,39 +397,109 @@ export CHROMATIC_PROJECT_TOKEN_ANGULAR_21="<token>"
 
 ## Release and Publish Workflow
 
-Run from repo root:
+### Phase 1: Release Checklist (Non-Technical First)
+
+Use this section for design leads, product, and engineering leads before commands are run.
+
+1. Confirm release scope:
+   - Which components changed, what behavior changed, and which frameworks are impacted.
+2. Confirm visual sign-off:
+   - Review Storybook/Chromatic for React, Angular 18-20, and Angular 21+.
+3. Confirm compatibility sign-off:
+   - React track (`@accretion_ui/react`) and Angular tracks (`@accretion_ui/angular_18`, `@accretion_ui/angular_21`) still match the support matrix.
+4. Confirm rollout communication:
+   - Decide release notes and internal/external announcement timing.
+5. Confirm go/no-go:
+   - Release only after smoke checks pass and npm publish credentials are available.
+
+### Phase 2: Engineering Runbook
+
+Run all commands from repo root unless noted otherwise.
+
+#### 0) Preflight
 
 ```bash
-# Core
-cd components/core
-npm version patch
-npm run build
-npm publish --access public
+# Confirm npm auth (required for publish)
+npm whoami
 
-# React
-cd ../react
-npm version patch
-npm run build
-npm publish --access public
-
-# Angular 18
-cd ../angular
-npm version patch
-npm run build
-npm publish ./dist --access public
-
-# Angular 21
-cd ../angular_21
-npm version patch
-npm run build
-npm publish ./dist --access public
+# Optional: verify clean working tree before release
+git status --short
 ```
 
-Release notes:
+#### 1) Production-readiness gate
+
+```bash
+# Full local artifact + consumer smoke matrix (React Vite/Next + Angular 18/21)
+npm --prefix testing run verify:local
+```
+
+#### 2) Update package versions
+
+Choose `patch`, `minor`, or `major` based on the release scope.
+
+```bash
+npm --prefix components/core version patch --no-git-tag-version
+npm --prefix components/react version patch --no-git-tag-version
+npm --prefix components/angular version patch --no-git-tag-version
+npm --prefix components/angular_21 version patch --no-git-tag-version
+```
+
+After bumping core, align wrapper references to the new core version:
+
+```bash
+CORE_VERSION="$(node -p "require('./components/core/package.json').version")"
+npm --prefix components/react pkg set "dependencies.@accretion_ui/core=^${CORE_VERSION}"
+npm --prefix components/angular pkg set "peerDependencies.@accretion_ui/core=^${CORE_VERSION}"
+npm --prefix components/angular_21 pkg set "peerDependencies.@accretion_ui/core=^${CORE_VERSION}"
+npm --prefix components/react install --package-lock-only
+npm --prefix components/angular install --package-lock-only
+npm --prefix components/angular_21 install --package-lock-only
+```
+
+#### 3) Build production artifacts
+
+```bash
+npm --prefix components/core run build
+npm --prefix components/react run build
+npm --prefix components/angular run build
+npm --prefix components/angular_21 run build
+```
+
+#### 4) Publish to npm (strict order)
+
+```bash
+npm --prefix components/core run publish:package
+npm --prefix components/react run publish:package
+npm --prefix components/angular run publish:package
+npm --prefix components/angular_21 run publish:package
+```
+
+#### 5) Post-publish validation
+
+```bash
+CORE_VERSION="$(node -p "require('./components/core/package.json').version")"
+REACT_VERSION="$(node -p "require('./components/react/package.json').version")"
+ANGULAR_18_VERSION="$(node -p "require('./components/angular/package.json').version")"
+ANGULAR_21_VERSION="$(node -p "require('./components/angular_21/package.json').version")"
+
+npm view @accretion_ui/core version
+npm view @accretion_ui/react version
+npm view @accretion_ui/angular_18 version
+npm view @accretion_ui/angular_21 version
+
+ACCRETION_CORE_VERSION="$CORE_VERSION" \
+ACCRETION_REACT_VERSION="$REACT_VERSION" \
+ACCRETION_ANGULAR_18_VERSION="$ANGULAR_18_VERSION" \
+ACCRETION_ANGULAR_21_VERSION="$ANGULAR_21_VERSION" \
+npm --prefix testing run verify:npm
+```
+
+Release guardrails:
 
 - Publish `@accretion_ui/core` first.
-- Publish wrappers after core is available.
+- Publish wrapper packages only after core publish succeeds.
 - Never republish an existing version number.
+- If publish fails mid-sequence, fix the issue and resume from the first unpublished package.
 
 ## Contributing
 
