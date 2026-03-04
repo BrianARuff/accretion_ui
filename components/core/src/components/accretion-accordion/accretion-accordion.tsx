@@ -11,9 +11,6 @@ import {
   Watch
 } from '@stencil/core';
 import {
-  ACCORDION_FOCUS_REQUEST,
-  ACCORDION_ITEM_STATE_CHANGE,
-  ACCORDION_TOGGLE_REQUEST,
   type AccordionFocusRequestDetail,
   type AccordionItemElement,
   type AccordionItemStateChangeDetail,
@@ -116,7 +113,7 @@ export class AccretionAccordion {
     await this.syncItemsFromDom();
   }
 
-  @Listen(ACCORDION_TOGGLE_REQUEST)
+  @Listen('accretionAccordionToggleRequest')
   async handleToggleRequest(event: CustomEvent<AccordionToggleRequestDetail>): Promise<void> {
     const trigger = event.detail?.trigger;
 
@@ -139,7 +136,7 @@ export class AccretionAccordion {
     await this.toggleItem(item);
   }
 
-  @Listen(ACCORDION_FOCUS_REQUEST)
+  @Listen('accretionAccordionFocusRequest')
   async handleFocusRequest(event: CustomEvent<AccordionFocusRequestDetail>): Promise<void> {
     const trigger = event.detail?.trigger;
 
@@ -158,7 +155,7 @@ export class AccretionAccordion {
     await this.moveFocus(item, event.detail.action);
   }
 
-  @Listen(ACCORDION_ITEM_STATE_CHANGE)
+  @Listen('accretionAccordionItemStateChange')
   async handleItemStateChange(event: CustomEvent<AccordionItemStateChangeDetail>): Promise<void> {
     const item = event.detail?.item;
 

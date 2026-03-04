@@ -1,6 +1,5 @@
 import { Component, Element, Event, EventEmitter, h, Host, Method, Prop, State, Watch } from '@stencil/core';
 import {
-  ACCORDION_ITEM_STATE_CHANGE,
   type AccordionHeaderElement,
   type AccordionItemElement,
   type AccordionItemSnapshot,
@@ -39,7 +38,7 @@ export class AccretionAccordionItem {
   @State() private rootDisabled = false;
   @State() private orientation: AccordionOrientation = 'vertical';
 
-  @Event({ eventName: ACCORDION_ITEM_STATE_CHANGE, bubbles: true, composed: true })
+  @Event({ eventName: 'accretionAccordionItemStateChange', bubbles: true, composed: true })
   private itemStateChange!: EventEmitter<{ item: AccordionItemElement }>;
 
   private triggerId = '';

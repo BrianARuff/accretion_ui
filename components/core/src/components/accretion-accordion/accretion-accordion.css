@@ -1,4 +1,4 @@
-:host {
+accretion-accordion {
   display: block;
 
   /* Accordion semantic token fallbacks */
@@ -45,7 +45,7 @@
   overflow: clip;
 }
 
-:host([data-size-variant='compact']) {
+accretion-accordion[data-size-variant='compact'] {
   --accretion-semantic-accordion-trigger-min-height: 40px;
   --accretion-semantic-accordion-trigger-padding-block: 12px;
   --accretion-semantic-accordion-trigger-padding-inline: 16px;
@@ -54,7 +54,7 @@
   --accretion-semantic-accordion-panel-padding-block-end: 12px;
 }
 
-:host([data-size-variant='comfortable']) {
+accretion-accordion[data-size-variant='comfortable'] {
   --accretion-semantic-accordion-trigger-min-height: 48px;
   --accretion-semantic-accordion-trigger-padding-block: 16px;
   --accretion-semantic-accordion-trigger-padding-inline: 20px;
@@ -63,7 +63,7 @@
   --accretion-semantic-accordion-panel-padding-block-end: 16px;
 }
 
-:host([data-size-variant='spacious']) {
+accretion-accordion[data-size-variant='spacious'] {
   --accretion-semantic-accordion-trigger-min-height: 56px;
   --accretion-semantic-accordion-trigger-padding-block: 20px;
   --accretion-semantic-accordion-trigger-padding-inline: 24px;
@@ -72,6 +72,6 @@
   --accretion-semantic-accordion-panel-padding-block-end: 20px;
 }
 
-:host([data-disabled]) {
+accretion-accordion[data-disabled] {
   opacity: var(--accretion-semantic-accordion-disabled-opacity);
 }

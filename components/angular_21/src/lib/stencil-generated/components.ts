@@ -84,7 +84,7 @@ export class AccretionAccordionItem {
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
-    proxyOutputs(this, this.el, ['itemStateChange']);
+    proxyOutputs(this, this.el, ['accretionAccordionItemStateChange']);
   }
 }
 
@@ -93,7 +93,7 @@ import type { AccordionItemElement as IAccretionAccordionItemAccordionItemElemen
 
 export declare interface AccretionAccordionItem extends Components.AccretionAccordionItem {
 
-  itemStateChange: EventEmitter<CustomEvent<{ item: IAccretionAccordionItemAccordionItemElement }>>;
+  accretionAccordionItemStateChange: EventEmitter<CustomEvent<{ item: IAccretionAccordionItemAccordionItemElement }>>;
 }
 
 
@@ -140,7 +140,7 @@ export class AccretionAccordionTrigger {
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
-    proxyOutputs(this, this.el, ['toggleRequest', 'focusRequest']);
+    proxyOutputs(this, this.el, ['accretionAccordionToggleRequest', 'accretionAccordionFocusRequest']);
   }
 }
 
@@ -150,9 +150,9 @@ import type { AccordionFocusRequestDetail as IAccretionAccordionTriggerAccordion
 
 export declare interface AccretionAccordionTrigger extends Components.AccretionAccordionTrigger {
 
-  toggleRequest: EventEmitter<CustomEvent<IAccretionAccordionTriggerAccordionToggleRequestDetail>>;
+  accretionAccordionToggleRequest: EventEmitter<CustomEvent<IAccretionAccordionTriggerAccordionToggleRequestDetail>>;
 
-  focusRequest: EventEmitter<CustomEvent<IAccretionAccordionTriggerAccordionFocusRequestDetail>>;
+  accretionAccordionFocusRequest: EventEmitter<CustomEvent<IAccretionAccordionTriggerAccordionFocusRequestDetail>>;
 }
 
 

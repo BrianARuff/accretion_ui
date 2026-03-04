@@ -1,7 +1,5 @@
 import { Component, Element, Event, EventEmitter, h, Host, Method, Prop, State } from '@stencil/core';
 import {
-  ACCORDION_FOCUS_REQUEST,
-  ACCORDION_TOGGLE_REQUEST,
   type AccordionFocusAction,
   type AccordionFocusRequestDetail,
   type AccordionItemSnapshot,
@@ -28,10 +26,10 @@ export class AccretionAccordionTrigger {
   @State() private panelId = '';
   @State() private triggerId = '';
 
-  @Event({ eventName: ACCORDION_TOGGLE_REQUEST, bubbles: true, composed: true })
+  @Event({ eventName: 'accretionAccordionToggleRequest', bubbles: true, composed: true })
   private toggleRequest!: EventEmitter<AccordionToggleRequestDetail>;
 
-  @Event({ eventName: ACCORDION_FOCUS_REQUEST, bubbles: true, composed: true })
+  @Event({ eventName: 'accretionAccordionFocusRequest', bubbles: true, composed: true })
   private focusRequest!: EventEmitter<AccordionFocusRequestDetail>;
 
   componentWillLoad(): void {

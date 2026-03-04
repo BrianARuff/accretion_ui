@@ -40,14 +40,14 @@ export const AccretionAccordionHeader: StencilReactComponent<AccretionAccordionH
     defineCustomElement: defineAccretionAccordionHeader
 });
 
-export type AccretionAccordionItemEvents = { onItemStateChange: EventName<AccretionAccordionItemCustomEvent<{ item: AccordionItemElement }>> };
+export type AccretionAccordionItemEvents = { onAccretionAccordionItemStateChange: EventName<AccretionAccordionItemCustomEvent<{ item: AccordionItemElement }>> };
 
 export const AccretionAccordionItem: StencilReactComponent<AccretionAccordionItemElement, AccretionAccordionItemEvents> = /*@__PURE__*/ createComponent<AccretionAccordionItemElement, AccretionAccordionItemEvents>({
     tagName: 'accretion-accordion-item',
     elementClass: AccretionAccordionItemElement,
     // @ts-ignore - ignore potential React type mismatches between the Stencil Output Target and your project.
     react: React,
-    events: { onItemStateChange: 'itemStateChange' } as AccretionAccordionItemEvents,
+    events: { onAccretionAccordionItemStateChange: 'accretionAccordionItemStateChange' } as AccretionAccordionItemEvents,
     defineCustomElement: defineAccretionAccordionItem
 });
 
@@ -63,8 +63,8 @@ export const AccretionAccordionPanel: StencilReactComponent<AccretionAccordionPa
 });
 
 export type AccretionAccordionTriggerEvents = {
-    onToggleRequest: EventName<AccretionAccordionTriggerCustomEvent<AccordionToggleRequestDetail>>,
-    onFocusRequest: EventName<AccretionAccordionTriggerCustomEvent<AccordionFocusRequestDetail>>
+    onAccretionAccordionToggleRequest: EventName<AccretionAccordionTriggerCustomEvent<AccordionToggleRequestDetail>>,
+    onAccretionAccordionFocusRequest: EventName<AccretionAccordionTriggerCustomEvent<AccordionFocusRequestDetail>>
 };
 
 export const AccretionAccordionTrigger: StencilReactComponent<AccretionAccordionTriggerElement, AccretionAccordionTriggerEvents> = /*@__PURE__*/ createComponent<AccretionAccordionTriggerElement, AccretionAccordionTriggerEvents>({
@@ -73,8 +73,8 @@ export const AccretionAccordionTrigger: StencilReactComponent<AccretionAccordion
     // @ts-ignore - ignore potential React type mismatches between the Stencil Output Target and your project.
     react: React,
     events: {
-        onToggleRequest: 'toggleRequest',
-        onFocusRequest: 'focusRequest'
+        onAccretionAccordionToggleRequest: 'accretionAccordionToggleRequest',
+        onAccretionAccordionFocusRequest: 'accretionAccordionFocusRequest'
     } as AccretionAccordionTriggerEvents,
     defineCustomElement: defineAccretionAccordionTrigger
 });

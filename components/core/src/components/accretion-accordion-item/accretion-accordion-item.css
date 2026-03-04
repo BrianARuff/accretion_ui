@@ -1,16 +1,16 @@
-:host {
+accretion-accordion-item {
   border-top: 1px solid var(--accretion-semantic-accordion-item-separator-color);
   display: block;
 }
 
-:host(:first-of-type) {
+accretion-accordion-item:first-of-type {
   border-top: none;
 }
 
-:host([data-open]) {
+accretion-accordion-item[data-open] {
   background: var(--accretion-semantic-accordion-trigger-background-open);
 }
 
-:host([data-disabled]) {
+accretion-accordion-item[data-disabled] {
   opacity: var(--accretion-semantic-accordion-disabled-opacity);
 }

@@ -53,10 +53,6 @@ export interface AccordionPanelElement extends HTMLElement {
   syncFromItem(snapshot: AccordionItemSnapshot): Promise<void>;
 }
 
-export const ACCORDION_TOGGLE_REQUEST = 'accretionAccordionToggleRequest';
-export const ACCORDION_FOCUS_REQUEST = 'accretionAccordionFocusRequest';
-export const ACCORDION_ITEM_STATE_CHANGE = 'accretionAccordionItemStateChange';
-
 let generatedItemCount = 0;
 
 const sanitizeForId = (value: string) =>

@@ -1,4 +1,4 @@
-:host {
+accretion-accordion-trigger {
   align-items: center;
   background: var(--accretion-semantic-accordion-trigger-background-default);
   color: var(--accretion-semantic-accordion-trigger-foreground-default);
@@ -19,34 +19,34 @@
   user-select: none;
 }
 
-:host(:not([data-disabled]):hover) {
+accretion-accordion-trigger:not([data-disabled]):hover {
   background: var(--accretion-semantic-accordion-trigger-background-hover);
 }
 
-:host(:not([data-disabled]):active) {
+accretion-accordion-trigger:not([data-disabled]):active {
   background: var(--accretion-semantic-accordion-trigger-background-active);
 }
 
-:host([data-open]) {
+accretion-accordion-trigger[data-open] {
   background: var(--accretion-semantic-accordion-trigger-background-open);
   color: var(--accretion-semantic-accordion-trigger-foreground-open);
 }
 
-:host(:focus-visible) {
+accretion-accordion-trigger:focus-visible {
   outline: var(--accretion-semantic-accordion-focus-ring-width) solid var(--accretion-semantic-accordion-focus-ring-color);
   outline-offset: calc(-1 * var(--accretion-semantic-accordion-focus-ring-offset));
 }
 
-:host([data-disabled]) {
+accretion-accordion-trigger[data-disabled] {
   cursor: not-allowed;
   opacity: var(--accretion-semantic-accordion-disabled-opacity);
 }
 
-:host > [data-accordion-indicator] {
+accretion-accordion-trigger > [data-accordion-indicator] {
   flex-shrink: 0;
   transition: transform var(--accretion-semantic-accordion-motion-duration) var(--accretion-semantic-accordion-motion-easing);
 }
 
-:host([data-open]) > [data-accordion-indicator] {
+accretion-accordion-trigger[data-open] > [data-accordion-indicator] {
   transform: rotate(45deg);
 }
