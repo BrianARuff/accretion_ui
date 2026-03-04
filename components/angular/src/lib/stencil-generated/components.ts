@@ -14,7 +14,7 @@ import { defineCustomElement as defineAccretionAccordionTrigger } from '@accreti
 import { defineCustomElement as defineAccretionButton } from '@accretion_ui/core/dist/components/accretion-button.js';
 @ProxyCmp({
   defineCustomElementFn: defineAccretionAccordion,
-  inputs: ['collapsible', 'disabled', 'loop', 'orientation', 'sizeVariant', 'type'],
+  inputs: ['collapsible', 'disabled', 'focusLoop', 'loop', 'orientation', 'sizeVariant', 'type'],
   methods: ['registerItem', 'unregisterItem']
 })
 @Component({
@@ -22,7 +22,7 @@ import { defineCustomElement as defineAccretionButton } from '@accretion_ui/core
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
-  inputs: ['collapsible', 'disabled', 'loop', 'orientation', 'sizeVariant', 'type'],
+  inputs: ['collapsible', 'disabled', 'focusLoop', 'loop', 'orientation', 'sizeVariant', 'type'],
   standalone: true
 })
 export class AccretionAccordion {

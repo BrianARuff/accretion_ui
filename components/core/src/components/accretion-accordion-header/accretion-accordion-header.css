@@ -1,4 +1,7 @@
 accretion-accordion-header {
   display: block;
+}
+
+accretion-accordion-header > [data-accordion-header] {
   margin: 0;
 }

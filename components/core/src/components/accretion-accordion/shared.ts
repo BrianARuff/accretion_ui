@@ -4,6 +4,7 @@ export type AccordionSizeVariant = 'compact' | 'comfortable' | 'spacious';
 export type AccordionFocusAction = 'next' | 'previous' | 'first' | 'last';
 
 export interface AccordionItemSnapshot {
+  value: string;
   open: boolean;
   disabled: boolean;
   index: number;

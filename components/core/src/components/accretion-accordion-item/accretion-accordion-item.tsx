@@ -1,4 +1,4 @@
-import { Component, Element, Event, EventEmitter, h, Host, Method, Prop, State, Watch } from '@stencil/core';
+import { Component, Element, Event, EventEmitter, h, Method, Prop, State, Watch } from '@stencil/core';
 import {
   type AccordionHeaderElement,
   type AccordionItemElement,
@@ -105,6 +105,13 @@ export class AccretionAccordionItem {
 
   @Method()
   async focusTrigger(): Promise<void> {
+    const triggerButton = this.el.querySelector('accretion-accordion-trigger button');
+
+    if (triggerButton instanceof HTMLButtonElement) {
+      triggerButton.focus();
+      return;
+    }
+
     const trigger = this.getTriggerElement();
 
     if (trigger) {
@@ -149,6 +156,7 @@ export class AccretionAccordionItem {
 
   private createSnapshot(): AccordionItemSnapshot {
     return {
+      value: this.resolveItemValue(),
       open: this.open,
       disabled: this.isDisabled(),
       index: this.index,
@@ -205,7 +213,8 @@ export class AccretionAccordionItem {
 
   render() {
     return (
-      <Host
+      <div
+        data-accordion-item
         data-open={this.open ? '' : undefined}
         data-disabled={this.isDisabled() ? '' : undefined}
         data-index={this.index >= 0 ? String(this.index) : undefined}
@@ -214,7 +223,7 @@ export class AccretionAccordionItem {
         data-panel-id={this.panelId}
       >
         <slot />
-      </Host>
+      </div>
     );
   }
 }

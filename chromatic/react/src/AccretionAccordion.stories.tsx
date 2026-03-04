@@ -12,7 +12,7 @@ type AccordionArgs = {
   type: 'single' | 'multiple';
   collapsible: boolean;
   disabled: boolean;
-  loop: boolean;
+  focusLoop: boolean;
   orientation: 'vertical' | 'horizontal';
   sizeVariant: 'compact' | 'comfortable' | 'spacious';
   keepMounted: boolean;
@@ -110,7 +110,7 @@ const meta = {
     type: 'single',
     collapsible: true,
     disabled: false,
-    loop: true,
+    focusLoop: true,
     orientation: 'vertical',
     sizeVariant: 'compact',
     keepMounted: false
@@ -126,7 +126,7 @@ const meta = {
     disabled: {
       control: { type: 'boolean' }
     },
-    loop: {
+    focusLoop: {
       control: { type: 'boolean' }
     },
     orientation: {
@@ -202,7 +202,7 @@ export const HorizontalNoLoop: Story = {
   args: {
     type: 'multiple',
     orientation: 'horizontal',
-    loop: false
+    focusLoop: false
   },
   render: (args) =>
     renderAccordion(args, {

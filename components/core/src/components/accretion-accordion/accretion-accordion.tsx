@@ -4,7 +4,6 @@ import {
   Event,
   EventEmitter,
   h,
-  Host,
   Listen,
   Method,
   Prop,
@@ -46,9 +45,14 @@ export class AccretionAccordion {
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * Loops focus from the last trigger to the first trigger and vice versa.
+   * Controls whether keyboard focus wraps between the first and last enabled triggers.
    */
-  @Prop({ reflect: true }) loop = true;
+  @Prop({ reflect: true, attribute: 'focus-loop' }) focusLoop = true;
+
+  /**
+   * @deprecated Use `focusLoop` instead.
+   */
+  @Prop({ reflect: true }) loop?: boolean;
 
   /**
    * Determines keyboard arrow behavior.
@@ -70,6 +74,8 @@ export class AccretionAccordion {
   @Watch('type')
   @Watch('disabled')
   @Watch('orientation')
+  @Watch('focusLoop')
+  @Watch('loop')
   protected handleRootStateChange(): void {
     void this.syncItemsFromDom();
   }
@@ -185,6 +191,14 @@ export class AccretionAccordion {
     return 'comfortable';
   }
 
+  private get shouldLoopFocus(): boolean {
+    if (typeof this.loop === 'boolean') {
+      return this.loop;
+    }
+
+    return this.focusLoop;
+  }
+
   private getItemsFromDom(): AccordionItemElement[] {
     return Array.from(this.el.querySelectorAll('accretion-accordion-item')) as AccordionItemElement[];
   }
@@ -297,7 +311,7 @@ export class AccretionAccordion {
       targetIndex = itemIndex + 1;
 
       if (targetIndex >= enabledItems.length) {
-        targetIndex = this.loop ? 0 : enabledItems.length - 1;
+        targetIndex = this.shouldLoopFocus ? 0 : enabledItems.length - 1;
       }
     }
 
@@ -305,7 +319,7 @@ export class AccretionAccordion {
       targetIndex = itemIndex - 1;
 
       if (targetIndex < 0) {
-        targetIndex = this.loop ? enabledItems.length - 1 : 0;
+        targetIndex = this.shouldLoopFocus ? enabledItems.length - 1 : 0;
       }
     }
 
@@ -333,14 +347,20 @@ export class AccretionAccordion {
   }
 
   render() {
+    const dir = this.el.getAttribute('dir') ?? undefined;
+
     return (
-      <Host
+      <div
+        role="group"
+        dir={dir}
+        data-accordion-root
         data-orientation={this.normalizedOrientation}
         data-size-variant={this.normalizedSizeVariant}
         data-disabled={this.disabled ? '' : undefined}
+        aria-disabled={this.disabled ? 'true' : undefined}
       >
         <slot />
-      </Host>
+      </div>
     );
   }
 }

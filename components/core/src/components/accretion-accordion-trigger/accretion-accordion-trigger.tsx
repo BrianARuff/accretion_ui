@@ -1,4 +1,4 @@
-import { Component, Element, Event, EventEmitter, h, Host, Method, Prop, State } from '@stencil/core';
+import { Component, Element, Event, EventEmitter, h, Method, Prop, State } from '@stencil/core';
 import {
   type AccordionFocusAction,
   type AccordionFocusRequestDetail,
@@ -23,6 +23,7 @@ export class AccretionAccordionTrigger {
   @State() private itemDisabled = false;
   @State() private index = -1;
   @State() private orientation: AccordionItemSnapshot['orientation'] = 'vertical';
+  @State() private itemValue = '';
   @State() private panelId = '';
   @State() private triggerId = '';
 
@@ -38,6 +39,7 @@ export class AccretionAccordionTrigger {
 
   @Method()
   async syncFromItem(snapshot: AccordionItemSnapshot): Promise<void> {
+    this.itemValue = snapshot.value;
     this.open = snapshot.open;
     this.itemDisabled = snapshot.disabled;
     this.index = snapshot.index;
@@ -52,20 +54,23 @@ export class AccretionAccordionTrigger {
 
   private syncFromParentItem(): void {
     const item = this.el.closest('accretion-accordion-item');
+    const stateContainer = item?.querySelector('[data-accordion-item]') as HTMLElement | null;
+    const source = stateContainer ?? item;
 
-    if (!item) {
+    if (!item || !source) {
       return;
     }
 
-    const index = Number.parseInt(item.getAttribute('data-index') ?? '-1', 10);
-    const orientation = item.getAttribute('data-orientation');
+    const index = Number.parseInt(source.getAttribute('data-index') ?? '-1', 10);
+    const orientation = source.getAttribute('data-orientation');
 
     this.open = item.hasAttribute('open');
-    this.itemDisabled = item.hasAttribute('data-disabled') || item.hasAttribute('disabled');
+    this.itemDisabled = source.hasAttribute('data-disabled') || item.hasAttribute('disabled');
     this.index = Number.isNaN(index) ? -1 : index;
     this.orientation = orientation === 'horizontal' ? 'horizontal' : 'vertical';
-    this.triggerId = item.getAttribute('data-trigger-id') ?? this.triggerId;
-    this.panelId = item.getAttribute('data-panel-id') ?? this.panelId;
+    this.itemValue = item.getAttribute('value')?.trim() ?? this.itemValue;
+    this.triggerId = source.getAttribute('data-trigger-id') ?? this.triggerId;
+    this.panelId = source.getAttribute('data-panel-id') ?? this.panelId;
   }
 
   private emitToggleRequest(): void {
@@ -80,8 +85,6 @@ export class AccretionAccordionTrigger {
   }
 
   private handleClick = (event: MouseEvent): void => {
-    event.preventDefault();
-
     if (this.isDisabled()) {
       return;
     }
@@ -95,12 +98,6 @@ export class AccretionAccordionTrigger {
     }
 
     const isVertical = this.orientation !== 'horizontal';
-
-    if (event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar') {
-      event.preventDefault();
-      this.emitToggleRequest();
-      return;
-    }
 
     if (event.key === 'Home') {
       event.preventDefault();
@@ -142,14 +139,18 @@ export class AccretionAccordionTrigger {
     const isDisabled = this.isDisabled();
 
     return (
-      <Host
-        role="button"
+      <button
+        type="button"
+        data-accordion-trigger
         id={this.triggerId || undefined}
-        tabindex={isDisabled ? -1 : 0}
+        data-value={this.itemValue || undefined}
+        tabIndex={isDisabled ? -1 : 0}
+        disabled={isDisabled}
         aria-controls={this.panelId || undefined}
         aria-expanded={this.open ? 'true' : 'false'}
         aria-disabled={isDisabled ? 'true' : undefined}
         data-open={this.open ? '' : undefined}
+        data-panel-open={this.open ? '' : undefined}
         data-disabled={isDisabled ? '' : undefined}
         data-index={this.index >= 0 ? String(this.index) : undefined}
         data-orientation={this.orientation}
@@ -157,7 +158,7 @@ export class AccretionAccordionTrigger {
         onKeyDown={this.handleKeyDown}
       >
         <slot />
-      </Host>
+      </button>
     );
   }
 }

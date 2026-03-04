@@ -1,4 +1,4 @@
-import { Component, Element, h, Host, Method, Prop, State, Watch } from '@stencil/core';
+import { Component, Element, h, Method, Prop, State, Watch } from '@stencil/core';
 import type { AccordionItemSnapshot } from '../accretion-accordion/shared';
 
 @Component({
@@ -106,20 +106,22 @@ export class AccretionAccordionPanel {
 
   private syncFromParentItem(): void {
     const item = this.el.closest('accretion-accordion-item');
+    const stateContainer = item?.querySelector('[data-accordion-item]') as HTMLElement | null;
+    const source = stateContainer ?? item;
 
-    if (!item) {
+    if (!item || !source) {
       return;
     }
 
-    const index = Number.parseInt(item.getAttribute('data-index') ?? '-1', 10);
-    const orientation = item.getAttribute('data-orientation');
+    const index = Number.parseInt(source.getAttribute('data-index') ?? '-1', 10);
+    const orientation = source.getAttribute('data-orientation');
 
     this.open = item.hasAttribute('open');
-    this.disabled = item.hasAttribute('data-disabled') || item.hasAttribute('disabled');
+    this.disabled = source.hasAttribute('data-disabled') || item.hasAttribute('disabled');
     this.index = Number.isNaN(index) ? -1 : index;
     this.orientation = orientation === 'horizontal' ? 'horizontal' : 'vertical';
-    this.triggerId = item.getAttribute('data-trigger-id') ?? this.triggerId;
-    this.panelId = item.getAttribute('data-panel-id') ?? this.panelId;
+    this.triggerId = source.getAttribute('data-trigger-id') ?? this.triggerId;
+    this.panelId = source.getAttribute('data-panel-id') ?? this.panelId;
   }
 
   private clearTransitionTimers(): void {
@@ -136,36 +138,59 @@ export class AccretionAccordionPanel {
   }
 
   private updatePanelSize(): void {
-    const panelHeight = this.el.scrollHeight;
-    const panelWidth = this.el.scrollWidth;
+    const panelContainer = this.getPanelContainerElement();
+
+    if (!panelContainer) {
+      return;
+    }
+
+    const panelHeight = panelContainer.scrollHeight;
+    const panelWidth = panelContainer.scrollWidth;
 
     this.el.style.setProperty('--accordion-panel-height', `${panelHeight}px`);
     this.el.style.setProperty('--accordion-panel-width', `${panelWidth}px`);
   }
 
-  private applyHostVisibility(): void {
-    const shouldHide = !this.open && !this.keepMounted;
+  private getPanelContainerElement(): HTMLElement | null {
+    return this.el.querySelector('[data-accordion-panel]') as HTMLElement | null;
+  }
+
+  private applyVisibilityAttributes(target: HTMLElement | null, shouldHide: boolean): void {
+    if (!target) {
+      return;
+    }
 
     if (shouldHide) {
       if (this.hiddenUntilFound) {
-        this.el.setAttribute('hidden', 'until-found');
+        target.setAttribute('hidden', 'until-found');
       } else {
-        this.el.setAttribute('hidden', '');
+        target.setAttribute('hidden', '');
       }
     } else {
-      this.el.removeAttribute('hidden');
+      target.removeAttribute('hidden');
     }
+  }
+
+  private applyHostVisibility(): void {
+    const shouldHide = !this.open && !this.keepMounted;
+    const panelContainer = this.getPanelContainerElement();
+
+    this.applyVisibilityAttributes(this.el, shouldHide);
+    this.applyVisibilityAttributes(panelContainer, shouldHide);
 
     if (!this.open && this.keepMounted) {
       this.el.setAttribute('inert', '');
+      panelContainer?.setAttribute('inert', '');
     } else {
       this.el.removeAttribute('inert');
+      panelContainer?.removeAttribute('inert');
     }
   }
 
   render() {
     return (
-      <Host
+      <div
+        data-accordion-panel
         id={this.panelId || undefined}
         role="region"
         aria-labelledby={this.triggerId || undefined}
@@ -178,7 +203,7 @@ export class AccretionAccordionPanel {
         data-ending-style={this.transitionState === 'ending' ? '' : undefined}
       >
         <slot />
-      </Host>
+      </div>
     );
   }
 }
