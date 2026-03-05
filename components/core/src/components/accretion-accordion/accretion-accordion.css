@@ -1,0 +1,92 @@
+accretion-accordion {
+  display: block;
+
+  /* Accordion semantic token fallbacks */
+  --accretion-semantic-accordion-root-background: #ffffff;
+  --accretion-semantic-accordion-root-border-color: #bdcce4;
+  --accretion-semantic-accordion-root-border-color-open: var(--accretion-semantic-accordion-focus-ring-color);
+  --accretion-semantic-accordion-root-border-width: 1px;
+  --accretion-semantic-accordion-root-radius: 8px;
+
+  --accretion-semantic-accordion-focus-ring-color: #07a6c8;
+  --accretion-semantic-accordion-focus-ring-width: 2px;
+  --accretion-semantic-accordion-focus-ring-offset: 4px;
+
+  --accretion-semantic-accordion-trigger-background-default: #ffffff;
+  --accretion-semantic-accordion-trigger-background-hover: #f8fdff;
+  --accretion-semantic-accordion-trigger-background-active: #e7f9ff;
+  --accretion-semantic-accordion-trigger-background-open: #f8fdff;
+  --accretion-semantic-accordion-trigger-foreground-default: #27364b;
+  --accretion-semantic-accordion-trigger-foreground-open: #02657c;
+  --accretion-semantic-accordion-trigger-font-size: 1rem;
+  --accretion-semantic-accordion-trigger-font-weight: 600;
+  --accretion-semantic-accordion-trigger-line-height: 1.5;
+  --accretion-semantic-accordion-trigger-gap: 12px;
+
+  --accretion-semantic-accordion-panel-background: #f8fbff;
+  --accretion-semantic-accordion-panel-foreground: #374b66;
+  --accretion-semantic-accordion-panel-border-color: #d4dff0;
+
+  --accretion-semantic-accordion-item-separator-color: #d4dff0;
+  --accretion-semantic-accordion-disabled-opacity: 0.5;
+
+  --accretion-semantic-accordion-motion-duration: 200ms;
+  --accretion-semantic-accordion-motion-easing: cubic-bezier(0.2, 0, 0, 1);
+
+  --accretion-semantic-accordion-trigger-min-height: 48px;
+  --accretion-semantic-accordion-trigger-padding-block: 16px;
+  --accretion-semantic-accordion-trigger-padding-inline: 20px;
+  --accretion-semantic-accordion-panel-padding-inline: 20px;
+  --accretion-semantic-accordion-panel-padding-block-start: 16px;
+  --accretion-semantic-accordion-panel-padding-block-end: 16px;
+}
+
+accretion-accordion > [data-accordion-root] {
+  background: var(--accretion-semantic-accordion-root-background);
+  border: var(--accretion-semantic-accordion-root-border-width) solid var(--accretion-semantic-accordion-root-border-color);
+  border-radius: var(--accretion-semantic-accordion-root-radius);
+  color: var(--accretion-semantic-accordion-trigger-foreground-default);
+  overflow: clip;
+  transition: border-color var(--accretion-semantic-accordion-motion-duration) var(--accretion-semantic-accordion-motion-easing);
+}
+
+accretion-accordion > [data-accordion-root][data-open] {
+  border-color: var(--accretion-semantic-accordion-root-border-color-open);
+}
+
+accretion-accordion[size-variant='compact'] {
+  --accretion-semantic-accordion-focus-ring-offset: 3px;
+  --accretion-semantic-accordion-trigger-min-height: 40px;
+  --accretion-semantic-accordion-trigger-padding-block: 12px;
+  --accretion-semantic-accordion-trigger-padding-inline: 16px;
+  --accretion-semantic-accordion-trigger-gap: 8px;
+  --accretion-semantic-accordion-panel-padding-inline: 16px;
+  --accretion-semantic-accordion-panel-padding-block-start: 12px;
+  --accretion-semantic-accordion-panel-padding-block-end: 12px;
+}
+
+accretion-accordion[size-variant='comfortable'] {
+  --accretion-semantic-accordion-focus-ring-offset: 4px;
+  --accretion-semantic-accordion-trigger-min-height: 48px;
+  --accretion-semantic-accordion-trigger-padding-block: 16px;
+  --accretion-semantic-accordion-trigger-padding-inline: 20px;
+  --accretion-semantic-accordion-trigger-gap: 12px;
+  --accretion-semantic-accordion-panel-padding-inline: 20px;
+  --accretion-semantic-accordion-panel-padding-block-start: 16px;
+  --accretion-semantic-accordion-panel-padding-block-end: 16px;
+}
+
+accretion-accordion[size-variant='spacious'] {
+  --accretion-semantic-accordion-focus-ring-offset: 5px;
+  --accretion-semantic-accordion-trigger-min-height: 56px;
+  --accretion-semantic-accordion-trigger-padding-block: 20px;
+  --accretion-semantic-accordion-trigger-padding-inline: 24px;
+  --accretion-semantic-accordion-trigger-gap: 16px;
+  --accretion-semantic-accordion-panel-padding-inline: 24px;
+  --accretion-semantic-accordion-panel-padding-block-start: 20px;
+  --accretion-semantic-accordion-panel-padding-block-end: 20px;
+}
+
+accretion-accordion[disabled] > [data-accordion-root] {
+  opacity: var(--accretion-semantic-accordion-disabled-opacity);
+}

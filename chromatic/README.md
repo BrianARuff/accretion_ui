@@ -27,6 +27,49 @@ npm run storybook:angular_18 # http://localhost:6006
 npm run storybook:angular_21 # http://localhost:6007
 ```
 
+### Storybook Accessibility Panel
+
+All three Storybooks include `@storybook/addon-a11y` so accessibility checks are visible directly in the Storybook UI for each Accordion story.
+
+## Run Professional Accordion Test Suites
+
+The Accordion test harness lives in `chromatic/tests` and runs real-browser behavior + accessibility checks across:
+
+- React Storybook
+- Angular 18 Storybook
+- Angular 21 Storybook
+
+Current suite structure:
+
+- `accordion.behavior.spec.ts`: Story behavior assertions (interactive claims, state transitions, keyboard model, controlled-mode behavior)
+- `accordion.props.spec.ts`: Prop-level coverage for root/item/header/trigger/panel APIs
+- `accordion.a11y.spec.ts`: Axe checks (critical + serious filtering) via `@axe-core/playwright`
+- `accordion.uswds-a11y.spec.ts`: USWDS-aligned keyboard and zoom checks that are deterministic in browser automation
+
+Install Playwright browsers once:
+
+```bash
+npx playwright install chromium
+```
+
+Run tests (builds all three storybooks first):
+
+```bash
+npm run test:accordion
+```
+
+Open interactive runner:
+
+```bash
+npm run test:accordion:ui
+```
+
+Open HTML report:
+
+```bash
+npm run test:accordion:report
+```
+
 ## Publish to Chromatic
 
 These commands require OS-level environment variables:

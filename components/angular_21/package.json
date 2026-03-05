@@ -1,6 +1,6 @@
 {
   "name": "@accretion_ui/angular_21",
-  "version": "0.1.3",
+  "version": "0.2.1",
   "description": "Angular 21 wrappers for Accretion UI web components.",
   "keywords": [
     "accretion",
@@ -25,14 +25,15 @@
   "scripts": {
     "clean": "rm -rf dist",
     "generate": "npm --prefix ../core run build",
-    "build": "npm run clean && npm run generate && ng-packagr -p ng-package.json",
+    "patch-generated-imports": "node ./scripts/patch-generated-imports.mjs",
+    "build": "npm run clean && npm run generate && npm run patch-generated-imports && ng-packagr -p ng-package.json",
     "watch": "ng-packagr -p ng-package.json -w",
     "prepare": "npm run build",
     "prepublishOnly": "npm run build",
     "publish:package": "npm run build && npm publish ./dist --access public"
   },
   "peerDependencies": {
-    "@accretion_ui/core": "^0.1.6",
+    "@accretion_ui/core": "^0.2.1",
     "@angular/common": ">=21.0.0 <22.0.0",
     "@angular/core": ">=21.0.0 <22.0.0",
     "rxjs": "^7.8.0"

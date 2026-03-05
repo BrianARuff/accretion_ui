@@ -1,0 +1,64 @@
+accretion-accordion-trigger {
+  display: block;
+}
+
+accretion-accordion-trigger > [data-accordion-trigger] {
+  align-items: center;
+  background: var(--accretion-semantic-accordion-trigger-background-default);
+  border: none;
+  color: var(--accretion-semantic-accordion-trigger-foreground-default);
+  cursor: pointer;
+  display: flex;
+  font-family: inherit;
+  font-size: var(--accretion-semantic-accordion-trigger-font-size);
+  font-weight: var(--accretion-semantic-accordion-trigger-font-weight);
+  gap: var(--accretion-semantic-accordion-trigger-gap);
+  justify-content: space-between;
+  line-height: var(--accretion-semantic-accordion-trigger-line-height);
+  min-height: var(--accretion-semantic-accordion-trigger-min-height);
+  outline: none;
+  padding-block: var(--accretion-semantic-accordion-trigger-padding-block);
+  padding-inline: var(--accretion-semantic-accordion-trigger-padding-inline);
+  text-align: left;
+  transition:
+    background-color var(--accretion-semantic-accordion-motion-duration) var(--accretion-semantic-accordion-motion-easing),
+    color var(--accretion-semantic-accordion-motion-duration) var(--accretion-semantic-accordion-motion-easing);
+  user-select: none;
+  width: 100%;
+}
+
+accretion-accordion-trigger > [data-accordion-trigger]:not([data-disabled]):hover {
+  background: var(--accretion-semantic-accordion-trigger-background-hover);
+}
+
+accretion-accordion-trigger > [data-accordion-trigger]:not([data-disabled]):active {
+  background: var(--accretion-semantic-accordion-trigger-background-active);
+}
+
+accretion-accordion-trigger > [data-accordion-trigger][data-open] {
+  background: var(--accretion-semantic-accordion-trigger-background-open);
+  color: var(--accretion-semantic-accordion-trigger-foreground-open);
+}
+
+accretion-accordion-trigger > [data-accordion-trigger]:focus,
+accretion-accordion-trigger > [data-accordion-trigger]:focus-visible {
+  outline: var(--accretion-semantic-accordion-focus-ring-width) solid var(--accretion-semantic-accordion-focus-ring-color);
+  outline-offset: calc(
+    -1 *
+      (var(--accretion-semantic-accordion-focus-ring-width) + var(--accretion-semantic-accordion-focus-ring-offset))
+  );
+}
+
+accretion-accordion-trigger > [data-accordion-trigger][data-disabled] {
+  cursor: not-allowed;
+  opacity: var(--accretion-semantic-accordion-disabled-opacity);
+}
+
+accretion-accordion-trigger > [data-accordion-trigger] > [data-accordion-indicator] {
+  flex-shrink: 0;
+  transition: transform var(--accretion-semantic-accordion-motion-duration) var(--accretion-semantic-accordion-motion-easing);
+}
+
+accretion-accordion-trigger > [data-accordion-trigger][data-panel-open] > [data-accordion-indicator] {
+  transform: rotate(45deg);
+}

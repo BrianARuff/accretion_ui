@@ -9,7 +9,7 @@
     "chromatic": "test -n \"$CHROMATIC_PROJECT_TOKEN_ANGULAR_18\" && chromatic --project-token=\"$CHROMATIC_PROJECT_TOKEN_ANGULAR_18\" --build-script-name=build-storybook --exit-zero-on-changes || (echo 'Missing CHROMATIC_PROJECT_TOKEN_ANGULAR_18' && exit 1)"
   },
   "dependencies": {
-    "@accretion_ui/angular_18": "file:../../components/angular/dist",
+    "@accretion_ui/angular_18": "file:../../components/angular_18/dist",
     "@accretion_ui/core": "file:../../components/core",
     "@angular/animations": "18.2.14",
     "@angular/common": "18.2.14",
@@ -24,6 +24,7 @@
   "devDependencies": {
     "@angular-devkit/build-angular": "18.2.21",
     "@angular/cli": "18.2.21",
+    "@storybook/addon-a11y": "^10.2.15",
     "@storybook/angular": "^10.2.14",
     "chromatic": "^15.2.0",
     "storybook": "^10.2.14",

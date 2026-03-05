@@ -1,0 +1,30 @@
+accretion-accordion-item {
+  display: block;
+}
+
+accretion-accordion-item > [data-accordion-item] {
+  border-top: 1px solid var(--accretion-semantic-accordion-item-separator-color);
+  display: block;
+}
+
+accretion-accordion-item:first-of-type > [data-accordion-item] {
+  border-top: none;
+}
+
+accretion-accordion-item > [data-accordion-item][data-open] {
+  background: var(--accretion-semantic-accordion-trigger-background-open);
+}
+
+accretion-accordion-item > [data-accordion-item][data-disabled] {
+  opacity: var(--accretion-semantic-accordion-disabled-opacity);
+}
+
+accretion-accordion-item:first-of-type > [data-accordion-item] > accretion-accordion-header > [data-accordion-header] > accretion-accordion-trigger > [data-accordion-trigger] {
+  border-top-left-radius: calc(var(--accretion-semantic-accordion-root-radius) - var(--accretion-semantic-accordion-root-border-width));
+  border-top-right-radius: calc(var(--accretion-semantic-accordion-root-radius) - var(--accretion-semantic-accordion-root-border-width));
+}
+
+accretion-accordion-item:last-of-type > [data-accordion-item] > accretion-accordion-header > [data-accordion-header] > accretion-accordion-trigger > [data-accordion-trigger]:not([data-panel-open]) {
+  border-bottom-left-radius: calc(var(--accretion-semantic-accordion-root-radius) - var(--accretion-semantic-accordion-root-border-width));
+  border-bottom-right-radius: calc(var(--accretion-semantic-accordion-root-radius) - var(--accretion-semantic-accordion-root-border-width));
+}

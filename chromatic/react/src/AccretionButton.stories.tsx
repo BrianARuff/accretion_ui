@@ -36,6 +36,24 @@ export default meta;
 
 type Story = StoryObj<ButtonArgs>;
 
+export const Summary: Story = {
+  parameters: {
+    controls: { disable: true },
+    actions: { disable: true },
+    docsOnly: true,
+    docs: {
+      source: { code: '' },
+      canvas: { sourceState: 'none' }
+    },
+    previewTabs: {
+      'storybook/controls/panel': { hidden: true },
+      'storybook/actions/panel': { hidden: true },
+      'storybook/interactions/panel': { hidden: true }
+    }
+  },
+  render: () => null
+};
+
 export const InteractivePrimary: Story = {
   parameters: {
     controls: { disable: true },

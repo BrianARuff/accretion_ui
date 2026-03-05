@@ -5,6 +5,10 @@
   "description": "Smoke test harness for Accretion UI package consumption.",
   "scripts": {
     "verify:local": "./scripts/verify-local.sh",
-    "verify:npm": "./scripts/verify-npm.sh"
+    "verify:npm": "./scripts/verify-npm.sh",
+    "verify:npm:browser": "./scripts/verify-npm-browser.sh"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.2"
   }
 }

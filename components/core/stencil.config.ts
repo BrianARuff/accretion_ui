@@ -23,8 +23,8 @@ export const config: Config = {
     }),
     angularOutputTarget({
       componentCorePackage: '@accretion_ui/core',
-      directivesProxyFile: '../angular/src/lib/stencil-generated/components.ts',
-      directivesArrayFile: '../angular/src/lib/stencil-generated/index.ts',
+      directivesProxyFile: '../angular_18/src/lib/stencil-generated/components.ts',
+      directivesArrayFile: '../angular_18/src/lib/stencil-generated/index.ts',
       outputType: 'standalone',
       customElementsDir: 'dist/components'
     }),
