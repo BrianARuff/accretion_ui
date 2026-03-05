@@ -6,7 +6,7 @@ This repository uses independent package folders under `components/` rather than
 
 - `components/core` -> `@accretion_ui/core` (Stencil web components)
 - `components/react` -> `@accretion_ui/react` (React wrappers)
-- `components/angular` -> `@accretion_ui/angular_18` (Angular 18-20 wrappers)
+- `components/angular_18` -> `@accretion_ui/angular_18` (Angular 18-20 wrappers)
 - `components/angular_21` -> `@accretion_ui/angular_21` (Angular 21 wrappers)
 
 ## Dependency strategy
@@ -34,5 +34,5 @@ When releasing breaking core changes, update peer ranges in wrapper packages bef
 
 - Core: `cd components/core && npm run publish:package`
 - React: `cd components/react && npm run publish:package`
-- Angular 18: `cd components/angular && npm run publish:package`
+- Angular 18: `cd components/angular_18 && npm run publish:package`
 - Angular 21: `cd components/angular_21 && npm run publish:package`

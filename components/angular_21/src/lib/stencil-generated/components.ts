@@ -89,7 +89,7 @@ export class AccretionAccordionItem {
 }
 
 
-import type { AccordionItemElement as IAccretionAccordionItemAccordionItemElement } from '@accretion_ui/core/dist/components';
+import type { AccordionItemElement as IAccretionAccordionItemAccordionItemElement } from '@accretion_ui/core';
 
 export declare interface AccretionAccordionItem extends Components.AccretionAccordionItem {
 
@@ -145,8 +145,8 @@ export class AccretionAccordionTrigger {
 }
 
 
-import type { AccordionToggleRequestDetail as IAccretionAccordionTriggerAccordionToggleRequestDetail } from '@accretion_ui/core/dist/components';
-import type { AccordionFocusRequestDetail as IAccretionAccordionTriggerAccordionFocusRequestDetail } from '@accretion_ui/core/dist/components';
+import type { AccordionToggleRequestDetail as IAccretionAccordionTriggerAccordionToggleRequestDetail } from '@accretion_ui/core';
+import type { AccordionFocusRequestDetail as IAccretionAccordionTriggerAccordionFocusRequestDetail } from '@accretion_ui/core';
 
 export declare interface AccretionAccordionTrigger extends Components.AccretionAccordionTrigger {
 

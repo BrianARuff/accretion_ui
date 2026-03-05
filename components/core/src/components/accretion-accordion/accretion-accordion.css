@@ -10,7 +10,7 @@ accretion-accordion {
 
   --accretion-semantic-accordion-focus-ring-color: #07a6c8;
   --accretion-semantic-accordion-focus-ring-width: 2px;
-  --accretion-semantic-accordion-focus-ring-offset: 2px;
+  --accretion-semantic-accordion-focus-ring-offset: 4px;
 
   --accretion-semantic-accordion-trigger-background-default: #ffffff;
   --accretion-semantic-accordion-trigger-background-hover: #f8fdff;
@@ -55,6 +55,7 @@ accretion-accordion > [data-accordion-root][data-open] {
 }
 
 accretion-accordion[size-variant='compact'] {
+  --accretion-semantic-accordion-focus-ring-offset: 3px;
   --accretion-semantic-accordion-trigger-min-height: 40px;
   --accretion-semantic-accordion-trigger-padding-block: 12px;
   --accretion-semantic-accordion-trigger-padding-inline: 16px;
@@ -65,6 +66,7 @@ accretion-accordion[size-variant='compact'] {
 }
 
 accretion-accordion[size-variant='comfortable'] {
+  --accretion-semantic-accordion-focus-ring-offset: 4px;
   --accretion-semantic-accordion-trigger-min-height: 48px;
   --accretion-semantic-accordion-trigger-padding-block: 16px;
   --accretion-semantic-accordion-trigger-padding-inline: 20px;
@@ -75,6 +77,7 @@ accretion-accordion[size-variant='comfortable'] {
 }
 
 accretion-accordion[size-variant='spacious'] {
+  --accretion-semantic-accordion-focus-ring-offset: 5px;
   --accretion-semantic-accordion-trigger-min-height: 56px;
   --accretion-semantic-accordion-trigger-padding-block: 20px;
   --accretion-semantic-accordion-trigger-padding-inline: 24px;

@@ -43,7 +43,10 @@ accretion-accordion-trigger > [data-accordion-trigger][data-open] {
 accretion-accordion-trigger > [data-accordion-trigger]:focus,
 accretion-accordion-trigger > [data-accordion-trigger]:focus-visible {
   outline: var(--accretion-semantic-accordion-focus-ring-width) solid var(--accretion-semantic-accordion-focus-ring-color);
-  outline-offset: calc(-1 * var(--accretion-semantic-accordion-focus-ring-offset));
+  outline-offset: calc(
+    -1 *
+      (var(--accretion-semantic-accordion-focus-ring-width) + var(--accretion-semantic-accordion-focus-ring-offset))
+  );
 }
 
 accretion-accordion-trigger > [data-accordion-trigger][data-disabled] {

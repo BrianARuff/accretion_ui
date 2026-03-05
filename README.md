@@ -10,9 +10,9 @@ If you only have a few minutes, open these first:
 
 | Framework Target | Storybook | Chromatic Project | npm Package |
 |---|---|---|---|
-| React (`@accretion_ui/react`) | [View Storybook](https://69a694b696baf333e562e9f1-wiagmjvomb.chromatic.com/) | [View Chromatic](https://www.chromatic.com/setup?appId=69a694b696baf333e562e9f1) | [@accretion_ui/react](https://www.npmjs.com/package/@accretion_ui/react) |
-| Angular 18 (`@accretion_ui/angular_18`) | [View Storybook](https://69a69540931282436807583e-wcyxyqytjt.chromatic.com/) | [View Chromatic](https://www.chromatic.com/setup?appId=69a69540931282436807583e) | [@accretion_ui/angular_18](https://www.npmjs.com/package/@accretion_ui/angular_18) |
-| Angular 21 (`@accretion_ui/angular_21`) | [View Storybook](https://69a69585a3c2c8accf671d8d-kxeidzkvyn.chromatic.com/) | [View Chromatic](https://www.chromatic.com/setup?appId=69a69585a3c2c8accf671d8d) | [@accretion_ui/angular_21](https://www.npmjs.com/package/@accretion_ui/angular_21) |
+| React (`@accretion_ui/react`) | [View Storybook](https://69a694b696baf333e562e9f1-fxnzzvdoqy.chromatic.com/) | [View Chromatic](https://www.chromatic.com/setup?appId=69a694b696baf333e562e9f1) | [@accretion_ui/react](https://www.npmjs.com/package/@accretion_ui/react) |
+| Angular 18 (`@accretion_ui/angular_18`) | [View Storybook](https://69a69540931282436807583e-fuxraacovf.chromatic.com/) | [View Chromatic](https://www.chromatic.com/setup?appId=69a69540931282436807583e) | [@accretion_ui/angular_18](https://www.npmjs.com/package/@accretion_ui/angular_18) |
+| Angular 21 (`@accretion_ui/angular_21`) | [View Storybook](https://69a69585a3c2c8accf671d8d-ojydhqlaui.chromatic.com/) | [View Chromatic](https://www.chromatic.com/setup?appId=69a69585a3c2c8accf671d8d) | [@accretion_ui/angular_21](https://www.npmjs.com/package/@accretion_ui/angular_21) |
 
 Core package (single source of truth): [@accretion_ui/core](https://www.npmjs.com/package/@accretion_ui/core)
 
@@ -20,7 +20,10 @@ Core package (single source of truth): [@accretion_ui/core](https://www.npmjs.co
 
 - Accretion UI Figma library: [Accretion UI (Figma)](https://www.figma.com/design/d45s1jniPNl5aEbn0DXwV7/Accretion-UI?node-id=0-1&p=f&t=aPkeN5qIwUccQOYk-0)
 - Current status: the Figma library is currently empty.
-- Current note: the initial `Button` styles in this repository are proof-of-concept styles and are not yet sourced from final Figma token definitions.
+- Component styles are taken from the tokens folder files like:
+  - `/tokens/primitives.json`
+  - `/tokens/semantic/button.json`
+  - `/tokens/semantic/accordion.json`
 
 ## What to Look For in the Demos
 
@@ -40,9 +43,12 @@ Core package (single source of truth): [@accretion_ui/core](https://www.npmjs.co
 - [How It Works (Single Core, Multiple Frameworks)](#how-it-works-single-core-multiple-frameworks)
 - [Install](#install)
 - [Framework Setup Examples](#framework-setup-examples)
+- [Testing Strategy and Setup](#testing-strategy-and-setup)
 - [Smoke Testing (How It Works)](#smoke-testing-how-it-works)
 - [Storybook and Chromatic Workflow](#storybook-and-chromatic-workflow)
 - [Release and Publish Workflow](#release-and-publish-workflow)
+- [Publish Command Reference](#publish-command-reference)
+- [Known Bugs](#known-bugs)
 - [Contributing](#contributing)
 - [Repository and Branch Map](#repository-and-branch-map)
 - [Package and Chromatic Repositories](#package-and-chromatic-repositories)
@@ -280,6 +286,62 @@ export default function Page() {
 }
 ```
 
+## Testing Strategy and Setup
+
+### Fast summary (non-engineering)
+
+Accretion UI uses multiple independent test layers so releases are not validated by a single signal:
+
+- Story-level behavior tests confirm stories behave the way they claim.
+- Accessibility scans catch WCAG-impacting markup/semantics issues.
+- Keyboard and zoom-focused checks validate interaction quality beyond static rules.
+- Smoke tests validate real app installs in React and Angular before and after publish.
+
+### What each test layer validates
+
+| Test layer | Command | Primary purpose | Typical failure signal |
+|---|---|---|---|
+| Core package test runner | `npm --prefix components/core run test` | Runs Stencil spec/e2e suite (currently no committed spec files; command kept CI-safe). | Build/test harness failure in `components/core`. |
+| Storybook behavior + prop coverage + Playwright accessibility | `npm --prefix chromatic run test:accordion` | Validates Accordion stories, prop behavior, and framework parity across React, Angular 18, Angular 21. | Story behavior regression, prop contract break, keyboard/interaction bug. |
+| Storybook accessibility addon (`@storybook/addon-a11y`) | Included in each Storybook preview/build | Provides per-story a11y scans in Storybook UI and Chromatic context. | WCAG rule violations flagged in Storybook addon panel. |
+| USWDS-aligned keyboard/zoom checks (Playwright) | Included in `npm --prefix chromatic run test:accordion` | Covers keyboard interaction and zoom behavior that static axe scans do not fully cover. | Focus order, keyboard toggle, zoom overflow/clipping regressions. |
+| Local package smoke matrix | `npm --prefix testing run verify:local` | Verifies local tarballs install/build in React Vite, React CRA, React Next, Angular 18, Angular 21. | Consumer import/build failures before publish. |
+| npm package smoke matrix | `npm --prefix testing run verify:npm` | Verifies published npm artifacts install/build in the same framework matrix. | Published package regression, bad manifest/exports/dependency issues. |
+| npm runtime browser smoke matrix | `npm --prefix testing run verify:npm:browser` | Starts each npm smoke app in a real browser and validates button + accordion interactions with Playwright. | Runtime hydration/interaction failures not caught by build-only smoke checks. |
+
+### Why both Storybook a11y and Playwright a11y are used
+
+- `addon-a11y` and `@axe-core/playwright` both run axe rules, but in different execution contexts.
+- Axe does not fully cover keyboard workflow expectations (for example, open/close behavior on `Enter`/`Space`, tab sequencing through panel content), so dedicated keyboard tests remain required.
+- Accordion-specific keyboard/zoom tests in `chromatic/tests/specs/accordion.uswds-a11y.spec.ts` cover USWDS-style interaction expectations that are not purely rule-based.
+
+### How to run the full release-quality test gate
+
+From repo root:
+
+```bash
+npm --prefix components/core run test
+npm --prefix chromatic run test:accordion
+npm --prefix testing run verify:local
+```
+
+After publish, run:
+
+```bash
+npm --prefix testing run verify:npm
+npm --prefix testing run verify:npm:browser
+```
+
+### How to extend the test setup for new component behavior
+
+1. Add or update Storybook stories first in each framework workspace (`chromatic/react`, `chromatic/angular_18`, `chromatic/angular_21`).
+2. Add story IDs to `chromatic/tests/specs/helpers.ts` and keep IDs framework-agnostic (for example, `accretion-accordion--*`).
+3. Add behavior and prop assertions in `accordion.behavior.spec.ts` and/or `accordion.props.spec.ts`.
+4. Add accessibility expectations in:
+   - `accordion.a11y.spec.ts` for axe blocking violations.
+   - `accordion.uswds-a11y.spec.ts` for keyboard/zoom/interaction expectations.
+5. Re-run `npm --prefix chromatic run test:accordion` and both smoke scripts before publish.
+
 ## Smoke Testing (How It Works)
 
 The `testing/` workspace is the smoke-test harness that replaced committed demo apps (`apps/` and `live_apps/`).
@@ -294,6 +356,9 @@ npm --prefix testing run verify:local
 
 # 2) Verify npm-published packages after publish
 npm --prefix testing run verify:npm
+
+# 3) Verify npm-published runtime behavior in a real browser
+npm --prefix testing run verify:npm:browser
 ```
 
 ### `verify:local` flow
@@ -302,6 +367,7 @@ npm --prefix testing run verify:npm
 2. Packs each into tarballs.
 3. Generates temporary apps under `.tmp/smoke-local`:
    - React Vite
+   - React CRA
    - React Next.js
    - Angular 18
    - Angular 21
@@ -313,6 +379,19 @@ npm --prefix testing run verify:npm
 1. Generates temporary apps under `.tmp/smoke-npm` for the same framework matrix.
 2. Installs from npm registry instead of local tarballs.
 3. Runs framework builds to validate published artifacts.
+4. If a published wrapper version does not yet expose Accordion exports, the harness falls back to button-only smoke checks and logs that fallback explicitly.
+
+### `verify:npm:browser` flow
+
+1. Runs `verify:npm` first to regenerate npm smoke apps.
+2. Starts each generated app server sequentially.
+3. Runs Playwright Chromium checks against each framework target:
+   - React Vite
+   - React CRA
+   - React Next.js
+   - Angular 18
+   - Angular 21
+4. Validates runtime behavior in browser (button interactions + Accordion interaction where exports exist).
 
 Version pinning is supported:
 
@@ -324,10 +403,13 @@ ACCRETION_ANGULAR_21_VERSION=<angular_21_version> \
 npm --prefix testing run verify:npm
 ```
 
+For Accordion release validation, always pin the just-published package versions so the smoke run validates Accordion imports directly (instead of fallback mode).
+
 ### Manual runtime checks after smoke scripts
 
 ```bash
 npm --prefix .tmp/smoke-local/react-vite-local start
+npm --prefix .tmp/smoke-local/react-cra-local start
 npm --prefix .tmp/smoke-local/react-next-local dev
 npm --prefix .tmp/smoke-local/angular-18-local start
 npm --prefix .tmp/smoke-local/angular-21-local start
@@ -338,6 +420,8 @@ Validate:
 - The three variants render with distinct visual intent.
 - Slot text appears inside the button.
 - Increment/decrement/reset actions update framework state.
+- Accordion imports render in React and Angular smoke apps without compile/runtime errors.
+- Accordion trigger/panel interactions render expected expanded/collapsed states.
 
 ## Storybook and Chromatic Workflow
 
@@ -380,6 +464,22 @@ export CHROMATIC_PROJECT_TOKEN_ANGULAR_21="<token>"
 
 ## Release and Publish Workflow
 
+### Required publish checklist
+
+Use this checklist before merging a release branch and publishing packages:
+
+- [ ] Scope is confirmed for all framework wrappers (`core`, `react`, `angular_18`, `angular_21`).
+- [ ] Storybook stories are updated for all affected frameworks.
+- [ ] `npm --prefix components/core run test` passes.
+- [ ] `npm --prefix chromatic run test:accordion` passes.
+- [ ] `npm --prefix testing run verify:local` passes.
+- [ ] Package versions are bumped and wrapper core ranges are aligned.
+- [ ] Production builds for all publishable packages pass.
+- [ ] npm authentication is confirmed (`npm whoami`).
+- [ ] Publish commands run in strict dependency order (`core` first).
+- [ ] `npm --prefix testing run verify:npm` passes using published versions.
+- [ ] `npm --prefix testing run verify:npm:browser` passes against published versions.
+
 ### Phase 1: Release Checklist (Non-Technical First)
 
 Use this section for design leads, product, and engineering leads before commands are run.
@@ -412,7 +512,13 @@ git status --short
 #### 1) Production-readiness gate
 
 ```bash
-# Full local artifact + consumer smoke matrix (React Vite/Next + Angular 18/21)
+# Core package test runner
+npm --prefix components/core run test
+
+# Story-level behavior + prop + accessibility coverage
+npm --prefix chromatic run test:accordion
+
+# Full local artifact + consumer smoke matrix (React Vite/CRA/Next + Angular 18/21)
 npm --prefix testing run verify:local
 ```
 
@@ -423,7 +529,7 @@ Choose `patch`, `minor`, or `major` based on the release scope.
 ```bash
 npm --prefix components/core version patch --no-git-tag-version
 npm --prefix components/react version patch --no-git-tag-version
-npm --prefix components/angular version patch --no-git-tag-version
+npm --prefix components/angular_18 version patch --no-git-tag-version
 npm --prefix components/angular_21 version patch --no-git-tag-version
 ```
 
@@ -432,10 +538,10 @@ After bumping core, align wrapper references to the new core version:
 ```bash
 CORE_VERSION="$(node -p "require('./components/core/package.json').version")"
 npm --prefix components/react pkg set "dependencies.@accretion_ui/core=^${CORE_VERSION}"
-npm --prefix components/angular pkg set "peerDependencies.@accretion_ui/core=^${CORE_VERSION}"
+npm --prefix components/angular_18 pkg set "peerDependencies.@accretion_ui/core=^${CORE_VERSION}"
 npm --prefix components/angular_21 pkg set "peerDependencies.@accretion_ui/core=^${CORE_VERSION}"
 npm --prefix components/react install --package-lock-only
-npm --prefix components/angular install --package-lock-only
+npm --prefix components/angular_18 install --package-lock-only
 npm --prefix components/angular_21 install --package-lock-only
 ```
 
@@ -444,7 +550,7 @@ npm --prefix components/angular_21 install --package-lock-only
 ```bash
 npm --prefix components/core run build
 npm --prefix components/react run build
-npm --prefix components/angular run build
+npm --prefix components/angular_18 run build
 npm --prefix components/angular_21 run build
 ```
 
@@ -453,7 +559,7 @@ npm --prefix components/angular_21 run build
 ```bash
 npm --prefix components/core run publish:package
 npm --prefix components/react run publish:package
-npm --prefix components/angular run publish:package
+npm --prefix components/angular_18 run publish:package
 npm --prefix components/angular_21 run publish:package
 ```
 
@@ -462,7 +568,7 @@ npm --prefix components/angular_21 run publish:package
 ```bash
 CORE_VERSION="$(node -p "require('./components/core/package.json').version")"
 REACT_VERSION="$(node -p "require('./components/react/package.json').version")"
-ANGULAR_18_VERSION="$(node -p "require('./components/angular/package.json').version")"
+ANGULAR_18_VERSION="$(node -p "require('./components/angular_18/package.json').version")"
 ANGULAR_21_VERSION="$(node -p "require('./components/angular_21/package.json').version")"
 
 npm view @accretion_ui/core version
@@ -475,6 +581,12 @@ ACCRETION_REACT_VERSION="$REACT_VERSION" \
 ACCRETION_ANGULAR_18_VERSION="$ANGULAR_18_VERSION" \
 ACCRETION_ANGULAR_21_VERSION="$ANGULAR_21_VERSION" \
 npm --prefix testing run verify:npm
+
+ACCRETION_CORE_VERSION="$CORE_VERSION" \
+ACCRETION_REACT_VERSION="$REACT_VERSION" \
+ACCRETION_ANGULAR_18_VERSION="$ANGULAR_18_VERSION" \
+ACCRETION_ANGULAR_21_VERSION="$ANGULAR_21_VERSION" \
+npm --prefix testing run verify:npm:browser
 ```
 
 Release guardrails:
@@ -483,6 +595,46 @@ Release guardrails:
 - Publish wrapper packages only after core publish succeeds.
 - Never republish an existing version number.
 - If publish fails mid-sequence, fix the issue and resume from the first unpublished package.
+
+## Publish Command Reference
+
+Run from repo root in this exact order:
+
+```bash
+npm --prefix components/core run publish:package
+npm --prefix components/react run publish:package
+npm --prefix components/angular_18 run publish:package
+npm --prefix components/angular_21 run publish:package
+```
+
+Recommended post-publish verification:
+
+```bash
+CORE_VERSION="$(node -p "require('./components/core/package.json').version")"
+REACT_VERSION="$(node -p "require('./components/react/package.json').version")"
+ANGULAR_18_VERSION="$(node -p "require('./components/angular_18/package.json').version")"
+ANGULAR_21_VERSION="$(node -p "require('./components/angular_21/package.json').version")"
+
+ACCRETION_CORE_VERSION="$CORE_VERSION" \
+ACCRETION_REACT_VERSION="$REACT_VERSION" \
+ACCRETION_ANGULAR_18_VERSION="$ANGULAR_18_VERSION" \
+ACCRETION_ANGULAR_21_VERSION="$ANGULAR_21_VERSION" \
+npm --prefix testing run verify:npm
+
+ACCRETION_CORE_VERSION="$CORE_VERSION" \
+ACCRETION_REACT_VERSION="$REACT_VERSION" \
+ACCRETION_ANGULAR_18_VERSION="$ANGULAR_18_VERSION" \
+ACCRETION_ANGULAR_21_VERSION="$ANGULAR_21_VERSION" \
+npm --prefix testing run verify:npm:browser
+```
+
+## Known Bugs
+
+- React + Next.js 16 (Turbopack) currently has a known interoperability issue with `@accretion_ui/react` Accordion imports:
+  - Runtime error: `syncFromRoot is not a function`
+  - Hydration mismatch involving `accretion-accordion-item`
+  - Brief style flash on refresh before component styles fully apply
+- Status: an active fix is in progress and tracked as a release blocker for the next wrapper publish.
 
 ## Contributing
 
@@ -495,8 +647,8 @@ Release guardrails:
 ### Typical change flow
 
 1. Update component logic/styles in `components/core`.
-2. Build wrappers (`components/react`, `components/angular`, `components/angular_21`).
-3. Run smoke tests in `testing/` (`verify:local`, then `verify:npm` when needed).
+2. Build wrappers (`components/react`, `components/angular_18`, `components/angular_21`).
+3. Run smoke tests in `testing/` (`verify:local`, then `verify:npm` + `verify:npm:browser` after publish).
 4. Update affected stories in `chromatic/*`.
 5. Publish Chromatic and verify links.
 6. Update README if behavior, support ranges, or workflows changed.
@@ -534,7 +686,7 @@ Release guardrails:
 
 - `components/core`: Stencil core (`@accretion_ui/core`)
 - `components/react`: React wrapper (`@accretion_ui/react`)
-- `components/angular`: Angular 18-20 wrapper (`@accretion_ui/angular_18`)
+- `components/angular_18`: Angular 18-20 wrapper (`@accretion_ui/angular_18`)
 - `components/angular_21`: Angular 21 wrapper (`@accretion_ui/angular_21`)
 - `chromatic`: Storybook + Chromatic projects for all wrappers
 - `testing`: generated smoke-test harness for local tarballs and npm-installed packages

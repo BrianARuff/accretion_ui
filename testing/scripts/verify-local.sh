@@ -84,17 +84,24 @@ EOF_HTML
 }
 EOF_TSCONFIG
 
-  cat > "$app_dir/src/main.tsx" <<'EOF_MAIN'
+cat > "$app_dir/src/main.tsx" <<'EOF_MAIN'
 import { StrictMode, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { AccretionButton } from '@accretion_ui/react';
+import {
+  AccretionAccordion,
+  AccretionAccordionHeader,
+  AccretionAccordionItem,
+  AccretionAccordionPanel,
+  AccretionAccordionTrigger,
+  AccretionButton
+} from '@accretion_ui/react';
 
 function App() {
   const [count, setCount] = useState(0);
 
   return (
     <main style={{ display: 'grid', gap: '0.75rem', padding: '1rem' }}>
-      <p>Count: {count}</p>
+      <p><strong>Button count:</strong> {count}</p>
       <AccretionButton variant="primary" onClick={() => setCount((value) => value + 1)}>
         Increment Count
       </AccretionButton>
@@ -104,6 +111,19 @@ function App() {
       <AccretionButton variant="tertiary" onClick={() => setCount(0)}>
         Reset Count
       </AccretionButton>
+
+      <AccretionAccordion type="single" collapsible style={{ marginTop: '0.5rem', maxWidth: '36rem' }}>
+        <AccretionAccordionItem value="smoke-accordion">
+          <AccretionAccordionHeader>
+            <AccretionAccordionTrigger>Accordion import smoke check</AccretionAccordionTrigger>
+          </AccretionAccordionHeader>
+          <AccretionAccordionPanel>
+            <p style={{ margin: 0 }}>
+              React wrapper + core custom elements for Accordion render successfully.
+            </p>
+          </AccretionAccordionPanel>
+        </AccretionAccordionItem>
+      </AccretionAccordion>
     </main>
   );
 }
@@ -120,6 +140,125 @@ EOF_MAIN
 
   log "Building React Vite smoke app"
   npm_exec --prefix "$app_dir" run build
+}
+
+write_react_cra_app() {
+  local app_dir="$WORK_DIR/react-cra-local"
+  local core_tar="$1"
+  local react_tar="$2"
+
+  mkdir -p "$app_dir/public" "$app_dir/src"
+
+  cat > "$app_dir/package.json" <<PKG
+{
+  "name": "accretion-react-cra-local-smoke",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "build": "react-scripts build",
+    "start": "react-scripts start"
+  },
+  "dependencies": {
+    "@accretion_ui/core": "file:$core_tar",
+    "@accretion_ui/react": "file:$react_tar",
+    "@types/node": "^20.19.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-scripts": "5.0.1",
+    "typescript": "^4.9.5"
+  }
+}
+PKG
+
+  cat > "$app_dir/tsconfig.json" <<'EOF_TSCONFIG'
+{
+  "extends": "./node_modules/react-scripts/tsconfig.json",
+  "include": ["src"]
+}
+EOF_TSCONFIG
+
+  cat > "$app_dir/public/index.html" <<'EOF_HTML'
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Accretion React CRA Smoke</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+  </body>
+</html>
+EOF_HTML
+
+  cat > "$app_dir/src/index.tsx" <<'EOF_INDEX'
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import App from './App';
+
+createRoot(document.getElementById('root') as HTMLElement).render(
+  <StrictMode>
+    <App />
+  </StrictMode>
+);
+EOF_INDEX
+
+  cat > "$app_dir/src/react-app-env.d.ts" <<'EOF_ENV'
+/// <reference types="react-scripts" />
+EOF_ENV
+
+  cat > "$app_dir/src/App.tsx" <<'EOF_APP'
+import { useState } from 'react';
+import {
+  AccretionAccordion,
+  AccretionAccordionHeader,
+  AccretionAccordionItem,
+  AccretionAccordionPanel,
+  AccretionAccordionTrigger,
+  AccretionButton
+} from '@accretion_ui/react';
+
+export default function App() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <main style={{ display: 'grid', gap: '0.75rem', padding: '1rem' }}>
+      <p><strong>Button count:</strong> {count}</p>
+      <AccretionButton variant="primary" onClick={() => setCount((value) => value + 1)}>
+        Increment Count
+      </AccretionButton>
+      <AccretionButton variant="secondary" onClick={() => setCount((value) => value - 1)}>
+        Decrement Count
+      </AccretionButton>
+      <AccretionButton variant="tertiary" onClick={() => setCount(0)}>
+        Reset Count
+      </AccretionButton>
+
+      <AccretionAccordion type="single" collapsible style={{ marginTop: '0.5rem', maxWidth: '36rem' }}>
+        <AccretionAccordionItem value="smoke-accordion">
+          <AccretionAccordionHeader>
+            <AccretionAccordionTrigger>Accordion import smoke check</AccretionAccordionTrigger>
+          </AccretionAccordionHeader>
+          <AccretionAccordionPanel>
+            <p style={{ margin: 0 }}>
+              React wrapper + core custom elements for Accordion render successfully.
+            </p>
+          </AccretionAccordionPanel>
+        </AccretionAccordionItem>
+      </AccretionAccordion>
+    </main>
+  );
+}
+EOF_APP
+
+  log "Installing React CRA smoke app dependencies"
+  npm_exec --prefix "$app_dir" install
+
+  log "Building React CRA smoke app"
+  CI=true npm_exec --prefix "$app_dir" run build
 }
 
 write_react_next_app() {
@@ -201,18 +340,25 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 }
 EOF_LAYOUT
 
-  cat > "$app_dir/app/page.tsx" <<'EOF_PAGE'
+cat > "$app_dir/app/page.tsx" <<'EOF_PAGE'
 'use client';
 
 import { useState } from 'react';
-import { AccretionButton } from '@accretion_ui/react';
+import {
+  AccretionAccordion,
+  AccretionAccordionHeader,
+  AccretionAccordionItem,
+  AccretionAccordionPanel,
+  AccretionAccordionTrigger,
+  AccretionButton
+} from '@accretion_ui/react';
 
 export default function Page() {
   const [count, setCount] = useState(0);
 
   return (
     <main style={{ display: 'grid', gap: '0.75rem', padding: '1rem' }}>
-      <p>Count: {count}</p>
+      <p><strong>Button count:</strong> {count}</p>
       <AccretionButton variant="primary" onClick={() => setCount((value) => value + 1)}>
         Increment Count
       </AccretionButton>
@@ -222,6 +368,19 @@ export default function Page() {
       <AccretionButton variant="tertiary" onClick={() => setCount(0)}>
         Reset Count
       </AccretionButton>
+
+      <AccretionAccordion type="single" collapsible style={{ marginTop: '0.5rem', maxWidth: '36rem' }}>
+        <AccretionAccordionItem value="smoke-accordion">
+          <AccretionAccordionHeader>
+            <AccretionAccordionTrigger>Accordion import smoke check</AccretionAccordionTrigger>
+          </AccretionAccordionHeader>
+          <AccretionAccordionPanel>
+            <p style={{ margin: 0 }}>
+              React wrapper + core custom elements for Accordion render successfully.
+            </p>
+          </AccretionAccordionPanel>
+        </AccretionAccordionItem>
+      </AccretionAccordion>
     </main>
   );
 }
@@ -260,18 +419,43 @@ setup_angular_app() {
   if [[ -f "$app_dir/src/app/app.ts" ]]; then
     cat > "$app_dir/src/app/app.ts" <<'EOF_APP_21'
 import { Component, signal } from '@angular/core';
-import { AccretionButton } from '@accretion_ui/angular_21';
+import {
+  AccretionAccordion,
+  AccretionAccordionHeader,
+  AccretionAccordionItem,
+  AccretionAccordionPanel,
+  AccretionAccordionTrigger,
+  AccretionButton
+} from '@accretion_ui/angular_21';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [AccretionButton],
+  imports: [
+    AccretionAccordion,
+    AccretionAccordionHeader,
+    AccretionAccordionItem,
+    AccretionAccordionPanel,
+    AccretionAccordionTrigger,
+    AccretionButton
+  ],
   template: `
-    <main style="display:grid;gap:12px;max-width:320px;padding:16px;">
+    <main style="display:grid;gap:12px;max-width:560px;padding:16px;">
       <p><strong>Count:</strong> {{ count() }}</p>
       <accretion-button variant="primary" (click)="increment()">Increment Count</accretion-button>
       <accretion-button variant="secondary" (click)="decrement()">Decrement Count</accretion-button>
       <accretion-button variant="tertiary" (click)="reset()">Reset Count</accretion-button>
+
+      <accretion-accordion type="single" [collapsible]="true" style="margin-top:8px;">
+        <accretion-accordion-item value="smoke-accordion">
+          <accretion-accordion-header>
+            <accretion-accordion-trigger>Accordion import smoke check</accretion-accordion-trigger>
+          </accretion-accordion-header>
+          <accretion-accordion-panel>
+            <p style="margin:0;">Angular wrapper + core custom elements for Accordion render successfully.</p>
+          </accretion-accordion-panel>
+        </accretion-accordion-item>
+      </accretion-accordion>
     </main>
   `
 })
@@ -292,21 +476,47 @@ export class App {
 }
 EOF_APP_21
   else
-    cat > "$app_dir/src/app/app.component.ts" <<EOF_APP_18
+    cat > "$app_dir/src/app/app.component.ts" <<'EOF_APP_18'
 import { Component } from '@angular/core';
-import { ${package_name} } from '@accretion_ui/angular_18';
+import {
+  AccretionAccordion,
+  AccretionAccordionHeader,
+  AccretionAccordionItem,
+  AccretionAccordionPanel,
+  AccretionAccordionTrigger,
+  AccretionButton
+} from '@accretion_ui/angular_18';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [${package_name}],
-  template: \
-    '<main style="display:grid;gap:12px;max-width:320px;padding:16px;">' +
-    '<p><strong>Count:</strong> {{ count }}</p>' +
-    '<accretion-button variant="primary" (click)="increment()">Increment Count</accretion-button>' +
-    '<accretion-button variant="secondary" (click)="decrement()">Decrement Count</accretion-button>' +
-    '<accretion-button variant="tertiary" (click)="reset()">Reset Count</accretion-button>' +
-    '</main>'
+  imports: [
+    AccretionAccordion,
+    AccretionAccordionHeader,
+    AccretionAccordionItem,
+    AccretionAccordionPanel,
+    AccretionAccordionTrigger,
+    AccretionButton
+  ],
+  template: `
+    <main style="display:grid;gap:12px;max-width:560px;padding:16px;">
+      <p><strong>Count:</strong> {{ count }}</p>
+      <accretion-button variant="primary" (click)="increment()">Increment Count</accretion-button>
+      <accretion-button variant="secondary" (click)="decrement()">Decrement Count</accretion-button>
+      <accretion-button variant="tertiary" (click)="reset()">Reset Count</accretion-button>
+
+      <accretion-accordion type="single" [collapsible]="true" style="margin-top:8px;">
+        <accretion-accordion-item value="smoke-accordion">
+          <accretion-accordion-header>
+            <accretion-accordion-trigger>Accordion import smoke check</accretion-accordion-trigger>
+          </accretion-accordion-header>
+          <accretion-accordion-panel>
+            <p style="margin:0;">Angular wrapper + core custom elements for Accordion render successfully.</p>
+          </accretion-accordion-panel>
+        </accretion-accordion-item>
+      </accretion-accordion>
+    </main>
+  `
 })
 export class AppComponent {
   count = 0;
@@ -338,16 +548,17 @@ main() {
   log "Building local packages"
   npm_exec --prefix "$ROOT_DIR/components/core" run build
   npm_exec --prefix "$ROOT_DIR/components/react" run build
-  npm_exec --prefix "$ROOT_DIR/components/angular" run build
+  npm_exec --prefix "$ROOT_DIR/components/angular_18" run build
   npm_exec --prefix "$ROOT_DIR/components/angular_21" run build
 
   log "Packing local packages"
   CORE_TAR="$(pack_from_dir "$ROOT_DIR/components/core")"
   REACT_TAR="$(pack_from_dir "$ROOT_DIR/components/react")"
-  ANGULAR_18_TAR="$(pack_from_dir "$ROOT_DIR/components/angular/dist")"
+  ANGULAR_18_TAR="$(pack_from_dir "$ROOT_DIR/components/angular_18/dist")"
   ANGULAR_21_TAR="$(pack_from_dir "$ROOT_DIR/components/angular_21/dist")"
 
   write_react_vite_app "$CORE_TAR" "$REACT_TAR"
+  write_react_cra_app "$CORE_TAR" "$REACT_TAR"
   write_react_next_app "$CORE_TAR" "$REACT_TAR"
   setup_angular_app 18 AccretionButton "$ANGULAR_18_TAR"
   setup_angular_app 21 App "$ANGULAR_21_TAR"

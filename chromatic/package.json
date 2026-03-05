@@ -11,9 +11,16 @@
     "build:react": "npm --prefix react run build-storybook",
     "build:angular_18": "npm --prefix angular_18 run build-storybook",
     "build:angular_21": "npm --prefix angular_21 run build-storybook",
+    "test:accordion": "npm run build:react && npm run build:angular_18 && npm run build:angular_21 && playwright test --config tests/playwright.config.ts",
+    "test:accordion:ui": "playwright test --config tests/playwright.config.ts --ui",
+    "test:accordion:report": "playwright show-report tests/playwright-report",
     "chromatic:react": "npm --prefix react run chromatic",
     "chromatic:angular_18": "npm --prefix angular_18 run chromatic",
     "chromatic:angular_21": "npm --prefix angular_21 run chromatic",
     "chromatic:all": "npm run chromatic:react && npm run chromatic:angular_18 && npm run chromatic:angular_21"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.11.1",
+    "@playwright/test": "^1.58.2"
   }
 }
