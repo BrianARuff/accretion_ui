@@ -212,18 +212,33 @@ export class AccretionAccordion {
 
   private async syncItemsFromDom(): Promise<void> {
     const items = this.getItemsFromDom();
+    const syncedItems: AccordionItemElement[] = [];
+    const syncTasks: Array<Promise<void>> = [];
 
-    this.items = items;
+    items.forEach((item, index) => {
+      const syncFromRoot = (item as Partial<AccordionItemElement>).syncFromRoot;
 
-    await Promise.all(
-      items.map((item, index) =>
-        item.syncFromRoot({
+      // In some SSR + Turbopack hydration paths, parent may connect before child upgrade.
+      // Skip unsynchronized nodes until they register themselves after upgrade.
+      if (typeof syncFromRoot !== 'function') {
+        return;
+      }
+
+      syncedItems.push(item);
+      syncTasks.push(
+        syncFromRoot.call(item, {
           disabled: this.disabled,
           orientation: this.normalizedOrientation,
           index
         })
-      )
-    );
+      );
+    });
+
+    this.items = syncedItems;
+
+    if (syncTasks.length > 0) {
+      await Promise.all(syncTasks);
+    }
 
     await this.enforceExpansionRules();
     this.syncOpenState();

@@ -1,6 +1,6 @@
 {
   "name": "@accretion_ui/angular_18",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Angular 18 wrappers for Accretion UI web components.",
   "keywords": [
     "accretion",
@@ -33,7 +33,7 @@
     "publish:package": "npm run build && npm publish ./dist --access public"
   },
   "peerDependencies": {
-    "@accretion_ui/core": "^0.2.1",
+    "@accretion_ui/core": "^0.2.2",
     "@angular/common": ">=18.0.0 <21.0.0",
     "@angular/core": ">=18.0.0 <21.0.0",
     "rxjs": "^7.8.0"

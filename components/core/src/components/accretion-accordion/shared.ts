@@ -64,15 +64,26 @@ const sanitizeForId = (value: string) =>
     .replace(/^-+|-+$/g, '');
 
 export const createAccordionItemIds = (value?: string) => {
-  generatedItemCount += 1;
-
   const normalizedValue = sanitizeForId(value ?? '');
-  const base = `accretion-accordion-item-${normalizedValue || 'generated'}-${generatedItemCount}`;
+
+  // Keep IDs deterministic for SSR hydration when caller provides stable item values.
+  if (normalizedValue) {
+    const base = `accretion-accordion-item-${normalizedValue}`;
+
+    return {
+      triggerId: `${base}-trigger`,
+      panelId: `${base}-panel`,
+      fallbackValue: normalizedValue
+    };
+  }
+
+  generatedItemCount += 1;
+  const base = `accretion-accordion-item-generated-${generatedItemCount}`;
 
   return {
     triggerId: `${base}-trigger`,
     panelId: `${base}-panel`,
-    fallbackValue: `${normalizedValue || 'item'}-${generatedItemCount}`
+    fallbackValue: `item-${generatedItemCount}`
   };
 };
 

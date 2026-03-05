@@ -630,11 +630,10 @@ npm --prefix testing run verify:npm:browser
 
 ## Known Bugs
 
-- React + Next.js 16 (Turbopack) currently has a known interoperability issue with `@accretion_ui/react` Accordion imports:
-  - Runtime error: `syncFromRoot is not a function`
-  - Hydration mismatch involving `accretion-accordion-item`
-  - Brief style flash on refresh before component styles fully apply
-- Status: an active fix is in progress and tracked as a release blocker for the next wrapper publish.
+- React + Next.js 16 (Turbopack) interoperability status for Accordion:
+  - Fixed in upcoming `0.2.2`: runtime error `syncFromRoot is not a function`
+  - Fixed in upcoming `0.2.2`: hydration mismatch involving `accretion-accordion-item`
+  - Still under investigation: brief style flash on refresh before component styles fully apply
 
 ## Contributing
 
