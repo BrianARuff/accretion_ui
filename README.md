@@ -10,9 +10,9 @@ If you only have a few minutes, open these first:
 
 | Framework Target | Storybook | Chromatic Project | npm Package |
 |---|---|---|---|
-| React (`@accretion_ui/react`) | [View Storybook](https://69a694b696baf333e562e9f1-fxnzzvdoqy.chromatic.com/) | [View Chromatic](https://www.chromatic.com/setup?appId=69a694b696baf333e562e9f1) | [@accretion_ui/react](https://www.npmjs.com/package/@accretion_ui/react) |
-| Angular 18 (`@accretion_ui/angular_18`) | [View Storybook](https://69a69540931282436807583e-fuxraacovf.chromatic.com/) | [View Chromatic](https://www.chromatic.com/setup?appId=69a69540931282436807583e) | [@accretion_ui/angular_18](https://www.npmjs.com/package/@accretion_ui/angular_18) |
-| Angular 21 (`@accretion_ui/angular_21`) | [View Storybook](https://69a69585a3c2c8accf671d8d-ojydhqlaui.chromatic.com/) | [View Chromatic](https://www.chromatic.com/setup?appId=69a69585a3c2c8accf671d8d) | [@accretion_ui/angular_21](https://www.npmjs.com/package/@accretion_ui/angular_21) |
+| React (`@accretion_ui/react`) | [View Storybook](https://69a694b696baf333e562e9f1-yyktylvmmk.chromatic.com/) | [View Chromatic](https://www.chromatic.com/setup?appId=69a694b696baf333e562e9f1) | [@accretion_ui/react](https://www.npmjs.com/package/@accretion_ui/react) |
+| Angular 18 (`@accretion_ui/angular_18`) | [View Storybook](https://69a69540931282436807583e-ymgtpgyqrh.chromatic.com/) | [View Chromatic](https://www.chromatic.com/setup?appId=69a69540931282436807583e) | [@accretion_ui/angular_18](https://www.npmjs.com/package/@accretion_ui/angular_18) |
+| Angular 21 (`@accretion_ui/angular_21`) | [View Storybook](https://69a69585a3c2c8accf671d8d-ejbsnuffvz.chromatic.com/) | [View Chromatic](https://www.chromatic.com/setup?appId=69a69585a3c2c8accf671d8d) | [@accretion_ui/angular_21](https://www.npmjs.com/package/@accretion_ui/angular_21) |
 
 Core package (single source of truth): [@accretion_ui/core](https://www.npmjs.com/package/@accretion_ui/core)
 

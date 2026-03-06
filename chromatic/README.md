@@ -12,6 +12,12 @@ This folder contains independent Storybook + Chromatic setups for Accretion UI w
 - Angular 18 Chromatic repo: [accretion_ui_angular_18_chromatic](https://github.com/BrianARuff/accretion_ui_angular_18_chromatic)
 - Angular 21 Chromatic repo: [accretion_ui_angular_21_chromatic](https://github.com/BrianARuff/accretion_ui_angular_21_chromatic)
 
+## Latest Published Links
+
+- React Storybook: https://69a694b696baf333e562e9f1-yyktylvmmk.chromatic.com/
+- Angular 18 Storybook: https://69a69540931282436807583e-ymgtpgyqrh.chromatic.com/
+- Angular 21 Storybook: https://69a69585a3c2c8accf671d8d-ejbsnuffvz.chromatic.com/
+
 ## One-Time Setup
 
 ```bash
