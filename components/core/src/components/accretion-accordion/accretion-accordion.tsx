@@ -14,6 +14,7 @@ import {
   type AccordionFocusRequestDetail,
   type AccordionItemElement,
   type AccordionItemStateChangeDetail,
+  type AccordionValueChangeDetail,
   type AccordionOrientation,
   type AccordionSizeVariant,
   type AccordionToggleRequestDetail,
@@ -65,8 +66,14 @@ export class AccretionAccordion {
    */
   @Prop({ reflect: true, attribute: 'size-variant' }) sizeVariant: AccordionSizeVariant = 'comfortable';
 
+  /**
+   * @deprecated Use `accretionOpenChange` for a shorter event name.
+   */
   @Event({ eventName: 'accretionAccordionChange' })
-  private accretionAccordionChange!: EventEmitter<{ openValues: string[] }>;
+  private accretionAccordionChange!: EventEmitter<AccordionValueChangeDetail>;
+
+  @Event({ eventName: 'accretionOpenChange' })
+  private accretionOpenChange!: EventEmitter<AccordionValueChangeDetail>;
 
   private items: AccordionItemElement[] = [];
   private mutationObserver?: MutationObserver;
@@ -83,6 +90,7 @@ export class AccretionAccordion {
   }
 
   connectedCallback(): void {
+    this.normalizeLegacySizeVariantAttribute();
     void this.syncItemsFromDom();
   }
 
@@ -202,6 +210,25 @@ export class AccretionAccordion {
     return this.focusLoop;
   }
 
+  private normalizeLegacySizeVariantAttribute(): void {
+    const legacySizeVariant = this.el.getAttribute('sizevariant')?.trim();
+
+    if (!legacySizeVariant) {
+      return;
+    }
+
+    const hasExplicitDashedVariant = this.el.hasAttribute('size-variant');
+    const dashedVariant = this.el.getAttribute('size-variant')?.trim();
+    const shouldUseLegacyVariant =
+      !hasExplicitDashedVariant || !dashedVariant || dashedVariant === 'comfortable';
+
+    if (shouldUseLegacyVariant) {
+      this.sizeVariant = legacySizeVariant as AccordionSizeVariant;
+    }
+
+    this.el.removeAttribute('sizevariant');
+  }
+
   private getItemsFromDom(): AccordionItemElement[] {
     return Array.from(this.el.querySelectorAll('accretion-accordion-item')) as AccordionItemElement[];
   }
@@ -212,18 +239,33 @@ export class AccretionAccordion {
 
   private async syncItemsFromDom(): Promise<void> {
     const items = this.getItemsFromDom();
+    const syncedItems: AccordionItemElement[] = [];
+    const syncTasks: Array<Promise<void>> = [];
 
-    this.items = items;
+    items.forEach((item, index) => {
+      const syncFromRoot = (item as Partial<AccordionItemElement>).syncFromRoot;
 
-    await Promise.all(
-      items.map((item, index) =>
-        item.syncFromRoot({
+      // In some SSR + Turbopack hydration paths, parent may connect before child upgrade.
+      // Skip unsynchronized nodes until they register themselves after upgrade.
+      if (typeof syncFromRoot !== 'function') {
+        return;
+      }
+
+      syncedItems.push(item);
+      syncTasks.push(
+        syncFromRoot.call(item, {
           disabled: this.disabled,
           orientation: this.normalizedOrientation,
           index
         })
-      )
-    );
+      );
+    });
+
+    this.items = syncedItems;
+
+    if (syncTasks.length > 0) {
+      await Promise.all(syncTasks);
+    }
 
     await this.enforceExpansionRules();
     this.syncOpenState();
@@ -338,7 +380,14 @@ export class AccretionAccordion {
         .map((item) => item.getItemValue())
     );
 
-    this.accretionAccordionChange.emit({ openValues });
+    const openValueLookup = openValues.reduce<Record<string, true>>((lookup, value) => {
+      lookup[value] = true;
+      return lookup;
+    }, {});
+    const detail: AccordionValueChangeDetail = { openValues, openValueLookup };
+
+    this.accretionAccordionChange.emit(detail);
+    this.accretionOpenChange.emit(detail);
   }
 
   private syncOpenState(): void {

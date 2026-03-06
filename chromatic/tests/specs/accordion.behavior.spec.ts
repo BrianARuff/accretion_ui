@@ -29,10 +29,10 @@ runForEachFramework('accordion behavior', (framework) => {
     }
   });
 
-  test('emits openValues based on item value attributes', async ({ page }) => {
+  test('emits openValues and openValueLookup based on item value attributes', async ({ page }) => {
     await gotoStory(page, framework, STORY_IDS.INTERACTIVE_OVERVIEW);
 
-    const eventValues = await page.evaluate(async () => {
+    const eventDetail = await page.evaluate(async () => {
       const accordion = document.querySelector('accretion-accordion');
       const targetTrigger = document.querySelector('button[data-value="getting-started"]') as HTMLButtonElement | null;
 
@@ -40,12 +40,16 @@ runForEachFramework('accordion behavior', (framework) => {
         throw new Error('Accordion or trigger not found');
       }
 
-      return await new Promise<string[]>((resolve) => {
+      return await new Promise<{ openValues: string[]; openValueLookup: Record<string, true> }>((resolve) => {
         accordion.addEventListener(
-          'accretionAccordionChange',
+          'accretionOpenChange',
           (event) => {
-            const detail = (event as CustomEvent<{ openValues: string[] }>).detail;
-            resolve(detail.openValues);
+            const detail = (event as CustomEvent<{ openValues: string[]; openValueLookup: Record<string, true> }>)
+              .detail;
+            resolve({
+              openValues: [...detail.openValues],
+              openValueLookup: { ...detail.openValueLookup }
+            });
           },
           { once: true }
         );
@@ -54,7 +58,8 @@ runForEachFramework('accordion behavior', (framework) => {
       });
     });
 
-    expect(eventValues).toContain('getting-started');
+    expect(eventDetail.openValues).toContain('getting-started');
+    expect(eventDetail.openValueLookup['getting-started']).toBe(true);
   });
 
   test('supports single + collapsible behavior', async ({ page }) => {

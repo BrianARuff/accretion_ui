@@ -630,11 +630,10 @@ npm --prefix testing run verify:npm:browser
 
 ## Known Bugs
 
-- React + Next.js 16 (Turbopack) currently has a known interoperability issue with `@accretion_ui/react` Accordion imports:
-  - Runtime error: `syncFromRoot is not a function`
-  - Hydration mismatch involving `accretion-accordion-item`
-  - Brief style flash on refresh before component styles fully apply
-- Status: an active fix is in progress and tracked as a release blocker for the next wrapper publish.
+- Server-rendered application support is currently limited:
+  - Accretion UI is optimized and release-validated for client-side rendered application usage.
+  - In SSR + hydration workflows (for example, Next.js App Router and Angular Universal), web-component upgrade timing can still produce hydration warnings, temporary style instability, or behavior differences for nested components.
+  - If strict SSR hydration parity is required, use framework-level client-only rendering or hydration opt-out for affected component regions until full SSR compatibility is formally released.
 
 ## Contributing
 
