@@ -296,30 +296,44 @@ export const ControlledFromState: Story = {
   },
   render: (args) => {
     const openValues = signal<string[]>(['what-is-accretion']);
+    const openValueLookup = signal<Record<string, true>>({ 'what-is-accretion': true });
+
+    const syncOpenValues = (nextOpenValues: string[]) => {
+      openValues.set(nextOpenValues);
+      openValueLookup.set(
+        nextOpenValues.reduce<Record<string, true>>((lookup, value) => {
+          lookup[value] = true;
+          return lookup;
+        }, {})
+      );
+    };
 
     return {
       props: {
         ...args,
         openValues,
-        isOpen: (value: string) => openValues().includes(value),
+        isOpen: (value: string) => Boolean(openValueLookup()[value]),
         openFirst: () => {
-          openValues.set(['what-is-accretion']);
+          syncOpenValues(['what-is-accretion']);
         },
         openAll: () => {
-          openValues.set(BASE_ITEMS.map(({ value }) => value));
+          syncOpenValues(BASE_ITEMS.map(({ value }) => value));
         },
         collapseAll: () => {
-          openValues.set([]);
+          syncOpenValues([]);
         },
-        handleAccordionChange: (event: CustomEvent<{ openValues: string[] }>) => {
+        handleAccordionChange: (
+          event: CustomEvent<{ openValues: string[]; openValueLookup: Record<string, true> }>
+        ) => {
           openValues.set([...event.detail.openValues]);
+          openValueLookup.set({ ...event.detail.openValueLookup });
         }
       },
       template: `
         <div style="display:grid;gap:0.875rem;max-width:48rem;padding:1rem;">
           <div style="background:#f4f8fc;border:1px solid #c9d8ea;border-radius:12px;color:#1f2d40;display:grid;gap:8px;padding:12px 14px;">
             <p style="margin:0;"><strong>Controlled from outside state</strong></p>
-            <p style="margin:0;">This story binds each item open state to an Angular signal and syncs from accretionAccordionChange.</p>
+            <p style="margin:0;">This story binds each item open state to an Angular signal and syncs from accretionOpenChange.</p>
           </div>
 
           <div style="align-items:center;display:flex;flex-wrap:wrap;gap:8px;">
@@ -336,7 +350,7 @@ export const ControlledFromState: Story = {
             [focusLoop]="focusLoop"
             [orientation]="orientation"
             [sizeVariant]="sizeVariant"
-            (accretionAccordionChange)="handleAccordionChange($event)"
+            (accretionOpenChange)="handleAccordionChange($event)"
           >
             <accretion-accordion-item value="what-is-accretion" [open]="isOpen('what-is-accretion')">
               <accretion-accordion-header>

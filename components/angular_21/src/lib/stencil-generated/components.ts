@@ -30,14 +30,20 @@ export class AccretionAccordion {
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
-    proxyOutputs(this, this.el, ['accretionAccordionChange']);
+    proxyOutputs(this, this.el, ['accretionAccordionChange', 'accretionOpenChange']);
   }
 }
 
 
-export declare interface AccretionAccordion extends Components.AccretionAccordion {
+import type { AccordionValueChangeDetail as IAccretionAccordionAccordionValueChangeDetail } from '@accretion_ui/core';
 
-  accretionAccordionChange: EventEmitter<CustomEvent<{ openValues: string[] }>>;
+export declare interface AccretionAccordion extends Components.AccretionAccordion {
+  /**
+   *  @deprecated Use `accretionOpenChange` for a shorter event name.
+   */
+  accretionAccordionChange: EventEmitter<CustomEvent<IAccretionAccordionAccordionValueChangeDetail>>;
+
+  accretionOpenChange: EventEmitter<CustomEvent<IAccretionAccordionAccordionValueChangeDetail>>;
 }
 
 

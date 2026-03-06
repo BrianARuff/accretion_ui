@@ -1,6 +1,6 @@
 {
   "name": "@accretion_ui/react",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "React wrappers for Accretion UI web components.",
   "keywords": [
     "accretion",
@@ -36,13 +36,14 @@
   "scripts": {
     "clean": "rm -rf dist",
     "generate": "npm --prefix ../core run build",
-    "build": "npm run clean && npm run generate && tsc -p tsconfig.build.json",
+    "patch-generated-components": "node ./scripts/patch-generated-components.mjs",
+    "build": "npm run clean && npm run generate && npm run patch-generated-components && tsc -p tsconfig.build.json",
     "watch": "tsc -p tsconfig.build.json --watch",
     "prepublishOnly": "npm run build",
     "publish:package": "npm publish --access public"
   },
   "dependencies": {
-    "@accretion_ui/core": "^0.2.2",
+    "@accretion_ui/core": "^0.2.3",
     "@stencil/react-output-target": "^1.4.2"
   },
   "peerDependencies": {

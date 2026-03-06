@@ -7,7 +7,7 @@
 
 /* eslint-disable */
 
-import { type AccordionFocusRequestDetail, type AccordionItemElement, type AccordionToggleRequestDetail, type AccretionAccordionCustomEvent, type AccretionAccordionItemCustomEvent, type AccretionAccordionTriggerCustomEvent } from "@accretion_ui/core";
+import { type AccordionFocusRequestDetail, type AccordionItemElement, type AccordionToggleRequestDetail, type AccordionValueChangeDetail, type AccretionAccordionCustomEvent, type AccretionAccordionItemCustomEvent, type AccretionAccordionTriggerCustomEvent } from "@accretion_ui/core";
 import { AccretionAccordionHeader as AccretionAccordionHeaderElement, defineCustomElement as defineAccretionAccordionHeader } from "@accretion_ui/core/dist/components/accretion-accordion-header.js";
 import { AccretionAccordionItem as AccretionAccordionItemElement, defineCustomElement as defineAccretionAccordionItem } from "@accretion_ui/core/dist/components/accretion-accordion-item.js";
 import { AccretionAccordionPanel as AccretionAccordionPanelElement, defineCustomElement as defineAccretionAccordionPanel } from "@accretion_ui/core/dist/components/accretion-accordion-panel.js";
@@ -18,15 +18,111 @@ import type { EventName, StencilReactComponent } from '@stencil/react-output-tar
 import { createComponent } from '@stencil/react-output-target/runtime';
 import React from 'react';
 
-export type AccretionAccordionEvents = { onAccretionAccordionChange: EventName<AccretionAccordionCustomEvent<{ openValues: string[] }>> };
+const accretionElements = [
+    'accretion-button',
+    'accretion-accordion',
+    'accretion-accordion-item',
+    'accretion-accordion-header',
+    'accretion-accordion-trigger',
+    'accretion-accordion-panel'
+];
+const predefineStyleId = 'accretion-ui-predefine-style';
+const deferredDefinitions = new Set<string>();
+
+const runAfterLoad = (callback: () => void): void => {
+    if (typeof window === 'undefined') {
+        return;
+    }
+
+    if (document.readyState === 'complete') {
+        callback();
+        return;
+    }
+
+    window.addEventListener('load', callback, { once: true });
+};
+
+const installPredefineStyle = (): void => {
+    if (typeof document === 'undefined') {
+        return;
+    }
+
+    if (document.getElementById(predefineStyleId)) {
+        return;
+    }
+
+    const style = document.createElement('style');
+    style.id = predefineStyleId;
+    style.textContent = `${accretionElements.map((tag) => `${tag}:not(:defined)`).join(',\n')} {\n  visibility: hidden;\n}`;
+    document.head.appendChild(style);
+};
+
+const hasServerRenderedMarkupForTag = (tagName: string): boolean => {
+    if (typeof document === 'undefined') {
+        return false;
+    }
+
+    return document.querySelector(tagName) !== null;
+};
+
+const defineCustomElementWithSsrGuard = (tagName: string, defineCustomElement: () => void): void => {
+    if (typeof window === 'undefined' || typeof customElements === 'undefined') {
+        return;
+    }
+
+    if (customElements.get(tagName)) {
+        return;
+    }
+
+    if (!hasServerRenderedMarkupForTag(tagName)) {
+        defineCustomElement();
+        return;
+    }
+
+    installPredefineStyle();
+
+    if (deferredDefinitions.has(tagName)) {
+        return;
+    }
+
+    deferredDefinitions.add(tagName);
+
+    const runDefinition = (): void => {
+        deferredDefinitions.delete(tagName);
+
+        if (!customElements.get(tagName)) {
+            defineCustomElement();
+        }
+    };
+
+    runAfterLoad(() => {
+        if (typeof window.requestAnimationFrame === 'function') {
+            window.requestAnimationFrame(() => {
+                window.requestAnimationFrame(runDefinition);
+            });
+            return;
+        }
+
+        window.setTimeout(runDefinition, 0);
+    });
+};
+
+
+export type AccretionAccordionEvents = {
+    onAccretionAccordionChange: EventName<AccretionAccordionCustomEvent<AccordionValueChangeDetail>>,
+    onAccretionOpenChange: EventName<AccretionAccordionCustomEvent<AccordionValueChangeDetail>>
+};
 
 export const AccretionAccordion: StencilReactComponent<AccretionAccordionElement, AccretionAccordionEvents> = /*@__PURE__*/ createComponent<AccretionAccordionElement, AccretionAccordionEvents>({
     tagName: 'accretion-accordion',
     elementClass: AccretionAccordionElement,
     // @ts-ignore - ignore potential React type mismatches between the Stencil Output Target and your project.
     react: React,
-    events: { onAccretionAccordionChange: 'accretionAccordionChange' } as AccretionAccordionEvents,
-    defineCustomElement: defineAccretionAccordion
+    events: {
+        onAccretionAccordionChange: 'accretionAccordionChange',
+        onAccretionOpenChange: 'accretionOpenChange'
+    } as AccretionAccordionEvents,
+    defineCustomElement: () => defineCustomElementWithSsrGuard('accretion-accordion', defineAccretionAccordion)
 });
 
 export type AccretionAccordionHeaderEvents = NonNullable<unknown>;
@@ -37,7 +133,7 @@ export const AccretionAccordionHeader: StencilReactComponent<AccretionAccordionH
     // @ts-ignore - ignore potential React type mismatches between the Stencil Output Target and your project.
     react: React,
     events: {} as AccretionAccordionHeaderEvents,
-    defineCustomElement: defineAccretionAccordionHeader
+    defineCustomElement: () => defineCustomElementWithSsrGuard('accretion-accordion-header', defineAccretionAccordionHeader)
 });
 
 export type AccretionAccordionItemEvents = { onAccretionAccordionItemStateChange: EventName<AccretionAccordionItemCustomEvent<{ item: AccordionItemElement }>> };
@@ -48,7 +144,7 @@ export const AccretionAccordionItem: StencilReactComponent<AccretionAccordionIte
     // @ts-ignore - ignore potential React type mismatches between the Stencil Output Target and your project.
     react: React,
     events: { onAccretionAccordionItemStateChange: 'accretionAccordionItemStateChange' } as AccretionAccordionItemEvents,
-    defineCustomElement: defineAccretionAccordionItem
+    defineCustomElement: () => defineCustomElementWithSsrGuard('accretion-accordion-item', defineAccretionAccordionItem)
 });
 
 export type AccretionAccordionPanelEvents = NonNullable<unknown>;
@@ -59,7 +155,7 @@ export const AccretionAccordionPanel: StencilReactComponent<AccretionAccordionPa
     // @ts-ignore - ignore potential React type mismatches between the Stencil Output Target and your project.
     react: React,
     events: {} as AccretionAccordionPanelEvents,
-    defineCustomElement: defineAccretionAccordionPanel
+    defineCustomElement: () => defineCustomElementWithSsrGuard('accretion-accordion-panel', defineAccretionAccordionPanel)
 });
 
 export type AccretionAccordionTriggerEvents = {
@@ -76,7 +172,7 @@ export const AccretionAccordionTrigger: StencilReactComponent<AccretionAccordion
         onAccretionAccordionToggleRequest: 'accretionAccordionToggleRequest',
         onAccretionAccordionFocusRequest: 'accretionAccordionFocusRequest'
     } as AccretionAccordionTriggerEvents,
-    defineCustomElement: defineAccretionAccordionTrigger
+    defineCustomElement: () => defineCustomElementWithSsrGuard('accretion-accordion-trigger', defineAccretionAccordionTrigger)
 });
 
 export type AccretionButtonEvents = NonNullable<unknown>;
@@ -87,5 +183,5 @@ export const AccretionButton: StencilReactComponent<AccretionButtonElement, Accr
     // @ts-ignore - ignore potential React type mismatches between the Stencil Output Target and your project.
     react: React,
     events: {} as AccretionButtonEvents,
-    defineCustomElement: defineAccretionButton
+    defineCustomElement: () => defineCustomElementWithSsrGuard('accretion-button', defineAccretionButton)
 });

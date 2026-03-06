@@ -32,6 +32,11 @@ export interface AccordionItemStateChangeDetail {
   item: AccordionItemElement;
 }
 
+export interface AccordionValueChangeDetail {
+  openValues: string[];
+  openValueLookup: Record<string, true>;
+}
+
 export interface AccordionItemElement extends HTMLElement {
   open: boolean;
   disabled: boolean;

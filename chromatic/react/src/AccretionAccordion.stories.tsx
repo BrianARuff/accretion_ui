@@ -249,25 +249,38 @@ const renderAccordion = ({ keepMounted, ...args }: AccordionArgs, options: Story
 
 const ControlledAccordionExample = (args: AccordionArgs) => {
   const [openValues, setOpenValues] = useState<string[]>(['what-is-accretion']);
+  const [openValueLookup, setOpenValueLookup] = useState<Record<string, true>>({
+    'what-is-accretion': true
+  });
 
-  const isOpen = (value: string) => openValues.includes(value);
+  const syncOpenValues = (nextOpenValues: string[]) => {
+    const nextLookup = nextOpenValues.reduce<Record<string, true>>((lookup, value) => {
+      lookup[value] = true;
+      return lookup;
+    }, {});
+
+    setOpenValues(nextOpenValues);
+    setOpenValueLookup(nextLookup);
+  };
+
+  const isOpen = (value: string) => Boolean(openValueLookup[value]);
 
   return (
     <div style={{ display: 'grid', gap: '0.875rem', maxWidth: '48rem', padding: '1rem' }}>
       {renderSummary(
         'Controlled from outside state',
-        'This story binds each item open state to React useState and syncs from accretionAccordionChange.',
+        'This story binds each item open state to React useState and syncs from accretionOpenChange.',
         []
       )}
 
       <div style={{ alignItems: 'center', display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-        <button type="button" onClick={() => setOpenValues(['what-is-accretion'])}>
+        <button type="button" onClick={() => syncOpenValues(['what-is-accretion'])}>
           Open first
         </button>
-        <button type="button" onClick={() => setOpenValues(BASE_ITEMS.map(({ value }) => value))}>
+        <button type="button" onClick={() => syncOpenValues(BASE_ITEMS.map(({ value }) => value))}>
           Open all
         </button>
-        <button type="button" onClick={() => setOpenValues([])}>
+        <button type="button" onClick={() => syncOpenValues([])}>
           Collapse all
         </button>
         <p style={{ margin: 0 }}>
@@ -277,7 +290,10 @@ const ControlledAccordionExample = (args: AccordionArgs) => {
 
       <AccretionAccordion
         {...args}
-        onAccretionAccordionChange={(event) => setOpenValues([...event.detail.openValues])}
+        onAccretionOpenChange={(event) => {
+          setOpenValues([...event.detail.openValues]);
+          setOpenValueLookup({ ...event.detail.openValueLookup });
+        }}
       >
         {BASE_ITEMS.map(({ value, title, content }) => (
           <AccretionAccordionItem key={value} value={value} open={isOpen(value)}>
