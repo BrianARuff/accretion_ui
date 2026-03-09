@@ -33,6 +33,8 @@ Import the package predefine stylesheet in your application stylesheet so unreso
 
 Runtime style injection still runs as a client fallback, but it cannot prevent a first-paint flash if this stylesheet was not already part of the initial HTML or CSS payload.
 
+This package is client-first today. SSR still helps with early HTML delivery, but the custom elements only become fully styled and interactive after client-side upgrade, and Angular hydration can observe pre-upgrade markup before that process completes. Use hydration opt-out or client-only rendering for regions that require strict hydration parity.
+
 ## Peer dependencies
 
 - `@angular/core` `>=21.0.0 <22.0.0`

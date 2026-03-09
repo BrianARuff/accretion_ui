@@ -148,6 +148,14 @@ import '@accretion_ui/react/predefine.css';
 
 The wrappers and core runtime also inject the same stylesheet once on the client as a fallback, but that runtime injection cannot prevent a first-paint flash if the CSS was not already present in the initial HTML/CSS payload.
 
+Accretion UI is client-first today. The components can still participate in SSR and SSG, but only with caveats:
+
+- The server can emit the custom element tags, but the real behavior and styling arrive only after the browser defines and upgrades those elements on the client.
+- React and Angular hydrate before the web components finish upgrading, so framework hydration can observe markup, attributes, or nested structure that is still in a pre-upgrade state.
+- The wrappers proxy props and events onto custom elements rather than rendering native React or Angular component trees, which means strict framework-managed hydration parity is harder to guarantee.
+
+In practice, SSR is useful here for faster first HTML delivery and progressive enhancement, but regions that require strict hydration parity should still prefer client-only rendering or a framework hydration opt-out until the web-component SSR path is more mature.
+
 ## Framework Setup Examples
 
 ### Angular 18 (`npx @angular/cli@18 new my-app`)
@@ -671,6 +679,7 @@ npm --prefix testing run verify:npm:browser
 - Server-rendered application support still has caveats:
   - Import the package `predefine.css` file globally in SSR/SSG apps to avoid a first-paint flash while custom elements are still unresolved.
   - The runtime now injects the same stylesheet once per document as a fallback, but runtime injection alone cannot eliminate flash before the first HTML/CSS paint.
+  - The library is still client-first because behavior is finalized during client-side custom-element upgrade, not during server render.
   - In SSR + hydration workflows (for example, Next.js App Router and Angular Universal), web-component upgrade timing can still produce hydration warnings or behavior differences for nested components.
   - If strict SSR hydration parity is required, use framework-level client-only rendering or hydration opt-out for affected component regions until full SSR compatibility is formally released.
 
