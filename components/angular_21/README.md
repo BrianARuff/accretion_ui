@@ -23,6 +23,16 @@ import { AccretionButton } from '@accretion_ui/angular_21';
 export class AppComponent {}
 ```
 
+## SSR and SSG
+
+Import the package predefine stylesheet in your application stylesheet so unresolved custom elements stay hidden until the browser defines them:
+
+```css
+@import "@accretion_ui/angular_21/predefine.css";
+```
+
+Runtime style injection still runs as a client fallback, but it cannot prevent a first-paint flash if this stylesheet was not already part of the initial HTML or CSS payload.
+
 ## Peer dependencies
 
 - `@angular/core` `>=21.0.0 <22.0.0`

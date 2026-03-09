@@ -27,10 +27,17 @@ import { defineCustomElement as defineAccretionButton } from '@accretion_ui/core
 })
 export class AccretionAccordion {
   protected el: HTMLAccretionAccordionElement;
+  declare collapsible: Components.AccretionAccordion['collapsible'];
+  declare disabled: Components.AccretionAccordion['disabled'];
+  declare focusLoop: Components.AccretionAccordion['focusLoop'];
+  declare loop: Components.AccretionAccordion['loop'];
+  declare orientation: Components.AccretionAccordion['orientation'];
+  declare sizeVariant: Components.AccretionAccordion['sizeVariant'];
+  declare type: Components.AccretionAccordion['type'];
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
-    proxyOutputs(this, this.el, ['accretionAccordionChange', 'accretionOpenChange']);
+    proxyOutputs(this, this.el, ['accretionOpenChange']);
   }
 }
 
@@ -38,10 +45,6 @@ export class AccretionAccordion {
 import type { AccordionValueChangeDetail as IAccretionAccordionAccordionValueChangeDetail } from '@accretion_ui/core';
 
 export declare interface AccretionAccordion extends Components.AccretionAccordion {
-  /**
-   *  @deprecated Use `accretionOpenChange` for a shorter event name.
-   */
-  accretionAccordionChange: EventEmitter<CustomEvent<IAccretionAccordionAccordionValueChangeDetail>>;
 
   accretionOpenChange: EventEmitter<CustomEvent<IAccretionAccordionAccordionValueChangeDetail>>;
 }
@@ -62,6 +65,7 @@ export declare interface AccretionAccordion extends Components.AccretionAccordio
 })
 export class AccretionAccordionHeader {
   protected el: HTMLAccretionAccordionHeaderElement;
+  declare level: Components.AccretionAccordionHeader['level'];
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
@@ -87,6 +91,9 @@ export declare interface AccretionAccordionHeader extends Components.AccretionAc
 })
 export class AccretionAccordionItem {
   protected el: HTMLAccretionAccordionItemElement;
+  declare disabled: Components.AccretionAccordionItem['disabled'];
+  declare open: Components.AccretionAccordionItem['open'];
+  declare value: Components.AccretionAccordionItem['value'];
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
@@ -118,6 +125,8 @@ export declare interface AccretionAccordionItem extends Components.AccretionAcco
 })
 export class AccretionAccordionPanel {
   protected el: HTMLAccretionAccordionPanelElement;
+  declare hiddenUntilFound: Components.AccretionAccordionPanel['hiddenUntilFound'];
+  declare keepMounted: Components.AccretionAccordionPanel['keepMounted'];
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
@@ -143,6 +152,7 @@ export declare interface AccretionAccordionPanel extends Components.AccretionAcc
 })
 export class AccretionAccordionTrigger {
   protected el: HTMLAccretionAccordionTriggerElement;
+  declare disabled: Components.AccretionAccordionTrigger['disabled'];
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
@@ -176,6 +186,8 @@ export declare interface AccretionAccordionTrigger extends Components.AccretionA
 })
 export class AccretionButton {
   protected el: HTMLAccretionButtonElement;
+  declare disabled: Components.AccretionButton['disabled'];
+  declare variant: Components.AccretionButton['variant'];
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;

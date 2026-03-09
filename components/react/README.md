@@ -18,6 +18,16 @@ export function Example() {
 }
 ```
 
+## SSR and SSG
+
+Import the package predefine stylesheet in your top-level entry so unresolved custom elements stay hidden until the browser defines them:
+
+```tsx
+import '@accretion_ui/react/predefine.css';
+```
+
+Runtime style injection still runs as a client fallback, but it cannot prevent a first-paint flash if this stylesheet was not already part of the initial HTML or CSS payload.
+
 ## Peer dependencies
 
 - `react` `^18.2.0 || ^19.0.0`

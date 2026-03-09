@@ -20,10 +20,60 @@ const componentReplacements = [
   {
     from: /import type \{ AccordionValueChangeDetail as ([^}]+) \} from '@accretion_ui\/core\/dist\/components';/g,
     to: "import type { AccordionValueChangeDetail as $1 } from '@accretion_ui/core';"
+  },
+  {
+    from: /export class AccretionAccordion {\n  protected el: HTMLAccretionAccordionElement;/g,
+    to: `export class AccretionAccordion {
+  protected el: HTMLAccretionAccordionElement;
+  declare collapsible: Components.AccretionAccordion['collapsible'];
+  declare disabled: Components.AccretionAccordion['disabled'];
+  declare focusLoop: Components.AccretionAccordion['focusLoop'];
+  declare loop: Components.AccretionAccordion['loop'];
+  declare orientation: Components.AccretionAccordion['orientation'];
+  declare sizeVariant: Components.AccretionAccordion['sizeVariant'];
+  declare type: Components.AccretionAccordion['type'];`
+  },
+  {
+    from: /export class AccretionAccordionHeader {\n  protected el: HTMLAccretionAccordionHeaderElement;/g,
+    to: `export class AccretionAccordionHeader {
+  protected el: HTMLAccretionAccordionHeaderElement;
+  declare level: Components.AccretionAccordionHeader['level'];`
+  },
+  {
+    from: /export class AccretionAccordionItem {\n  protected el: HTMLAccretionAccordionItemElement;/g,
+    to: `export class AccretionAccordionItem {
+  protected el: HTMLAccretionAccordionItemElement;
+  declare disabled: Components.AccretionAccordionItem['disabled'];
+  declare open: Components.AccretionAccordionItem['open'];
+  declare value: Components.AccretionAccordionItem['value'];`
+  },
+  {
+    from: /export class AccretionAccordionPanel {\n  protected el: HTMLAccretionAccordionPanelElement;/g,
+    to: `export class AccretionAccordionPanel {
+  protected el: HTMLAccretionAccordionPanelElement;
+  declare hiddenUntilFound: Components.AccretionAccordionPanel['hiddenUntilFound'];
+  declare keepMounted: Components.AccretionAccordionPanel['keepMounted'];`
+  },
+  {
+    from: /export class AccretionAccordionTrigger {\n  protected el: HTMLAccretionAccordionTriggerElement;/g,
+    to: `export class AccretionAccordionTrigger {
+  protected el: HTMLAccretionAccordionTriggerElement;
+  declare disabled: Components.AccretionAccordionTrigger['disabled'];`
+  },
+  {
+    from: /export class AccretionButton {\n  protected el: HTMLAccretionButtonElement;/g,
+    to: `export class AccretionButton {
+  protected el: HTMLAccretionButtonElement;
+  declare disabled: Components.AccretionButton['disabled'];
+  declare variant: Components.AccretionButton['variant'];`
   }
 ];
 
 const utilsReplacements = [
+  {
+    from: /import \{ fromEvent \} from 'rxjs';\n/g,
+    to: "import { fromEvent } from 'rxjs';\nimport { ensureAccretionPredefineStyles } from '@accretion_ui/core';\n"
+  },
   {
     from: /return this\.z\.runOutsideAngular\(\(\) => this\.el\[methodName\]\.apply\(this\.el, args\)\);/g,
     to: `return this.z.runOutsideAngular(() => {
@@ -37,118 +87,12 @@ const utilsReplacements = [
       });`
   },
   {
-    from: /export const proxyOutputs = \(instance: any, el: any, events: string\[\]\) => {\n  events\.forEach\(\(eventName\) => \(instance\[eventName\] = fromEvent\(el, eventName\)\)\);\n};\n\nexport const defineCustomElement =/g,
-    to: `export const proxyOutputs = (instance: any, el: any, events: string[]) => {
-  events.forEach((eventName) => (instance[eventName] = fromEvent(el, eventName)));
-};
-
-const predefineStyleId = 'accretion-ui-predefine-style';
-const predefineStyleSelectors = [
-  'accretion-button:not(:defined)',
-  'accretion-accordion:not(:defined)',
-  'accretion-accordion-item:not(:defined)',
-  'accretion-accordion-header:not(:defined)',
-  'accretion-accordion-trigger:not(:defined)',
-  'accretion-accordion-panel:not(:defined)',
-];
-
-const hasServerRenderedAccretionMarkup = () => {
-  if (typeof document === 'undefined') {
-    return false;
-  }
-
-  return document.querySelector('accretion-button, accretion-accordion, accretion-accordion-item, accretion-accordion-header, accretion-accordion-trigger, accretion-accordion-panel') !== null;
-};
-
-const installPredefineStyle = () => {
-  if (typeof document === 'undefined') {
-    return;
-  }
-
-  if (document.getElementById(predefineStyleId)) {
-    return;
-  }
-
-  const style = document.createElement('style');
-  style.id = predefineStyleId;
-  style.textContent = \`\${predefineStyleSelectors.join(',\\n')} {\\n  visibility: hidden;\\n}\`;
-  document.head.appendChild(style);
-};
-
-const deferredDefinitions = new WeakSet<() => void>();
-
-const runWhenDomReady = (callback: () => void) => {
-  if (typeof document === 'undefined') {
-    return;
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', callback, { once: true });
-    return;
-  }
-
-  callback();
-};
-
-const runAfterLoad = (callback: () => void) => {
-  if (typeof window === 'undefined') {
-    return;
-  }
-
-  if (document.readyState === 'complete') {
-    callback();
-    return;
-  }
-
-  window.addEventListener('load', callback, { once: true });
-};
-
-const defineCustomElementDeferred = (defineCustomElementFn?: () => void) => {
-  if (defineCustomElementFn === undefined || typeof window === 'undefined') {
-    return;
-  }
-
-  if (deferredDefinitions.has(defineCustomElementFn)) {
-    return;
-  }
-
-  deferredDefinitions.add(defineCustomElementFn);
-
-  const runDefinition = () => {
-    deferredDefinitions.delete(defineCustomElementFn);
-    defineCustomElementFn();
-  };
-
-  runWhenDomReady(() => {
-    runAfterLoad(() => {
-      if (typeof window.requestAnimationFrame === 'function') {
-        window.requestAnimationFrame(() => {
-          window.requestAnimationFrame(runDefinition);
-        });
-        return;
-      }
-
-      window.setTimeout(runDefinition, 0);
-    });
-  });
-};
-
-export const defineCustomElement =`
-  },
-  {
-    from: /    if \(defineCustomElementFn !== undefined\) {\n      defineCustomElementFn\(\);\n    }\n\n    if \(inputs\) {/g,
+    from: /    if \(defineCustomElementFn !== undefined\) {\n      defineCustomElementFn\(\);\n    }\n/g,
     to: `    if (defineCustomElementFn !== undefined) {
-      const shouldDeferForPotentialSsr = typeof document !== 'undefined' && document.readyState === 'loading';
-
-      if (shouldDeferForPotentialSsr || hasServerRenderedAccretionMarkup()) {
-        installPredefineStyle();
-        defineCustomElementDeferred(defineCustomElementFn);
-      } else {
-        defineCustomElementFn();
-      }
+      ensureAccretionPredefineStyles();
+      defineCustomElementFn();
     }
-
-    if (inputs) {`
+`
   }
 ];
 

@@ -10,9 +10,9 @@ If you only have a few minutes, open these first:
 
 | Framework Target | Storybook | Chromatic Project | npm Package |
 |---|---|---|---|
-| React (`@accretion_ui/react`) | [View Storybook](https://69a694b696baf333e562e9f1-yyktylvmmk.chromatic.com/) | [View Chromatic](https://www.chromatic.com/setup?appId=69a694b696baf333e562e9f1) | [@accretion_ui/react](https://www.npmjs.com/package/@accretion_ui/react) |
-| Angular 18 (`@accretion_ui/angular_18`) | [View Storybook](https://69a69540931282436807583e-ymgtpgyqrh.chromatic.com/) | [View Chromatic](https://www.chromatic.com/setup?appId=69a69540931282436807583e) | [@accretion_ui/angular_18](https://www.npmjs.com/package/@accretion_ui/angular_18) |
-| Angular 21 (`@accretion_ui/angular_21`) | [View Storybook](https://69a69585a3c2c8accf671d8d-ejbsnuffvz.chromatic.com/) | [View Chromatic](https://www.chromatic.com/setup?appId=69a69585a3c2c8accf671d8d) | [@accretion_ui/angular_21](https://www.npmjs.com/package/@accretion_ui/angular_21) |
+| React (`@accretion_ui/react`) | [View Storybook](https://69a694b696baf333e562e9f1-tlokipzwnk.chromatic.com/) | [View Chromatic](https://www.chromatic.com/setup?appId=69a694b696baf333e562e9f1) | [@accretion_ui/react](https://www.npmjs.com/package/@accretion_ui/react) |
+| Angular 18 (`@accretion_ui/angular_18`) | [View Storybook](https://69a69540931282436807583e-xsbjpzulwl.chromatic.com/) | [View Chromatic](https://www.chromatic.com/setup?appId=69a69540931282436807583e) | [@accretion_ui/angular_18](https://www.npmjs.com/package/@accretion_ui/angular_18) |
+| Angular 21 (`@accretion_ui/angular_21`) | [View Storybook](https://69a69585a3c2c8accf671d8d-fkmuaihzrl.chromatic.com/) | [View Chromatic](https://www.chromatic.com/setup?appId=69a69585a3c2c8accf671d8d) | [@accretion_ui/angular_21](https://www.npmjs.com/package/@accretion_ui/angular_21) |
 
 Core package (single source of truth): [@accretion_ui/core](https://www.npmjs.com/package/@accretion_ui/core)
 
@@ -110,6 +110,43 @@ npm install @accretion_ui/angular_18 @accretion_ui/core
 ```bash
 npm install @accretion_ui/angular_21 @accretion_ui/core
 ```
+
+### SSR and SSG pre-style guidance
+
+For server-rendered or statically generated applications, make sure this CSS is present in the initial server response so unresolved custom elements stay hidden until the browser defines them:
+
+```css
+accretion-accordion:not(:defined),
+accretion-accordion-item:not(:defined),
+accretion-accordion-header:not(:defined),
+accretion-accordion-trigger:not(:defined),
+accretion-accordion-panel:not(:defined),
+accretion-button:not(:defined) {
+  visibility: hidden;
+}
+```
+
+Apply that rule in a global stylesheet or root layout/document `<head>` that is loaded with the first HTML response. Do not rely on component-scoped CSS, CSS modules attached after hydration, or client-side runtime injection if you need to avoid the refresh-time flash in SSR/SSG apps.
+
+Each package ships the same rule as `predefine.css`, so the simplest option is to import it from your top-level entry:
+
+```ts
+// React / Next.js top-level entry
+import '@accretion_ui/react/predefine.css';
+```
+
+```css
+/* Angular 18-20 src/styles.css */
+@import "@accretion_ui/angular_18/predefine.css";
+
+/* Angular 21+ src/styles.css */
+@import "@accretion_ui/angular_21/predefine.css";
+
+/* Core-only usage */
+@import "@accretion_ui/core/predefine.css";
+```
+
+The wrappers and core runtime also inject the same stylesheet once on the client as a fallback, but that runtime injection cannot prevent a first-paint flash if the CSS was not already present in the initial HTML/CSS payload.
 
 ## Framework Setup Examples
 
@@ -475,6 +512,7 @@ Use this checklist before merging a release branch and publishing packages:
 - [ ] `npm --prefix testing run verify:local` passes.
 - [ ] Package versions are bumped and wrapper core ranges are aligned.
 - [ ] Production builds for all publishable packages pass.
+- [ ] Chromatic publishes are complete and README Storybook links point to the latest builds.
 - [ ] npm authentication is confirmed (`npm whoami`).
 - [ ] Publish commands run in strict dependency order (`core` first).
 - [ ] `npm --prefix testing run verify:npm` passes using published versions.
@@ -630,9 +668,10 @@ npm --prefix testing run verify:npm:browser
 
 ## Known Bugs
 
-- Server-rendered application support is currently limited:
-  - Accretion UI is optimized and release-validated for client-side rendered application usage.
-  - In SSR + hydration workflows (for example, Next.js App Router and Angular Universal), web-component upgrade timing can still produce hydration warnings, temporary style instability, or behavior differences for nested components.
+- Server-rendered application support still has caveats:
+  - Import the package `predefine.css` file globally in SSR/SSG apps to avoid a first-paint flash while custom elements are still unresolved.
+  - The runtime now injects the same stylesheet once per document as a fallback, but runtime injection alone cannot eliminate flash before the first HTML/CSS paint.
+  - In SSR + hydration workflows (for example, Next.js App Router and Angular Universal), web-component upgrade timing can still produce hydration warnings or behavior differences for nested components.
   - If strict SSR hydration parity is required, use framework-level client-only rendering or hydration opt-out for affected component regions until full SSR compatibility is formally released.
 
 ## Contributing

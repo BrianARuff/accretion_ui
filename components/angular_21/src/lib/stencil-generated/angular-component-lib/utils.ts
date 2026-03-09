@@ -1,6 +1,7 @@
 /* eslint-disable */
 /* tslint:disable */
 import { fromEvent } from 'rxjs';
+import { ensureAccretionPredefineStyles } from '@accretion_ui/core';
 
 export const proxyInputs = (Cmp: any, inputs: string[]) => {
   const Prototype = Cmp.prototype;
@@ -46,97 +47,6 @@ export const proxyOutputs = (instance: any, el: any, events: string[]) => {
   events.forEach((eventName) => (instance[eventName] = fromEvent(el, eventName)));
 };
 
-const predefineStyleId = 'accretion-ui-predefine-style';
-const predefineStyleSelectors = [
-  'accretion-button:not(:defined)',
-  'accretion-accordion:not(:defined)',
-  'accretion-accordion-item:not(:defined)',
-  'accretion-accordion-header:not(:defined)',
-  'accretion-accordion-trigger:not(:defined)',
-  'accretion-accordion-panel:not(:defined)',
-];
-
-const hasServerRenderedAccretionMarkup = () => {
-  if (typeof document === 'undefined') {
-    return false;
-  }
-
-  return document.querySelector('accretion-button, accretion-accordion, accretion-accordion-item, accretion-accordion-header, accretion-accordion-trigger, accretion-accordion-panel') !== null;
-};
-
-const installPredefineStyle = () => {
-  if (typeof document === 'undefined') {
-    return;
-  }
-
-  if (document.getElementById(predefineStyleId)) {
-    return;
-  }
-
-  const style = document.createElement('style');
-  style.id = predefineStyleId;
-  style.textContent = `${predefineStyleSelectors.join(',\n')} {\n  visibility: hidden;\n}`;
-  document.head.appendChild(style);
-};
-
-const deferredDefinitions = new WeakSet<() => void>();
-
-const runWhenDomReady = (callback: () => void) => {
-  if (typeof document === 'undefined') {
-    return;
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', callback, { once: true });
-    return;
-  }
-
-  callback();
-};
-
-const runAfterLoad = (callback: () => void) => {
-  if (typeof window === 'undefined') {
-    return;
-  }
-
-  if (document.readyState === 'complete') {
-    callback();
-    return;
-  }
-
-  window.addEventListener('load', callback, { once: true });
-};
-
-const defineCustomElementDeferred = (defineCustomElementFn?: () => void) => {
-  if (defineCustomElementFn === undefined || typeof window === 'undefined') {
-    return;
-  }
-
-  if (deferredDefinitions.has(defineCustomElementFn)) {
-    return;
-  }
-
-  deferredDefinitions.add(defineCustomElementFn);
-
-  const runDefinition = () => {
-    deferredDefinitions.delete(defineCustomElementFn);
-    defineCustomElementFn();
-  };
-
-  runWhenDomReady(() => {
-    runAfterLoad(() => {
-      if (typeof window.requestAnimationFrame === 'function') {
-        window.requestAnimationFrame(() => {
-          window.requestAnimationFrame(runDefinition);
-        });
-        return;
-      }
-
-      window.setTimeout(runDefinition, 0);
-    });
-  });
-};
-
 export const defineCustomElement = (tagName: string, customElement: any) => {
   if (customElement !== undefined && typeof customElements !== 'undefined' && !customElements.get(tagName)) {
     customElements.define(tagName, customElement);
@@ -149,14 +59,8 @@ export function ProxyCmp(opts: { defineCustomElementFn?: () => void; inputs?: an
     const { defineCustomElementFn, inputs, methods } = opts;
 
     if (defineCustomElementFn !== undefined) {
-      const shouldDeferForPotentialSsr = typeof document !== 'undefined' && document.readyState === 'loading';
-
-      if (shouldDeferForPotentialSsr || hasServerRenderedAccretionMarkup()) {
-        installPredefineStyle();
-        defineCustomElementDeferred(defineCustomElementFn);
-      } else {
-        defineCustomElementFn();
-      }
+      ensureAccretionPredefineStyles();
+      defineCustomElementFn();
     }
 
     if (inputs) {

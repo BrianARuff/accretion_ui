@@ -47,6 +47,21 @@ runForEachFramework('accordion prop coverage', (framework) => {
     await expect(nonCollapsibleSecond).toHaveAttribute('aria-expanded', 'true');
   });
 
+  test('item open prop seeds initial open items', async ({ page }) => {
+    await gotoStory(page, framework, STORY_IDS.INTERACTIVE_OVERVIEW);
+
+    await expect(page.locator('accretion-accordion-item').nth(0)).toHaveAttribute('open', '');
+    await expect(page.getByRole('button', { name: 'What is Accretion UI?' })).toHaveAttribute('aria-expanded', 'true');
+    await expect(page.getByRole('button', { name: 'How do I get started?' })).toHaveAttribute('aria-expanded', 'false');
+
+    await gotoStory(page, framework, STORY_IDS.MULTIPLE_OPEN);
+
+    await expect(page.locator('accretion-accordion-item').nth(0)).toHaveAttribute('open', '');
+    await expect(page.locator('accretion-accordion-item').nth(1)).toHaveAttribute('open', '');
+    await expect(page.getByRole('button', { name: 'What is Accretion UI?' })).toHaveAttribute('aria-expanded', 'true');
+    await expect(page.getByRole('button', { name: 'How do I get started?' })).toHaveAttribute('aria-expanded', 'true');
+  });
+
   test('root disabled prop disables all triggers and blocks interaction', async ({ page }) => {
     await gotoStory(page, framework, STORY_IDS.SPACIOUS_DISABLED);
 
@@ -149,7 +164,7 @@ runForEachFramework('accordion prop coverage', (framework) => {
     expect(heights.comfortable).toBeLessThan(heights.spacious);
   });
 
-  test('item value and open props drive trigger data-value and open state', async ({ page }) => {
+  test('item value and open props drive trigger data-value and initial open state', async ({ page }) => {
     await gotoStory(page, framework, STORY_IDS.INTERACTIVE_OVERVIEW);
 
     const items = page.locator('accretion-accordion-item');

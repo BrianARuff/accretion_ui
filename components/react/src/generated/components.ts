@@ -18,111 +18,15 @@ import type { EventName, StencilReactComponent } from '@stencil/react-output-tar
 import { createComponent } from '@stencil/react-output-target/runtime';
 import React from 'react';
 
-const accretionElements = [
-    'accretion-button',
-    'accretion-accordion',
-    'accretion-accordion-item',
-    'accretion-accordion-header',
-    'accretion-accordion-trigger',
-    'accretion-accordion-panel'
-];
-const predefineStyleId = 'accretion-ui-predefine-style';
-const deferredDefinitions = new Set<string>();
-
-const runAfterLoad = (callback: () => void): void => {
-    if (typeof window === 'undefined') {
-        return;
-    }
-
-    if (document.readyState === 'complete') {
-        callback();
-        return;
-    }
-
-    window.addEventListener('load', callback, { once: true });
-};
-
-const installPredefineStyle = (): void => {
-    if (typeof document === 'undefined') {
-        return;
-    }
-
-    if (document.getElementById(predefineStyleId)) {
-        return;
-    }
-
-    const style = document.createElement('style');
-    style.id = predefineStyleId;
-    style.textContent = `${accretionElements.map((tag) => `${tag}:not(:defined)`).join(',\n')} {\n  visibility: hidden;\n}`;
-    document.head.appendChild(style);
-};
-
-const hasServerRenderedMarkupForTag = (tagName: string): boolean => {
-    if (typeof document === 'undefined') {
-        return false;
-    }
-
-    return document.querySelector(tagName) !== null;
-};
-
-const defineCustomElementWithSsrGuard = (tagName: string, defineCustomElement: () => void): void => {
-    if (typeof window === 'undefined' || typeof customElements === 'undefined') {
-        return;
-    }
-
-    if (customElements.get(tagName)) {
-        return;
-    }
-
-    if (!hasServerRenderedMarkupForTag(tagName)) {
-        defineCustomElement();
-        return;
-    }
-
-    installPredefineStyle();
-
-    if (deferredDefinitions.has(tagName)) {
-        return;
-    }
-
-    deferredDefinitions.add(tagName);
-
-    const runDefinition = (): void => {
-        deferredDefinitions.delete(tagName);
-
-        if (!customElements.get(tagName)) {
-            defineCustomElement();
-        }
-    };
-
-    runAfterLoad(() => {
-        if (typeof window.requestAnimationFrame === 'function') {
-            window.requestAnimationFrame(() => {
-                window.requestAnimationFrame(runDefinition);
-            });
-            return;
-        }
-
-        window.setTimeout(runDefinition, 0);
-    });
-};
-
-
-export type AccretionAccordionEvents = {
-    onAccretionAccordionChange: EventName<AccretionAccordionCustomEvent<AccordionValueChangeDetail>>,
-    onAccretionOpenChange: EventName<AccretionAccordionCustomEvent<AccordionValueChangeDetail>>
-};
+export type AccretionAccordionEvents = { onAccretionOpenChange: EventName<AccretionAccordionCustomEvent<AccordionValueChangeDetail>> };
 
 export const AccretionAccordion: StencilReactComponent<AccretionAccordionElement, AccretionAccordionEvents> = /*@__PURE__*/ createComponent<AccretionAccordionElement, AccretionAccordionEvents>({
     tagName: 'accretion-accordion',
     elementClass: AccretionAccordionElement,
     // @ts-ignore - ignore potential React type mismatches between the Stencil Output Target and your project.
     react: React,
-    events: {
-        onAccretionAccordionChange: 'accretionAccordionChange',
-        onAccretionOpenChange: 'accretionOpenChange'
-    } as AccretionAccordionEvents,
-    defineCustomElement: () => defineCustomElementWithSsrGuard('accretion-accordion', defineAccretionAccordion)
+    events: { onAccretionOpenChange: 'accretionOpenChange' } as AccretionAccordionEvents,
+    defineCustomElement: defineAccretionAccordion
 });
 
 export type AccretionAccordionHeaderEvents = NonNullable<unknown>;
@@ -133,7 +37,7 @@ export const AccretionAccordionHeader: StencilReactComponent<AccretionAccordionH
     // @ts-ignore - ignore potential React type mismatches between the Stencil Output Target and your project.
     react: React,
     events: {} as AccretionAccordionHeaderEvents,
-    defineCustomElement: () => defineCustomElementWithSsrGuard('accretion-accordion-header', defineAccretionAccordionHeader)
+    defineCustomElement: defineAccretionAccordionHeader
 });
 
 export type AccretionAccordionItemEvents = { onAccretionAccordionItemStateChange: EventName<AccretionAccordionItemCustomEvent<{ item: AccordionItemElement }>> };
@@ -144,7 +48,7 @@ export const AccretionAccordionItem: StencilReactComponent<AccretionAccordionIte
     // @ts-ignore - ignore potential React type mismatches between the Stencil Output Target and your project.
     react: React,
     events: { onAccretionAccordionItemStateChange: 'accretionAccordionItemStateChange' } as AccretionAccordionItemEvents,
-    defineCustomElement: () => defineCustomElementWithSsrGuard('accretion-accordion-item', defineAccretionAccordionItem)
+    defineCustomElement: defineAccretionAccordionItem
 });
 
 export type AccretionAccordionPanelEvents = NonNullable<unknown>;
@@ -155,7 +59,7 @@ export const AccretionAccordionPanel: StencilReactComponent<AccretionAccordionPa
     // @ts-ignore - ignore potential React type mismatches between the Stencil Output Target and your project.
     react: React,
     events: {} as AccretionAccordionPanelEvents,
-    defineCustomElement: () => defineCustomElementWithSsrGuard('accretion-accordion-panel', defineAccretionAccordionPanel)
+    defineCustomElement: defineAccretionAccordionPanel
 });
 
 export type AccretionAccordionTriggerEvents = {
@@ -172,7 +76,7 @@ export const AccretionAccordionTrigger: StencilReactComponent<AccretionAccordion
         onAccretionAccordionToggleRequest: 'accretionAccordionToggleRequest',
         onAccretionAccordionFocusRequest: 'accretionAccordionFocusRequest'
     } as AccretionAccordionTriggerEvents,
-    defineCustomElement: () => defineCustomElementWithSsrGuard('accretion-accordion-trigger', defineAccretionAccordionTrigger)
+    defineCustomElement: defineAccretionAccordionTrigger
 });
 
 export type AccretionButtonEvents = NonNullable<unknown>;
@@ -183,5 +87,5 @@ export const AccretionButton: StencilReactComponent<AccretionButtonElement, Accr
     // @ts-ignore - ignore potential React type mismatches between the Stencil Output Target and your project.
     react: React,
     events: {} as AccretionButtonEvents,
-    defineCustomElement: () => defineCustomElementWithSsrGuard('accretion-button', defineAccretionButton)
+    defineCustomElement: defineAccretionButton
 });

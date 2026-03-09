@@ -14,11 +14,11 @@ import {
   type AccordionFocusRequestDetail,
   type AccordionItemElement,
   type AccordionItemStateChangeDetail,
-  type AccordionValueChangeDetail,
   type AccordionOrientation,
   type AccordionSizeVariant,
   type AccordionToggleRequestDetail,
   type AccordionType,
+  type AccordionValueChangeDetail,
   getClosestAccordion,
   getClosestAccordionItem
 } from './shared';
@@ -52,7 +52,7 @@ export class AccretionAccordion {
   @Prop({ reflect: true, attribute: 'focus-loop' }) focusLoop = true;
 
   /**
-   * @deprecated Use `focusLoop` instead.
+   * Supports the legacy loop attribute. When present it takes precedence over focusLoop.
    */
   @Prop({ reflect: true }) loop?: boolean;
 
@@ -65,12 +65,6 @@ export class AccretionAccordion {
    * Controls component spacing density.
    */
   @Prop({ reflect: true, attribute: 'size-variant' }) sizeVariant: AccordionSizeVariant = 'comfortable';
-
-  /**
-   * @deprecated Use `accretionOpenChange` for a shorter event name.
-   */
-  @Event({ eventName: 'accretionAccordionChange' })
-  private accretionAccordionChange!: EventEmitter<AccordionValueChangeDetail>;
 
   @Event({ eventName: 'accretionOpenChange' })
   private accretionOpenChange!: EventEmitter<AccordionValueChangeDetail>;
@@ -181,7 +175,7 @@ export class AccretionAccordion {
 
     event.stopPropagation();
 
-    await this.enforceExpansionRules(item);
+    await this.enforceExpansionRules();
     this.syncOpenState();
     await this.emitValueChange();
   }
@@ -299,7 +293,7 @@ export class AccretionAccordion {
     }
   }
 
-  private async enforceExpansionRules(preferredOpenItem?: AccordionItemElement): Promise<void> {
+  private async enforceExpansionRules(): Promise<void> {
     if (this.normalizedType !== 'single') {
       return;
     }
@@ -320,7 +314,7 @@ export class AccretionAccordion {
       return;
     }
 
-    const itemToKeepOpen = preferredOpenItem && openItems.includes(preferredOpenItem) ? preferredOpenItem : openItems[0];
+    const itemToKeepOpen = openItems[0];
 
     await this.withStateSync(async () => {
       await Promise.all(
@@ -386,7 +380,6 @@ export class AccretionAccordion {
     }, {});
     const detail: AccordionValueChangeDetail = { openValues, openValueLookup };
 
-    this.accretionAccordionChange.emit(detail);
     this.accretionOpenChange.emit(detail);
   }
 

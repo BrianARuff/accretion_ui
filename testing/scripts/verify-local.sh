@@ -112,8 +112,12 @@ function App() {
         Reset Count
       </AccretionButton>
 
-      <AccretionAccordion type="single" collapsible style={{ marginTop: '0.5rem', maxWidth: '36rem' }}>
-        <AccretionAccordionItem value="smoke-accordion">
+      <AccretionAccordion
+        type="single"
+        collapsible
+        style={{ marginTop: '0.5rem', maxWidth: '36rem' }}
+      >
+        <AccretionAccordionItem value="smoke-accordion" open>
           <AccretionAccordionHeader>
             <AccretionAccordionTrigger>Accordion import smoke check</AccretionAccordionTrigger>
           </AccretionAccordionHeader>
@@ -237,8 +241,12 @@ export default function App() {
         Reset Count
       </AccretionButton>
 
-      <AccretionAccordion type="single" collapsible style={{ marginTop: '0.5rem', maxWidth: '36rem' }}>
-        <AccretionAccordionItem value="smoke-accordion">
+      <AccretionAccordion
+        type="single"
+        collapsible
+        style={{ marginTop: '0.5rem', maxWidth: '36rem' }}
+      >
+        <AccretionAccordionItem value="smoke-accordion" open>
           <AccretionAccordionHeader>
             <AccretionAccordionTrigger>Accordion import smoke check</AccretionAccordionTrigger>
           </AccretionAccordionHeader>
@@ -330,6 +338,7 @@ EOF_NEXT_ENV
 
   cat > "$app_dir/app/layout.tsx" <<'EOF_LAYOUT'
 import type { ReactNode } from 'react';
+import '@accretion_ui/react/predefine.css';
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
@@ -369,8 +378,12 @@ export default function Page() {
         Reset Count
       </AccretionButton>
 
-      <AccretionAccordion type="single" collapsible style={{ marginTop: '0.5rem', maxWidth: '36rem' }}>
-        <AccretionAccordionItem value="smoke-accordion">
+      <AccretionAccordion
+        type="single"
+        collapsible
+        style={{ marginTop: '0.5rem', maxWidth: '36rem' }}
+      >
+        <AccretionAccordionItem value="smoke-accordion" open>
           <AccretionAccordionHeader>
             <AccretionAccordionTrigger>Accordion import smoke check</AccretionAccordionTrigger>
           </AccretionAccordionHeader>
@@ -416,6 +429,10 @@ setup_angular_app() {
   log "Installing Angular ${angular_major} wrapper + core tarballs"
   npm_exec --prefix "$app_dir" install "$package_tar" "$CORE_TAR"
 
+  cat > "$app_dir/src/styles.css" <<EOF_STYLES
+@import "@accretion_ui/angular_${angular_major}/predefine.css";
+EOF_STYLES
+
   if [[ -f "$app_dir/src/app/app.ts" ]]; then
     cat > "$app_dir/src/app/app.ts" <<'EOF_APP_21'
 import { Component, signal } from '@angular/core';
@@ -428,6 +445,13 @@ import {
   AccretionButton
 } from '@accretion_ui/angular_21';
 
+type AccordionItem = {
+  content: string;
+  open: boolean;
+  title: string;
+  value: string;
+};
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -439,28 +463,30 @@ import {
     AccretionAccordionTrigger,
     AccretionButton
   ],
-  template: `
-    <main style="display:grid;gap:12px;max-width:560px;padding:16px;">
-      <p><strong>Count:</strong> {{ count() }}</p>
-      <accretion-button variant="primary" (click)="increment()">Increment Count</accretion-button>
-      <accretion-button variant="secondary" (click)="decrement()">Decrement Count</accretion-button>
-      <accretion-button variant="tertiary" (click)="reset()">Reset Count</accretion-button>
-
-      <accretion-accordion type="single" [collapsible]="true" style="margin-top:8px;">
-        <accretion-accordion-item value="smoke-accordion">
-          <accretion-accordion-header>
-            <accretion-accordion-trigger>Accordion import smoke check</accretion-accordion-trigger>
-          </accretion-accordion-header>
-          <accretion-accordion-panel>
-            <p style="margin:0;">Angular wrapper + core custom elements for Accordion render successfully.</p>
-          </accretion-accordion-panel>
-        </accretion-accordion-item>
-      </accretion-accordion>
-    </main>
-  `
+  templateUrl: './app.html'
 })
 export class App {
   count = signal(0);
+  accordionItems = signal<AccordionItem[]>([
+    {
+      content: 'First item panel content.',
+      open: false,
+      title: 'First section',
+      value: 'item-1'
+    },
+    {
+      content: 'Second item panel content.',
+      open: true,
+      title: 'Second section',
+      value: 'item-2'
+    },
+    {
+      content: 'Third item panel content.',
+      open: false,
+      title: 'Third section',
+      value: 'item-3'
+    }
+  ]);
 
   increment() {
     this.count.update((value) => value + 1);
@@ -473,8 +499,46 @@ export class App {
   reset() {
     this.count.set(0);
   }
+
+  handleAccordionOpenChange(event: Event) {
+    const detail = (event as CustomEvent<{ openValueLookup: Record<string, true> }>).detail;
+
+    this.accordionItems.update((items) =>
+      items.map((item) => ({
+        ...item,
+        open: Boolean(detail.openValueLookup[item.value])
+      }))
+    );
+  }
 }
 EOF_APP_21
+    cat > "$app_dir/src/app/app.html" <<'EOF_APP_21_HTML'
+<main style="display:grid;gap:12px;max-width:560px;padding:16px;">
+  <p><strong>Count:</strong> {{ count() }}</p>
+  <accretion-button variant="primary" (click)="increment()">Increment Count</accretion-button>
+  <accretion-button variant="secondary" (click)="decrement()">Decrement Count</accretion-button>
+  <accretion-button variant="tertiary" (click)="reset()">Reset Count</accretion-button>
+
+  <accretion-accordion
+    type="multiple"
+    [collapsible]="true"
+    [sizeVariant]="'compact'"
+    (accretionOpenChange)="handleAccordionOpenChange($event)"
+    style="margin-top:8px;"
+  >
+    @for (item of accordionItems(); track item.value) {
+      <accretion-accordion-item [open]="item.open" [value]="item.value">
+        <accretion-accordion-header>
+          <accretion-accordion-trigger>{{ item.title }}</accretion-accordion-trigger>
+        </accretion-accordion-header>
+        <accretion-accordion-panel>
+          <p style="margin:0;">{{ item.content }}</p>
+        </accretion-accordion-panel>
+      </accretion-accordion-item>
+    }
+  </accretion-accordion>
+</main>
+EOF_APP_21_HTML
   else
     cat > "$app_dir/src/app/app.component.ts" <<'EOF_APP_18'
 import { Component } from '@angular/core';
@@ -506,7 +570,7 @@ import {
       <accretion-button variant="tertiary" (click)="reset()">Reset Count</accretion-button>
 
       <accretion-accordion type="single" [collapsible]="true" style="margin-top:8px;">
-        <accretion-accordion-item value="smoke-accordion">
+        <accretion-accordion-item value="smoke-accordion" [open]="true">
           <accretion-accordion-header>
             <accretion-accordion-trigger>Accordion import smoke check</accretion-accordion-trigger>
           </accretion-accordion-header>

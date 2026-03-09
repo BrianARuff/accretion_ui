@@ -30,18 +30,14 @@ export class AccretionAccordion {
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
-    proxyOutputs(this, this.el, ['accretionAccordionChange', 'accretionOpenChange']);
+    proxyOutputs(this, this.el, ['accretionOpenChange']);
   }
 }
 
 
-import type { AccordionValueChangeDetail as IAccretionAccordionAccordionValueChangeDetail } from '@accretion_ui/core';
+import type { AccordionValueChangeDetail as IAccretionAccordionAccordionValueChangeDetail } from '@accretion_ui/core/dist/components';
 
 export declare interface AccretionAccordion extends Components.AccretionAccordion {
-  /**
-   *  @deprecated Use `accretionOpenChange` for a shorter event name.
-   */
-  accretionAccordionChange: EventEmitter<CustomEvent<IAccretionAccordionAccordionValueChangeDetail>>;
 
   accretionOpenChange: EventEmitter<CustomEvent<IAccretionAccordionAccordionValueChangeDetail>>;
 }
@@ -95,7 +91,7 @@ export class AccretionAccordionItem {
 }
 
 
-import type { AccordionItemElement as IAccretionAccordionItemAccordionItemElement } from '@accretion_ui/core';
+import type { AccordionItemElement as IAccretionAccordionItemAccordionItemElement } from '@accretion_ui/core/dist/components';
 
 export declare interface AccretionAccordionItem extends Components.AccretionAccordionItem {
 
@@ -151,8 +147,8 @@ export class AccretionAccordionTrigger {
 }
 
 
-import type { AccordionToggleRequestDetail as IAccretionAccordionTriggerAccordionToggleRequestDetail } from '@accretion_ui/core';
-import type { AccordionFocusRequestDetail as IAccretionAccordionTriggerAccordionFocusRequestDetail } from '@accretion_ui/core';
+import type { AccordionToggleRequestDetail as IAccretionAccordionTriggerAccordionToggleRequestDetail } from '@accretion_ui/core/dist/components';
+import type { AccordionFocusRequestDetail as IAccretionAccordionTriggerAccordionFocusRequestDetail } from '@accretion_ui/core/dist/components';
 
 export declare interface AccretionAccordionTrigger extends Components.AccretionAccordionTrigger {
 

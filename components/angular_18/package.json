@@ -1,6 +1,6 @@
 {
   "name": "@accretion_ui/angular_18",
-  "version": "0.2.3",
+  "version": "0.2.5",
   "description": "Angular 18 wrappers for Accretion UI web components.",
   "keywords": [
     "accretion",
@@ -26,14 +26,14 @@
     "clean": "rm -rf dist",
     "generate": "npm --prefix ../core run build",
     "patch-generated-imports": "node ./scripts/patch-generated-imports.mjs",
-    "build": "npm run clean && npm run generate && npm run patch-generated-imports && ng-packagr -p ng-package.json",
+    "build": "npm run clean && npm run generate && npm run patch-generated-imports && ng-packagr -p ng-package.json && node ./scripts/finalize-dist-package.mjs",
     "watch": "ng-packagr -p ng-package.json -w",
     "prepare": "npm run build",
     "prepublishOnly": "npm run build",
     "publish:package": "npm run build && npm publish ./dist --access public"
   },
   "peerDependencies": {
-    "@accretion_ui/core": "^0.2.3",
+    "@accretion_ui/core": "^0.2.5",
     "@angular/common": ">=18.0.0 <21.0.0",
     "@angular/core": ">=18.0.0 <21.0.0",
     "rxjs": "^7.8.0"

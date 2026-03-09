@@ -26,10 +26,10 @@ type AccordionItemConfig = {
 };
 
 type StoryRenderOptions = {
-  initialOpenValues?: string[];
   disabledItemValues?: string[];
   disabledTriggerValues?: string[];
   hiddenUntilFoundValues?: string[];
+  openItemValues?: string[];
   containerStyle?: CSSProperties;
   items?: AccordionItemConfig[];
   panelContentByValue?: Partial<Record<string, ReactNode>>;
@@ -202,11 +202,11 @@ const KeepMountedPanelContent = ({ title, content }: { title: string; content: s
 
 const renderAccordion = ({ keepMounted, ...args }: AccordionArgs, options: StoryRenderOptions = {}) => {
   const items = options.items ?? BASE_ITEMS;
-  const initialOpenValues = options.initialOpenValues ?? [items[0]?.value ?? ''];
   const panelContentByValue = options.panelContentByValue ?? {};
   const disabledItemValues = new Set(options.disabledItemValues ?? []);
   const disabledTriggerValues = new Set(options.disabledTriggerValues ?? []);
   const hiddenUntilFoundValues = new Set(options.hiddenUntilFoundValues ?? []);
+  const openItemValues = new Set(options.openItemValues ?? []);
 
   return (
     <div
@@ -225,7 +225,7 @@ const renderAccordion = ({ keepMounted, ...args }: AccordionArgs, options: Story
           <AccretionAccordionItem
             key={value}
             value={value}
-            open={initialOpenValues.includes(value)}
+            open={openItemValues.has(value) || undefined}
             disabled={disabledItemValues.has(value)}
           >
             <AccretionAccordionHeader>
@@ -313,6 +313,94 @@ const ControlledAccordionExample = (args: AccordionArgs) => {
   );
 };
 
+const SUMMARY_TABLE_STYLE: CSSProperties = {
+  borderCollapse: 'collapse',
+  width: '100%'
+};
+
+const SUMMARY_CELL_STYLE: CSSProperties = {
+  border: '1px solid #d3dfed',
+  padding: '0.625rem',
+  textAlign: 'left',
+  verticalAlign: 'top'
+};
+
+const ACCORDION_PROP_ROWS = [
+  ['Accordion', 'type', 'Sets single-item or multiple-item expansion behavior.'],
+  ['Accordion', 'collapsible', 'Lets the active item close itself when type is single.'],
+  ['Accordion', 'disabled', 'Disables every trigger in the group.'],
+  ['Accordion', 'focusLoop', 'Wraps keyboard focus between the first and last enabled trigger.'],
+  ['Accordion', 'loop', 'Legacy alias for focusLoop.'],
+  ['Accordion', 'orientation', 'Switches arrow-key behavior between vertical and horizontal layouts.'],
+  ['Accordion', 'sizeVariant', 'Adjusts trigger spacing density.'],
+  ['Item', 'value', 'Provides the stable identifier emitted in open-change events.'],
+  ['Item', 'open', 'Sets the initial or controlled open state for a specific item.'],
+  ['Item', 'disabled', 'Disables one item without disabling the entire accordion.'],
+  ['Header', 'level', 'Controls the heading level announced to assistive technology.'],
+  ['Trigger', 'disabled', 'Disables only the trigger control for an item.'],
+  ['Panel', 'keepMounted', 'Keeps collapsed content in the DOM for stateful content.'],
+  ['Panel', 'hiddenUntilFound', 'Uses hidden="until-found" so browser find can reveal collapsed content.']
+] as const;
+
+const ACCORDION_GUIDELINES = [
+  'Use item-level open state instead of a root default state prop.',
+  'Always provide stable item values so open-change events map back to application state.',
+  'Listen to accretionOpenChange when a framework container needs to mirror the open state.',
+  'Reserve keepMounted for panels that hold form state, editors, or unfinished work.'
+];
+
+const AccordionSummaryPage = () => (
+  <div style={{ display: 'grid', gap: '1rem', maxWidth: '64rem', padding: '1rem' }}>
+    <div style={NOTE_CARD_STYLE}>
+      <p style={{ margin: 0 }}>
+        <strong>Accordion summary</strong>
+      </p>
+      <p style={{ margin: 0 }}>
+        Use the root accordion to define interaction rules, then drive per-item visibility with each item&apos;s
+        <code style={{ marginLeft: '0.25rem' }}>open</code>
+        prop when you need an initial or controlled state.
+      </p>
+    </div>
+
+    <div style={NOTE_CARD_STYLE}>
+      <p style={{ margin: 0 }}>
+        <strong>Props</strong>
+      </p>
+      <table style={SUMMARY_TABLE_STYLE}>
+        <thead>
+          <tr>
+            <th style={SUMMARY_CELL_STYLE}>Scope</th>
+            <th style={SUMMARY_CELL_STYLE}>Prop</th>
+            <th style={SUMMARY_CELL_STYLE}>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          {ACCORDION_PROP_ROWS.map(([scope, prop, description]) => (
+            <tr key={`${scope}-${prop}`}>
+              <td style={SUMMARY_CELL_STYLE}>{scope}</td>
+              <td style={SUMMARY_CELL_STYLE}>
+                <code>{prop}</code>
+              </td>
+              <td style={SUMMARY_CELL_STYLE}>{description}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <div style={NOTE_CARD_STYLE}>
+      <p style={{ margin: 0 }}>
+        <strong>Usage guidelines</strong>
+      </p>
+      <ul style={{ margin: 0, paddingLeft: '1.25rem' }}>
+        {ACCORDION_GUIDELINES.map((guideline) => (
+          <li key={guideline}>{guideline}</li>
+        ))}
+      </ul>
+    </div>
+  </div>
+);
+
 const meta = {
   title: 'Accretion/Accordion',
   component: AccretionAccordion,
@@ -363,7 +451,6 @@ export const Summary: Story = {
   parameters: {
     controls: { disable: true },
     actions: { disable: true },
-    docsOnly: true,
     docs: {
       source: { code: '' },
       canvas: { sourceState: 'none' }
@@ -374,12 +461,13 @@ export const Summary: Story = {
       'storybook/interactions/panel': { hidden: true }
     }
   },
-  render: () => null
+  render: () => <AccordionSummaryPage />
 };
 
 export const InteractiveOverview: Story = {
   render: (args) =>
     renderAccordion(args, {
+      openItemValues: ['what-is-accretion'],
       summaryTitle: 'Interactive baseline',
       summaryText:
         'Use this story as the baseline behavior reference: one item open, keyboard navigation enabled, and collapsible single-item mode.'
@@ -399,10 +487,7 @@ export const MultipleOpen: Story = {
     type: 'multiple',
     collapsible: true
   },
-  render: (args) =>
-    renderAccordion(args, {
-      initialOpenValues: ['what-is-accretion', 'getting-started']
-    })
+  render: (args) => renderAccordion(args, { openItemValues: ['what-is-accretion', 'getting-started'] })
 };
 
 export const SingleNonCollapsible: Story = {
@@ -420,7 +505,7 @@ export const KeepMountedPanels: Story = {
   render: (args) =>
     renderAccordion(args, {
       items: KEEP_MOUNTED_ITEMS,
-      initialOpenValues: ['session-notes'],
+      openItemValues: ['session-notes'],
       summaryTitle: 'What this story demonstrates',
       summaryText:
         'Each collapsed panel stays mounted in the DOM. Type into a field, collapse it, and reopen it to verify the same input instance retains its value.',
@@ -453,8 +538,8 @@ export const ItemDisabled: Story = {
   },
   render: (args) =>
     renderAccordion(args, {
+      openItemValues: ['what-is-accretion', 'getting-started'],
       disabledItemValues: ['getting-started'],
-      initialOpenValues: ['what-is-accretion', 'getting-started'],
       summaryTitle: 'Item disabled',
       summaryText:
         'The full item is disabled. Trigger and panel are treated as disabled together, so the entire row and content area appear inactive.'
@@ -467,8 +552,8 @@ export const TriggerDisabled: Story = {
   },
   render: (args) =>
     renderAccordion(args, {
+      openItemValues: ['what-is-accretion', 'project-use'],
       disabledTriggerValues: ['project-use'],
-      initialOpenValues: ['what-is-accretion', 'project-use'],
       summaryTitle: 'Trigger disabled',
       summaryText:
         'Only the trigger button is disabled. This story keeps that panel open so you can still see content while the control itself is non-interactive.',
@@ -495,8 +580,8 @@ export const HiddenUntilFound: Story = {
   render: (args) =>
     renderAccordion(args, {
       items: HIDDEN_UNTIL_FOUND_ITEMS,
-      initialOpenValues: ['always-visible'],
       hiddenUntilFoundValues: ['search-index-alpha', 'search-index-beta'],
+      openItemValues: ['always-visible'],
       summaryTitle: 'Hidden until found',
       summaryText:
         'Collapsed panels below use hidden="until-found". Collapse them and run browser Find (Cmd/Ctrl+F) with one of these keywords to reveal a match.',
@@ -513,7 +598,7 @@ export const HorizontalNoLoop: Story = {
   render: (args) =>
     renderAccordion(args, {
       items: HORIZONTAL_ITEMS,
-      initialOpenValues: ['first', 'middle'],
+      openItemValues: ['first', 'middle'],
       summaryTitle: 'Horizontal keyboard behavior with no loop',
       summaryText:
         'Use Left/Right arrows across triggers. When focus reaches the last trigger, ArrowRight keeps focus there instead of wrapping to the first trigger.',

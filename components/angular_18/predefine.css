@@ -1,0 +1,8 @@
+accretion-button:not(:defined),
+accretion-accordion:not(:defined),
+accretion-accordion-item:not(:defined),
+accretion-accordion-header:not(:defined),
+accretion-accordion-trigger:not(:defined),
+accretion-accordion-panel:not(:defined) {
+  visibility: hidden;
+}
